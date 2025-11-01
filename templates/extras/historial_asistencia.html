@@ -1,0 +1,41 @@
+{% extends "base_empleado.html" %}
+
+{% block page_title %}Historial de Asistencia{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <h2 class="mb-4">Mis Registros de Asistencia</h2>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Hora de Entrada</th>
+                            <th scope="col">Hora de Salida</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if asistencias %}
+                            {% for registro in asistencias %}
+                            <tr>
+                                <td>{{ registro.Fecha }}</td>
+                                <td>{{ registro.HoraEntrada }}</td>
+                                <td>{{ registro.HoraSalida if registro.HoraSalida else 'N/A' }}</td>
+                                <td>{{ registro.Estado }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No hay registros de asistencia disponibles.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

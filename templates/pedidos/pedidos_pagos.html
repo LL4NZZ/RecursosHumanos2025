@@ -1,0 +1,97 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Historial de Pedidos Pagados{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <header class="mb-4">
+        <h1 class="h3">Historial de Pedidos Pagados</h1>
+        <p class="text-secondary">Listado completo de pedidos cuya recepción de pago ha sido confirmada.</p>
+    </header>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tabla de Pedidos Pagados</h6>
+        </div>
+        <div class="card-body">
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="filtroFecha">Filtrar por Fecha:</label>
+                    <input type="date" id="filtroFecha" class="form-control">
+                </div>
+                <div class="col-md-5">
+                    <label for="busqueda">Buscar por Cliente/ID:</label>
+                    <input type="text" id="busqueda" class="form-control" placeholder="Escribe ID o nombre del cliente...">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                {% if pedidos_pagados %}
+                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID Pedido</th>
+                            <th>Cliente</th>
+                            <th>Fecha Pago</th>
+                            <th>Método Pago</th>
+                            <th>Monto Total</th>
+                            <th>Estado Entrega</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in pedidos_pagados %}
+                        <tr>
+                            <td>{{ pedido.IdPedido }}</td>
+                            <td>{{ pedido.NombreCliente }}</td>
+                            <td>{{ pedido.FechaPago | default("N/A") }}</td>
+                            <td>{{ pedido.MetodoPago | default("Efectivo") }}</td>
+                            <td>${{ pedido.MontoTotal | round(2) }}</td>
+                            
+                            <td>
+                                {% if pedido.EstadoEntrega == 'Entregado' %}
+                                    <span class="badge bg-success text-white">Entregado</span>
+                                {% elif pedido.EstadoEntrega == 'En Camino' %}
+                                    <span class="badge bg-warning text-dark">En Camino</span>
+                                {% else %}
+                                    <span class="badge bg-secondary text-white">Pendiente</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>
+                                <a href="{{ url_for('detalles_pedido', id_pedido=pedido.IdPedido) }}" class="btn btn-sm btn-info" title="Ver Detalles">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="btn btn-sm btn-secondary" title="Imprimir Factura">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-warning text-center">
+                    No hay pedidos marcados como pagados en el historial.
+                </div>
+                {% endif %}
+            </div>
+            
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        // Lógica de JavaScript para manejar el filtrado o la búsqueda sin recargar
+    </script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base_admin.html' %}
+{% block title %}Aprobar Solicitudes{% endblock %}
+{% block page_title %}Aprobar Solicitudes{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/solicitudes.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card shadow p-4">
+    <h3 class="fw-bold mb-4">✅ Aprobar / Rechazar Solicitudes</h3>
+    {% if pendientes %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Empleado</th>
+                    <th>Tipo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Días</th>
+                    <th>Justificación</th>
+                    <th>Adjunto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in pendientes %}
+                <tr>
+                    <td class="align-middle">{{ solicitud.IdSolicitud }}</td>
+                    <td class="align-middle">{{ solicitud.Nombres }} {{ solicitud.Apellidos }}</td>
+                    <td class="align-middle">{{ solicitud.Tipo }}</td>
+                    <td class="align-middle">{{ solicitud.FechaInicio }}</td>
+                    <td class="align-middle">{{ solicitud.FechaFin }}</td>
+                    <td class="align-middle">{{ solicitud.DiasSolicitados }}</td>
+                    <td class="align-middle">{{ solicitud.Justificacion }}</td>
+                    <td class="align-middle">
+                        {% if solicitud.RutaAdjunto %}
+                            <a href="{{ url_for('descargar_adjunto', filename=solicitud.RutaAdjunto) }}" 
+                            class="btn btn-sm btn-info" target="_blank">
+                            <i class="fa-solid fa-download"></i> Descargar
+                            </a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column gap-2">
+                            <a href="{{ url_for('aprobar_solicitudes', id=solicitud.IdSolicitud, accion='aprobar') }}" class="btn btn-success btn-sm w-100">
+                                Aprobar
+                            </a>
+                            <a href="{{ url_for('aprobar_solicitudes', id=solicitud.IdSolicitud, accion='rechazar') }}" class="btn btn-danger btn-sm w-100">
+                                Rechazar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No hay solicitudes pendientes de aprobación.</div>
+    {% endif %}
+</div>
+{% endblock %}

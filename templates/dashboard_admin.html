@@ -1,0 +1,103 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Dashboard | Portal Admin{% endblock %}
+
+{% block page_title %}¡Bienvenido, {{ current_user.Nombres }}!{% endblock %}
+{% block page_subtitle %}Vista general del sistema.{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card custom-card">
+            <div class="card-body text-center">
+                <i class="fa-solid fa-user-plus fa-2x mb-3 text-primary"></i>
+                <h5 class="card-title">Nuevos Usuarios</h5>
+                <h2 class="fw-bold text-blue-dark">{{ nuevos_usuarios | default(0) }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card custom-card">
+            <div class="card-body text-center">
+                <i class="fa-solid fa-user-check fa-2x mb-3 text-success"></i>
+                <h5 class="card-title">Asistencias del Día</h5>
+                <h2 class="fw-bold text-blue-dark">{{ asistencias_dia | default(0) }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card custom-card">
+            <div class="card-body text-center">
+                <i class="fa-solid fa-list-check fa-2x mb-3 text-warning"></i>
+                <h5 class="card-title">Solicitudes Pendientes</h5>
+                <h2 class="fw-bold text-blue-dark">{{ solicitudes_pendientes | default(0) }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card custom-card">
+            <div class="card-body text-center">
+                <i class="fa-solid fa-chart-line fa-2x mb-3 text-danger"></i>
+                <h5 class="card-title">Reportes Generados</h5>
+                <h2 class="fw-bold text-blue-dark">{{ reportes_generados | default(0) }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card custom-card mb-4">
+    <div class="card-body">
+        <h5 class="card-title fw-bold text-primary">Anuncios del Sistema</h5>
+        <div class="d-flex align-items-start border-bottom py-3">
+            <i class="fas fa-bullhorn fa-lg text-primary me-3 mt-1"></i>
+            <div>
+                <p class="fw-bold mb-1">¡Nuevo Módulo de Reportes!</p>
+                <p class="small text-muted mb-0">
+                    Hemos lanzado una nueva herramienta para generar reportes avanzados de asistencias y horarios.
+                </p>
+            </div>
+        </div>
+        <div class="d-flex align-items-start py-3">
+            <i class="fas fa-exclamation-triangle fa-lg text-danger me-3 mt-1"></i>
+            <div>
+                <p class="fw-bold mb-1">Actualización de Contraseñas</p>
+                <p class="small text-muted mb-0">
+                    Se recomienda a todos los administradores actualizar sus contraseñas por seguridad.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card custom-card mb-4">
+    <div class="card-body">
+        <h5 class="card-title fw-bold text-primary">Acciones Rápidas</h5>
+        <div class="row g-3 text-center">
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('add_usuario') }}" class="btn btn-outline-primary w-100">
+                    <i class="fa-solid fa-user-plus d-block mb-2"></i>
+                    Crear Usuario
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('add_horario') }}" class="btn btn-outline-success w-100">
+                    <i class="fa-solid fa-calendar-plus d-block mb-2"></i>
+                    Asignar Horario
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('reportes_asistencia') }}" class="btn btn-outline-danger w-100">
+                    <i class="fa-solid fa-file-export d-block mb-2"></i>
+                    Exportar Reporte
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('solicitudes') }}" class="btn btn-outline-info w-100">
+                    <i class="fa-solid fa-clipboard-list d-block mb-2"></i>
+                    Revisar Solicitudes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

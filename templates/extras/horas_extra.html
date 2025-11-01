@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horas Extra</title>
+  <link rel="stylesheet" href="horas_extra.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Gestión de Horas Extra</h1>
+    <p>Panel de control para revisar y gestionar solicitudes</p>
+  </header>
+
+  <!-- Formulario nueva solicitud -->
+  <section class="formulario">
+    <h2>Crear nueva solicitud</h2>
+    <form id="formNuevaSolicitud">
+      <input type="number" id="usuario" placeholder="IdUsuario" required>
+      <input type="date" id="fechaInicio" required>
+      <input type="time" id="horaInicio" required>
+      <input type="date" id="fechaFin" required>
+      <input type="time" id="horaFin" required>
+      <textarea id="justificacion" placeholder="Justificación" required></textarea>
+      <button type="submit" class="btn btn-aprobar"><i class="fas fa-plus"></i> Crear</button>
+    </form>
+  </section>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <input type="date" id="filtroFecha">
+    <select id="filtroEstado">
+      <option value="todas">Todas</option>
+      <option value="pendiente">Pendientes</option>
+      <option value="aprobada">Aprobadas</option>
+      <option value="rechazada">Rechazadas</option>
+    </select>
+    <input type="text" id="filtroEmpleado" placeholder="Buscar empleado...">
+    <button id="btnFiltrar"><i class="fas fa-filter"></i> Filtrar</button>
+  </div>
+
+  <!-- Kanban -->
+  <div class="kanban">
+    <div class="columna" id="pendientes">
+      <h2>Pendientes</h2>
+    </div>
+    <div class="columna" id="aprobadas">
+      <h2>Aprobadas</h2>
+    </div>
+    <div class="columna" id="rechazadas">
+      <h2>Rechazadas</h2>
+    </div>
+  </div>
+
+  <!-- Modal detalle -->
+  <div class="modal" id="modalDetalle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitulo"></h2>
+        <button class="btn-cerrar" id="cerrarModal">Cerrar</button>
+      </div>
+      <p><strong>Empleado:</strong> <span id="modalEmpleado"></span></p>
+      <p><strong>Fechas:</strong> <span id="modalFechas"></span></p>
+      <p><strong>Justificación:</strong></p>
+      <p id="modalJustificacion"></p>
+      <p><strong>Estado:</strong> <span id="modalEstado"></span></p>
+    </div>
+  </div>
+
+  <script src="horas_extra.js"></script>
+</body>
+</html>

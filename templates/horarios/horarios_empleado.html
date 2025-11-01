@@ -1,0 +1,41 @@
+{% extends 'base_empleado.html' %}
+
+{% block title %}Mis Horarios{% endblock %}
+
+{% block page_title %}Mis Horarios{% endblock %}
+
+{% block content %}
+<div class="card shadow p-4">
+    <h3 class="mb-4 text-primary">📅 Mis Horarios</h3>
+    {% if horarios %}
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Entrada</th>
+                    <th>Salida</th>
+                    <th>Descanso</th>
+                    <th>Tipo Jornada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in horarios %}
+                <tr>
+                    <td>{{ h.FechaInicio }}</td>
+                    <td>{{ h.FechaFin }}</td>
+                    <td>{{ h.HoraEntradaP }}</td>
+                    <td>{{ h.HoraSalidaP }}</td>
+                    <td>{{ h.DescansoP }}</td>
+                    <td><span class="badge bg-info text-dark">{{ h.TipoJornada }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">No tienes horarios asignados.</div>
+    {% endif %}
+</div>
+{% endblock %}

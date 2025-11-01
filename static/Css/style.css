@@ -1,0 +1,36 @@
+/* static/css/style.css */
+
+/* ... (tu código existente arriba) ... */
+
+/* --- Estilos para el Panel del Formulario de Agregar Usuario --- */
+
+/* Mejora la presentación del contenedor principal del formulario */
+.panel {
+    /* Fondo blanco para que el formulario destaque */
+    background-color: #ffffff; 
+    /* Sombra suave para darle profundidad (diseño "card" o "panel") */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); 
+    /* Bordes redondeados */
+    border-radius: 0.5rem; 
+    /* Espacio interno para que el contenido no esté pegado a los bordes */
+    padding: 2rem; 
+    /* Limita el ancho del panel para que no se estire demasiado en monitores grandes */
+    max-width: 900px; /* Ancho máximo para el formulario de 3 columnas */
+    /* Centra el panel horizontalmente dentro del 'container' */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilo para los títulos de sección dentro del formulario */
+.panel h4 {
+    border-bottom: 2px solid #007bff; /* Línea azul bajo el título principal */
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Estilo para los subtítulos de las secciones de 3 columnas */
+.panel h6 {
+    color: #495057;
+    margin-top: 1.5rem !important;
+    font-weight: 600;
+}

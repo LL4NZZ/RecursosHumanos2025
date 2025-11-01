@@ -1,0 +1,110 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Revisión de Encuestas{% endblock %}
+{% block page_title %}📊 Revisión de Encuestas Respondidas{% endblock %}
+{% block page_subtitle %}Visualiza las encuestas que han sido completadas por los usuarios y revisa los resultados.{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fa-solid fa-filter me-2"></i> Opciones de Filtro</h5>
+            <form action="{{ url_for('revision_encuestas') }}" method="GET" class="row g-3">
+                
+                <div class="col-md-5">
+                    <label for="filtro_encuesta" class="form-label">Título de la Encuesta</label>
+                    <select id="filtro_encuesta" name="encuesta_id" class="form-select">
+                        <option value="">Todas las Encuestas</option>
+                        {# {% for e in encuestas_disponibles %}
+                            <option value="{{ e.IdEncuesta }}">{{ e.Titulo }}</option>
+                        {% endfor %} #}
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="filtro_estado" class="form-label">Estado</label>
+                    <select id="filtro_estado" name="estado" class="form-select">
+                        <option value="">Todos los Estados</option>
+                        <option value="Completada">Completada</option>
+                        <option value="Pendiente">Pendiente</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-info w-100 me-2">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i> Buscar
+                    </button>
+                    <a href="{{ url_for('revision_encuestas') }}" class="btn btn-secondary w-100">Limpiar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Encuestas Completadas ({{ encuestas_respondidas | length }} Resultados)</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 5%;">ID Asig.</th>
+                            <th style="width: 25%;">Encuesta</th> 
+                            <th style="width: 20%;">Usuario que Respondió</th> 
+                            <th style="width: 15%;">Fecha de Finalización</th>
+                            <th style="width: 15%;">Estado</th>
+                            <th class="text-center" style="width: 20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for r in encuestas_respondidas %}
+                        <tr>
+                            <td>{{ r.IdAsignacion }}</td> 
+                            
+                            <td>{{ r.TituloEncuesta | default('N/A') }}</td>
+                            
+                            <td>{{ r.Nombres | default('') }} {{ r.Apellidos | default('N/A') }}</td>
+                            
+                            <td>
+                                {% if r.FechaRespuesta %}
+                                    <span class="badge bg-success">{{ r.FechaRespuesta }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>
+                                {% if r.EstadoRespuesta == 'Completada' %}
+                                    <span class="badge bg-success">{{ r.EstadoRespuesta }}</span>
+                                {% elif r.EstadoRespuesta == 'Pendiente' %}
+                                    <span class="badge bg-warning text-dark">{{ r.EstadoRespuesta }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Sin Iniciar</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                <a href="{{ url_for('ver_respuestas_encuesta', id_asignacion=r.IdAsignacion) }}" 
+                                   class="btn btn-primary btn-sm" 
+                                   title="Ver Respuestas Detalladas"
+                                   {% if r.EstadoRespuesta != 'Completada' %}disabled{% endif %}>
+                                    <i class="fa-solid fa-chart-bar me-1"></i> Ver Resultados
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <i class="fa-solid fa-circle-info me-2"></i> No se encontraron encuestas respondidas según los filtros.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

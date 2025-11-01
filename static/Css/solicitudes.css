@@ -1,0 +1,22 @@
+/* Estilo para las celdas de la tabla para centrar el contenido verticalmente */
+.table td {
+    vertical-align: middle;
+}
+
+/* Resto de tu CSS... */
+
+.btn-rechazar {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid #dc3545;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-rechazar:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    transform: scale(1.05);
+}

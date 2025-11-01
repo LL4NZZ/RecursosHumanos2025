@@ -1,0 +1,48 @@
+{% extends 'base_empleado.html' %}
+
+{% block title %}Panel de Empleado{% endblock %}
+
+{% block page_title %}Panel de Empleado{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row g-3">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fa-solid fa-calendar-alt display-4 mb-3 text-primary"></i>
+                    <h5 class="card-title">Mis Horarios</h5>
+                    <p class="card-text">Consulta tus horarios de trabajo.</p>
+                    <a href="{{ url_for('horarios_empleado') }}" class="btn btn-primary mt-2">Ver Horarios</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fa-solid fa-paper-plane display-4 mb-3 text-success"></i>
+                    <h5 class="card-title">Solicitudes</h5>
+                    <p class="card-text">Envía y revisa el estado de tus solicitudes.</p>
+                    <a href="{{ url_for('enviar_solicitudes') }}" class="btn btn-success mt-2">Enviar Solicitud</a>
+                    <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-warning mt-2">Historial de Solicitudes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fa-solid fa-user-check display-4 mb-3 text-info"></i>
+                    <h5 class="card-title">Asistencia</h5>
+                    <p class="card-text">Registra tu asistencia y revisa tu historial.</p>
+                    <a href="{{ url_for('add_asistencia') }}" class="btn btn-info mt-2">Registrar Asistencia</a>
+                    <a href="{{ url_for('historial_asistencia') }}" class="btn btn-secondary mt-2">Historial de Asistencia</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

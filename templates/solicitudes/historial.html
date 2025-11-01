@@ -1,0 +1,55 @@
+{% extends 'base_empleado.html' %}
+{% block title %}Historial de Solicitudes{% endblock %}
+{% block page_title %}Historial de Solicitudes{% endblock %}
+{% block content %}
+<div class="card shadow p-4">
+    <h3 class="fw-bold mb-4">📜 Historial de Mis Solicitudes</h3>
+    {% if historial %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Días</th>
+                    <th>Estado</th>
+                    <th>Justificación</th>
+                    <th>Adjunto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in historial %}
+                <tr>
+                    <td>{{ solicitud.Tipo }}</td>
+                    <td>{{ solicitud.FechaInicio }}</td>
+                    <td>{{ solicitud.FechaFin }}</td>
+                    <td>{{ solicitud.DiasSolicitados }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if solicitud.Estado == 'Pendiente' %}bg-warning text-dark
+                            {% elif solicitud.Estado == 'Aprobada' %}bg-success
+                            {% else %}bg-danger{% endif %}">
+                            {{ solicitud.Estado }}
+                        </span>
+                    </td>
+                    <td>{{ solicitud.Justificacion }}</td>
+                    <td>
+                        {% if solicitud.RutaAdjunto %}
+                            <a href="{{ url_for('descargar_adjunto', filename=solicitud.RutaAdjunto.split('/')[-1]) }}" class="btn btn-sm btn-info" target="_blank">
+                                <i class="fa-solid fa-download"></i> Descargar
+                            </a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No has enviado ninguna solicitud aún.</div>
+    {% endif %}
+</div>
+{% endblock %}
