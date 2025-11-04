@@ -1,17 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response
 from flask_mysqldb import MySQL
+<<<<<<< HEAD
 from flask_login import current_user
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask import make_response, Flask, render_template, request, redirect, url_for, flash
 from flask import request, redirect, url_for, render_template, flash, Response
 from flask import Flask, render_template, redirect, url_for, request, flash, get_flashed_messages
 import csv
+<<<<<<< HEAD
 from datetime import datetime, timedelta 
 import uuid
 import datetime
 from flask_mail import Mail, Message
 from flask import request, redirect, url_for, flash, render_template
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 import io
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -20,6 +26,10 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import random
 import string
+<<<<<<< HEAD
+=======
+from datetime import datetime, timedelta
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 import MySQLdb.cursors
 import os
 from werkzeug.utils import secure_filename
@@ -30,6 +40,7 @@ from models.entities.User import User
 from flask import jsonify
 import re
 from werkzeug.security import generate_password_hash
+<<<<<<< HEAD
 from datetime import datetime
 
 def date_format(value, format='%Y-%m-%d'):
@@ -51,6 +62,8 @@ def format_currency(value):
         return "{:,.2f}".format(float(value))
     except (ValueError, TypeError):
         return value
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
 app = Flask(__name__)
 app.config.from_object(config['development'])
@@ -58,6 +71,7 @@ csrf = CSRFProtect(app)
 db = MySQL(app)
 login_manager_app = LoginManager(app)
 login_manager_app.login_view = 'login'
+<<<<<<< HEAD
 app.jinja_env.filters['format_currency'] = format_currency 
 app.jinja_env.filters['date_format'] = date_format
 
@@ -69,6 +83,8 @@ app.config['MAIL_PASSWORD'] = '' # ⬅️ Contraseña de aplicación
 app.config['MAIL_DEFAULT_SENDER'] = 'tu_correo_de_envio@gmail.com'
 
 mail = Mail(app)
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
 @login_manager_app.user_loader
 def load_user(IdUsuario):
@@ -98,6 +114,7 @@ def redirigir_error_rol():
         
     return redirect(url_for(endpoint))
 
+<<<<<<< HEAD
 def format_currency(value):
     """Formatea un número como moneda (ej: 1234.56 -> 1,234.56)."""
     try:
@@ -105,6 +122,8 @@ def format_currency(value):
     except (ValueError, TypeError):
         return value
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 def get_filtered_asistencias(cur, usuario_id, fecha_inicio, fecha_fin):
     """Genera y ejecuta la consulta SQL filtrada."""
 
@@ -118,7 +137,11 @@ def get_filtered_asistencias(cur, usuario_id, fecha_inicio, fecha_fin):
         WHERE a.Fecha BETWEEN %s AND %s 
     """
     params = [start_date, end_date]
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     if usuario_id and usuario_id.isdigit():
         sql_query += " AND a.IdUsuario = %s"
         params.append(usuario_id)
@@ -128,6 +151,7 @@ def get_filtered_asistencias(cur, usuario_id, fecha_inicio, fecha_fin):
     cur.execute(sql_query, tuple(params))
     return cur.fetchall()
 
+<<<<<<< HEAD
 def format_currency(value):
     """Formatea un número como moneda (ej: 1234.56 -> 1,234.56)."""
     try:
@@ -135,6 +159,8 @@ def format_currency(value):
     except (ValueError, TypeError):
         return value
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/')
 def index():
     return redirect(url_for('login'))
@@ -143,6 +169,7 @@ def index():
 def login():
     if request.method == 'GET':
         get_flashed_messages() 
+<<<<<<< HEAD
         return render_template('auth/login.html')
 
     else:
@@ -184,11 +211,44 @@ def login():
             else:
                 flash("Rol no reconocido. Contacte al administrador.", 'danger')
                 return redirect(url_for('login'))
+=======
+        
+        return render_template('auth/login.html')
+
+    else: 
+        correo = request.form['username']
+        password = request.form['password']
+        
+        user = User(0, 0, "", "", "", "", correo, "", "", "", "", password, "")
+        logged_user = ModelUser.login(db, user)
+        
+        if logged_user is not None:
+            if logged_user.Contrasena: 
+                
+                login_user(logged_user)
+
+                if logged_user.IdRol == 9:       # Admin
+                    return redirect(url_for('dashboard_admin'))
+                elif logged_user.IdRol == 11:    # Vendedora
+                    return redirect(url_for('dashboard_vendedora'))
+                elif logged_user.IdRol == 12:    # Contadora
+                    return redirect(url_for('dashboard_contadora'))
+                elif logged_user.IdRol == 13:    # Bodega
+                    return redirect(url_for('dashboard_bodega'))
+                elif logged_user.IdRol == 14:    # Dentista
+                    return redirect(url_for('dashboard_dentista'))
+                else:
+                    flash("Rol no reconocido. Contacte al administrador.", 'danger')
+                    return redirect(url_for('login'))
+            else:
+                flash("La contraseña es incorrecta.", 'danger')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         else:
             flash("Credenciales inválidas o el usuario no existe.", 'danger')
 
         return redirect(url_for('login'))
 
+<<<<<<< HEAD
 @app.route('/olvide-password', methods=['GET', 'POST'])
 def olvide_password():
     if request.method == 'POST':
@@ -263,6 +323,8 @@ def reset_password(token):
 
     return render_template('auth/reset_password.html', token=token)
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/logout')
 def logout():
     logout_user()
@@ -277,12 +339,20 @@ def dashboard_admin():
     cur = db.connection.cursor()
 
     try:
+<<<<<<< HEAD
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         cur.execute("""
             SELECT COUNT(IdUsuario) 
             FROM usuario 
             WHERE FechaRegistro >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
         """)
+<<<<<<< HEAD
         nuevos_usuarios = cur.fetchone()[0] 
+=======
+        nuevos_usuarios = cur.fetchone()[0] # [0] para obtener el valor del COUNT
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     except Exception as e:
         print(f"Error al contar nuevos usuarios: {e}")
         nuevos_usuarios = 0
@@ -317,7 +387,11 @@ def dashboard_admin():
         reportes_generados = 0
 
     cur.close()
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     return render_template('dashboard_admin.html',
                            nuevos_usuarios=nuevos_usuarios,
                            asistencias_dia=asistencias_dia,
@@ -328,6 +402,7 @@ def dashboard_admin():
 @login_required
 def dashboard_vendedora():
     if current_user.IdRol != 11:
+<<<<<<< HEAD
         flash("No tienes permisos para acceder a este panel.", 'danger')
         return redirigir_error_rol()
 
@@ -382,6 +457,25 @@ def dashboard_vendedora():
         clientes_nuevos_mes=clientes_nuevos_mes,
         asistencia_hoy=asistencia_hoy
     ))
+=======
+        flash("No tienes permisos para acceder a este panel.")
+        return redirect(url_for('dashboard_admin'))
+
+    response = make_response(render_template('dashboard_vendedora.html', usuario=current_user))
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
+
+@app.route('/dashboard/contadora')
+@login_required
+def dashboard_contadora():
+    if current_user.IdRol != 12:
+        flash("No tienes permisos para acceder a este panel.")
+        return redirect(url_for('dashboard_admin'))
+
+    response = make_response(render_template('dashboard_contadora.html', usuario=current_user))
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '0'
@@ -482,11 +576,19 @@ def add_usuario():
                 documento,
                 request.form.get('correo'),
                 request.form.get('correo_corporativo'),
+<<<<<<< HEAD
                 request.form.get('fechaContratacion') or None, # Manejo de NULL
                 request.form.get('fechaNacimiento') or None,   # Manejo de NULL
                 request.form.get('telefono'),
                 contrasena_hash,
                 1 
+=======
+                request.form.get('fechaContratacion') or None,
+                request.form.get('fechaNacimiento') or None,   
+                request.form.get('telefono'),
+                contrasena_hash,
+                1
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             ))
 
             db.connection.commit() 
@@ -511,7 +613,11 @@ def add_usuario():
 @login_required
 def edit_usuario(id):
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     if request.method == 'POST':
         try:
             id_rol = request.form.get('idRol')
@@ -522,6 +628,7 @@ def edit_usuario(id):
             correo = request.form.get('correo')
             correo_corporativo = request.form.get('correo_corporativo')
             telefono = request.form.get('telefono')
+<<<<<<< HEAD
             
             fecha_contratacion = request.form.get('fechaContratacion') or None
             fecha_nacimiento = request.form.get('fechaNacimiento') or None
@@ -529,12 +636,24 @@ def edit_usuario(id):
             contrasena_plana = request.form.get('contrasena', '').strip()
             
             
+=======
+
+            fecha_contratacion = request.form.get('fechaContratacion') or None
+            fecha_nacimiento = request.form.get('fechaNacimiento') or None
+
+            contrasena_plana = request.form.get('contrasena', '').strip()
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             fields = [
                 'IdRol', 'Nombres', 'Apellidos', 'TipoDocumento', 'Documento',
                 'Correo', 'CorreoCorporativo', 'FechaContratacion', 'FechaNacimiento', 
                 'Telefono'
             ]
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             values = [
                 int(id_rol), nombres, apellidos, tipo_documento, documento,
                 correo, correo_corporativo, fecha_contratacion, fecha_nacimiento,
@@ -545,11 +664,19 @@ def edit_usuario(id):
                 contrasena_hash = generate_password_hash(contrasena_plana)
                 fields.append('Contrasena')
                 values.append(contrasena_hash)
+<<<<<<< HEAD
             
             set_clause = ', '.join([f'{field}=%s' for field in fields])
             
             sql_query = f"UPDATE usuario SET {set_clause} WHERE IdUsuario=%s"
             
+=======
+
+            set_clause = ', '.join([f'{field}=%s' for field in fields])
+            
+            sql_query = f"UPDATE usuario SET {set_clause} WHERE IdUsuario=%s"
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             params = tuple(values) + (id,) 
 
             cur.execute(sql_query, params)
@@ -561,11 +688,15 @@ def edit_usuario(id):
             
         except Exception as e:
             db.connection.rollback()
+<<<<<<< HEAD
             cur.close()
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             print(f"ERROR CRÍTICO al actualizar usuario {id}: {e}") 
             flash(f"Ocurrió un error al actualizar el usuario: {e}", 'danger')
             return redirect(url_for('edit_usuario', id=id))
 
+<<<<<<< HEAD
     
     try:
         cur.execute("SELECT IdRol, NombreRol FROM rol ORDER BY NombreRol")
@@ -590,11 +721,28 @@ def edit_usuario(id):
             cur.close()
         return redirect(url_for('usuarios'))
 
+=======
+    cur.execute("SELECT IdRol, NombreRol FROM rol ORDER BY NombreRol")
+    roles = cur.fetchall() 
+    
+    cur.execute("SELECT * FROM usuario WHERE IdUsuario=%s", (id,))
+    usuario = cur.fetchone()
+    
+    cur.execute("SELECT * FROM horario WHERE IdUsuario=%s", (id,))
+    horarios = cur.fetchall()
+    cur.close()
+    
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     return render_template('usuarios/editar_usuario.html',
                            usuario=usuario,
                            horarios=horarios,
                            roles=roles, 
+<<<<<<< HEAD
                          )
+=======
+                           csrf_token=generate_csrf() 
+                          )
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
 @app.route('/usuarios/delete/<int:id>')
 @login_required
@@ -605,6 +753,7 @@ def delete_usuario(id):
     flash("Usuario eliminado correctamente.")
     return redirect(url_for('usuarios'))
 
+<<<<<<< HEAD
 @app.route('/perfil')
 @login_required 
 def perfil():
@@ -683,12 +832,18 @@ def editar_perfil():
         usuario=current_user 
     )
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/horarios')
 @login_required
 def lista_horarios():
     try:
         cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         cur.execute("""
             SELECT 
                 h.*,
@@ -732,14 +887,25 @@ def add_horario():
         return redirect(url_for('lista_horarios'))
     cur.execute("SELECT IdUsuario, Nombres, Apellidos FROM usuario")
     usuarios_registrados = cur.fetchall()
+<<<<<<< HEAD
     return render_template('horarios/add_horario.html', usuarios=usuarios_registrados)
+=======
+    return render_template('horarios/add_horario.html', usuarios=usuarios_registrados, csrf_token=generate_csrf)
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
 @app.route('/horarios/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_horario(id):
+<<<<<<< HEAD
     if current_user.IdRol != 9:
         flash("Acceso denegado. Solo administradores pueden editar horarios.", "danger")
         return redirigir_error_rol()
+=======
+
+    if current_user.IdRol != 9:
+        flash("Acceso denegado. Solo administradores pueden editar horarios.", "danger")
+        return redirect(url_for('login')) 
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
 
@@ -766,7 +932,11 @@ def edit_horario(id):
         except Exception as e:
             flash(f"Error al actualizar el horario: {e}", 'danger')
             return redirect(url_for('edit_horario', id=id)) 
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     cur.execute("""
         SELECT h.*, u.Nombres, u.Apellidos 
         FROM horario h 
@@ -813,6 +983,7 @@ def horarios_admin():
 @app.route('/asistencia')
 @login_required
 def lista_asistencia():
+<<<<<<< HEAD
     cur = None
     
     if current_user.IdRol != 9:
@@ -877,11 +1048,22 @@ def historial_asistencia_empleado():
                 cur.close() 
             except Exception as e_close:
                 print(f"Advertencia: Error al intentar cerrar el cursor: {e_close}")
+=======
+    cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    if current_user.IdRol != 9:
+        return redirect(url_for('historial_asistencia')) 
+    else:
+        cur.execute("SELECT * FROM asistencia")
+        data = cur.fetchall()
+        return render_template('asistencia/lista_asistencia_admin.html', asistencias=data)
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     
 @app.route('/asistencia/add', methods=['GET', 'POST'])
 @login_required
 def add_asistencia():
     if request.method == 'POST':
+<<<<<<< HEAD
         cur = None
         try:
             cur = db.connection.cursor()
@@ -923,6 +1105,20 @@ def add_asistencia():
 
     return render_template('asistencia/add_asistencia.html')
 
+=======
+        cur = db.connection.cursor()
+        cur.execute("""
+            INSERT INTO asistencia (IdUsuario, Fecha, HoraEntrada, HoraSalida, Descanso, Estado)
+            VALUES (%s,%s,%s,%s,%s,%s)
+        """, (
+            current_user.IdUsuario, request.form['Fecha'], request.form['HoraEntrada'],
+            request.form['HoraSalida'], request.form['Descanso'], request.form['Estado']
+        ))
+        db.connection.commit()
+        flash("Asistencia registrada correctamente.")
+        return redirect(url_for('historial_asistencia'))
+    return render_template('asistencia/add_asistencia.html')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/asistencia/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_asistencia(id):
@@ -941,7 +1137,10 @@ def edit_asistencia(id):
     cur.execute("SELECT * FROM asistencia WHERE IdAsistencia=%s", (id,))
     asistencia = cur.fetchone()
     return render_template('asistencia/edit_asistencia.html', asistencia=asistencia)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/asistencia/delete/<int:id>')
 @login_required
 def delete_asistencia(id):
@@ -980,7 +1179,11 @@ def reportes_asistencia():
     
     cur.close()
 
+<<<<<<< HEAD
     return render_template('reportes/reportes_asistencia.html', 
+=======
+    return render_template('reportes/reportes_asistencia.html',
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
                            asistencias=asistencias,
                            all_users=all_users,
                            current_user_id=usuario_id,
@@ -1036,7 +1239,10 @@ def export_csv():
     response.headers['Content-Disposition'] = 'attachment; filename=asistencia_reporte_filtrado.csv'
     return response
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/reportes/asistencia/pdf')
 @login_required
 def export_pdf():
@@ -1108,7 +1314,10 @@ def export_pdf():
 @app.route('/notificaciones')
 def notificaciones():
     return render_template('notificaciones/notificaciones.html')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/solicitudes')
 @login_required
 def solicitudes():
@@ -1118,6 +1327,7 @@ def solicitudes():
     Cualquier otro rol (Empleados) -> Envío/Historial.
     """
     if current_user.IdRol == 9:
+<<<<<<< HEAD
         return redirect(url_for('aprobar_solicitudes_proceso'))
         
     elif current_user.IdRol >= 10: 
@@ -1129,6 +1339,23 @@ def solicitudes():
 def descargar_adjunto(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+=======
+        return redirect(url_for('aprobar_solicitudes'))
+        
+    elif current_user.IdRol >= 10: 
+        return redirect(url_for('enviar_solicitudes'))
+        
+    return redirect(url_for('login'))
+
+@app.route('/admin/solicitudes/aprobar')
+@login_required
+def aprobar_solicitudes():
+    return render_template('solicitudes/aprobacion.html')
+
+@app.route('/uploads/solicitudes/<filename>')
+def descargar_adjunto(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/solicitudes/enviar', methods=['GET', 'POST'])
 @login_required
 def enviar_solicitudes_proceso():
@@ -1139,7 +1366,11 @@ def enviar_solicitudes_proceso():
         hora_inicio = request.form.get('hora_inicio')
         fecha_fin = request.form.get('fecha_fin')
         hora_fin = request.form.get('hora_fin')
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         if not id_tipo_solicitud:
             flash("Debe seleccionar un tipo de solicitud.", "danger")
             return render_template('solicitudes/solicitud_permisos.html')
@@ -1178,11 +1409,15 @@ def enviar_solicitudes_proceso():
         return redirect(url_for('historial_solicitudes'))
 
     return render_template('solicitudes/solicitud_permisos.html')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/solicitudes/historial')
 @login_required
 def historial_solicitudes():
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+<<<<<<< HEAD
     try:
         cur.execute("""
             SELECT 
@@ -1203,6 +1438,11 @@ def historial_solicitudes():
         
     return render_template('solicitudes/historial.html', historial=historial)
 
+=======
+    cur.execute("SELECT * FROM solicitud WHERE IdUsuario = %s", (current_user.IdUsuario,))
+    historial = cur.fetchall()
+    return render_template('solicitudes/historial.html', historial=historial)
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/solicitudes/aprobar', methods=['GET', 'POST'])
 @login_required
 def aprobar_solicitudes_proceso():
@@ -1226,6 +1466,7 @@ def aprobar_solicitudes_proceso():
 
     cur.execute("""
         SELECT
+<<<<<<< HEAD
             s.IdSolicitud, s.IdUsuario, s.FechaInicio, s.FechaFin, s.DiasSolicitados,
             s.Justificacion, s.RutaAdjunto, s.Estado, s.FechaSolicitud, 
             u.Nombres,
@@ -1234,13 +1475,25 @@ def aprobar_solicitudes_proceso():
         FROM solicitud s
         JOIN usuario u ON u.IdUsuario = s.IdUsuario
         LEFT JOIN tiposolicitud ts ON ts.IdTipoSolicitud = s.IdTipoSolicitud
+=======
+            s.*,
+            u.Nombres,
+            u.Apellidos,
+            ts.Nombre AS Tipo
+        FROM solicitud s
+        JOIN usuario u ON u.IdUsuario = s.IdUsuario
+        JOIN tiposolicitud ts ON ts.IdTipoSolicitud = s.IdTipoSolicitud
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         WHERE s.Estado = 'Pendiente'
         ORDER BY s.FechaSolicitud DESC
     """)
     pendientes = cur.fetchall()
     cur.close()
     return render_template('solicitudes/aprobacion.html', pendientes=pendientes)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/solicitudes/reportes')
 @login_required
 def reportes_solicitudes():
@@ -1249,6 +1502,26 @@ def reportes_solicitudes():
     todas_solicitudes = cur.fetchall()
     return render_template('solicitudes/reportes.html', todas_solicitudes=todas_solicitudes)
 
+<<<<<<< HEAD
+=======
+@app.route('/admin/canal/gestion') 
+@login_required
+def canal_admin():
+    if current_user.IdRol != 9:
+        # ...
+        return redirigir_error_rol() 
+    return render_template('noticias/canal_admin.html')
+
+@app.route('/canal')
+@login_required 
+def canal():
+
+    if current_user.IdRol == 9:
+        return redirect(url_for('canal_admin'))
+
+    return render_template('noticias/canal.html')
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/denuncias')
 @login_required
 def denuncias():
@@ -1257,7 +1530,11 @@ def denuncias():
         return redirigir_error_rol() 
         
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     try:
         cur.execute("""
             SELECT d.*, u.Nombres, u.Apellidos 
@@ -1278,6 +1555,10 @@ def denuncias():
 
 @app.route('/documentos')
 def documentacion():
+<<<<<<< HEAD
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     return render_template('documentacion/documentacion.html')
 
 @app.route('/admin/documentos/gestion') 
@@ -1289,27 +1570,48 @@ def documentacion_admin():
         
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
 
+<<<<<<< HEAD
     cur.execute("SELECT COUNT(*) AS total_pendientes FROM documento WHERE EstadoAprobacion = 'Pendiente'")
     conteo_pendientes = cur.fetchone()['total_pendientes']
     
+=======
+    cur.execute("SELECT COUNT(*) AS total_pendientes FROM documento WHERE Estado = 'Pendiente'")
+    conteo_pendientes = cur.fetchone()['total_pendientes']
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     cur.execute("""
         SELECT d.*, u.Nombres, u.Apellidos 
         FROM documento d
         JOIN usuario u ON d.IdUsuario = u.IdUsuario
+<<<<<<< HEAD
         WHERE d.EstadoAprobacion = 'Pendiente'
         ORDER BY d.FechaSubida DESC
+=======
+        WHERE d.Estado = 'Pendiente'
+        ORDER BY d.FechaSubida DESC  # <--- CORREGIDO: Usar FechaSubida
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     """)
     documentos_pendientes = cur.fetchall()
     
     cur.close()
 
     return render_template('documentacion/documentacion_admin.html', 
+<<<<<<< HEAD
                             documentos_pendientes=documentos_pendientes,
                             conteo_pendientes=conteo_pendientes)
 
 @app.route('/documentos/aprobar_proceso', methods=['GET', 'POST'])
 @login_required
 def aprobar_documento_proceso():
+=======
+                           documentos_pendientes=documentos_pendientes,
+                           conteo_pendientes=conteo_pendientes)
+
+@app.route('/documentos/aprobar_proceso', methods=['GET', 'POST'])
+@login_required
+def aprobar_documento_proceso(): 
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     if current_user.IdRol != 9:
         flash("Acceso denegado. No tienes permisos de gestión de documentos.", "danger")
         return redirigir_error_rol()
@@ -1325,7 +1627,11 @@ def aprobar_documento_proceso():
 
             cur.execute("""
                 UPDATE documento 
+<<<<<<< HEAD
                 SET EstadoAprobacion = %s, JustificacionAdmin = %s
+=======
+                SET Estado = %s, JustificacionAdmin = %s
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
                 WHERE IdDocumento = %s
             """, (estado, justificacion, documento_id))
             
@@ -1335,27 +1641,46 @@ def aprobar_documento_proceso():
         except Exception as e:
             db.connection.rollback()
             flash(f"Error al procesar el documento: {e}", "danger")
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         return redirect(url_for('documentacion_admin')) 
 
     flash("Acción inválida o incompleta.", "warning")
     return redirect(url_for('documentacion_admin'))
 
+<<<<<<< HEAD
 @app.route('/canal/procesar', methods=['POST'])
 @login_required
 def procesar_publicacion():
+=======
+@app.route('/canal/procesar', methods=['POST']) 
+@login_required
+def procesar_publicacion():
+    """Maneja la creación o edición de una publicación del canal."""
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     if current_user.IdRol != 9:
         flash("Acceso denegado. No tienes permisos para gestionar publicaciones.", "danger")
         return redirect(url_for('canal_admin'))
 
+<<<<<<< HEAD
     id_publicacion = request.form.get('id_publicacion') 
+=======
+    id_publicacion = request.form.get('id_publicacion')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     titulo = request.form.get('titulo')
     contenido = request.form.get('contenido')
     fecha_publicacion = request.form.get('fecha_publicacion')
     fecha_vigencia = request.form.get('fecha_vigencia')
     estado = request.form.get('estado')
+<<<<<<< HEAD
     
     id_usuario_autor = current_user.IdUsuario
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
     if not titulo or not contenido or not estado:
         flash("Faltan datos obligatorios (Título, Contenido, Estado).", "danger")
@@ -1366,7 +1691,11 @@ def procesar_publicacion():
     try:
         if id_publicacion:
             cur.execute("""
+<<<<<<< HEAD
                 UPDATE noticia  
+=======
+                UPDATE publicacion 
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
                 SET 
                     Titulo = %s, 
                     Contenido = %s, 
@@ -1374,7 +1703,11 @@ def procesar_publicacion():
                     FechaVigencia = %s,
                     Estado = %s,
                     FechaModificacion = NOW()
+<<<<<<< HEAD
                 WHERE IdNoticia = %s
+=======
+                WHERE IdPublicacion = %s
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             """, (titulo, contenido, fecha_publicacion or None, fecha_vigencia or None, estado, id_publicacion))
             
             db.connection.commit()
@@ -1382,11 +1715,19 @@ def procesar_publicacion():
             
         else:
             cur.execute("""
+<<<<<<< HEAD
                 INSERT INTO noticia  
                     (IdUsuario, Titulo, Contenido, FechaPublicacion, FechaVigencia, Estado, FechaCreacion)
                 VALUES 
                     (%s, %s, %s, %s, %s, %s, NOW())
             """, (id_usuario_autor, titulo, contenido, fecha_publicacion or None, fecha_vigencia or None, estado))
+=======
+                INSERT INTO publicacion 
+                    (IdUsuarioAutor, Titulo, Contenido, FechaPublicacion, FechaVigencia, Estado, FechaCreacion)
+                VALUES 
+                    (%s, %s, %s, %s, %s, %s, NOW())
+            """, (current_user.IdUsuario, titulo, contenido, fecha_publicacion or None, fecha_vigencia or None, estado))
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             
             db.connection.commit()
             flash(f"Publicación '{titulo}' creada exitosamente. Estado: {estado}.", "success")
@@ -1399,7 +1740,12 @@ def procesar_publicacion():
 
 @app.route('/canal/eliminar', methods=['GET'])
 @login_required
+<<<<<<< HEAD
 def eliminar_publicacion(): 
+=======
+def eliminar_publicacion():
+    """Procesa la eliminación de una publicación (noticia) de la base de datos."""
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
     if current_user.IdRol != 9:
         flash("Acceso denegado. No tienes permisos para eliminar publicaciones.", "danger")
@@ -1410,7 +1756,11 @@ def eliminar_publicacion():
     if publicacion_id:
         try:
             cur = db.connection.cursor()
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             cur.execute("DELETE FROM noticia WHERE IdNoticia = %s", (publicacion_id,)) 
 
             db.connection.commit()
@@ -1424,6 +1774,7 @@ def eliminar_publicacion():
         
     return redirect(url_for('canal_admin'))
 
+<<<<<<< HEAD
 @app.route('/canal/admin')
 @login_required
 def canal_admin():
@@ -1485,6 +1836,8 @@ def canal():
 
     return render_template('canal_admin.html')
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/cartera/registrar_pago', methods=['POST'])
 @login_required
 def registrar_pago_proceso():
@@ -1498,11 +1851,19 @@ def registrar_pago_proceso():
     monto_pagado = request.form.get('monto_pagado')
     metodo_pago = request.form.get('metodo_pago')
     referencia = request.form.get('referencia')
+<<<<<<< HEAD
     
     if not id_factura or not monto_pagado or not metodo_pago:
         flash("Faltan datos obligatorios para registrar el pago.", "danger")
         return redirect(url_for('gestion_cobro'))
 
+=======
+
+    if not id_factura or not monto_pagado or not metodo_pago:
+        flash("Faltan datos obligatorios para registrar el pago.", "danger")
+        return redirect(url_for('gestion_cobro'))
+        
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     try:
         cur = db.connection.cursor()
         
@@ -1515,6 +1876,10 @@ def registrar_pago_proceso():
                 MetodoPago = %s,
                 ReferenciaPago = %s
             WHERE IdPedido = %s
+<<<<<<< HEAD
+=======
+            -- Asegúrate de que IdPedido sea el campo correcto (puede ser IdFactura)
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         """, (monto_pagado, metodo_pago, referencia, id_factura))
         
         db.connection.commit()
@@ -1526,6 +1891,7 @@ def registrar_pago_proceso():
 
     return redirect(url_for('gestion_cobro'))
 
+<<<<<<< HEAD
 
 @app.route('/gestion_cobro')
 @login_required
@@ -1583,6 +1949,11 @@ def gestion_cobro():
 def manual():
     return render_template('manual/manual.html')
 
+=======
+@app.route('/manual')
+def manual():
+    return render_template('manual/manual.html')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/reglas')
 def reglas():
     return render_template('reglas/reglas.html')
@@ -1641,11 +2012,17 @@ def monitoreo_data():
     except Exception as e:
         print(f"Error al obtener datos de monitoreo: {e}")
         return jsonify({"error": "Error interno del servidor", "details": str(e)}), 500
+<<<<<<< HEAD
     
 @app.route('/horas_extra')
 def horas_extra():
     return render_template('extras/horas_extra.html')
 
+=======
+@app.route('/horas_extra')
+def horas_extra():
+    return render_template('extras/horas_extra.html')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 @app.route('/historial_asistencia')
 @login_required
 def historial_asistencia():
@@ -1689,13 +2066,20 @@ def crear_encuesta():
 
             for key, value in request.form.items():
                 if key.startswith('questions['):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
                     try:
                         q_id = key.split('[')[1].split(']')[0] 
                         
                         if q_id not in preguntas_procesadas:
                             preguntas_procesadas[q_id] = {'options': []}
+<<<<<<< HEAD
                             
+=======
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
                         if key.endswith('[options][]'):
                             preguntas_procesadas[q_id]['options'].append(value)
                         else:
@@ -1705,12 +2089,21 @@ def crear_encuesta():
                         continue
 
             print(f"DEBUG: Guardando Encuesta '{nombre}'. Preguntas: {len(preguntas_procesadas)}")
+<<<<<<< HEAD
 
             flash(f'Encuesta "{nombre}" creada con éxito. Ahora puedes asignarla.', 'success')
 
             return redirect(url_for('asignar_encuesta'))
 
         except Exception as e:
+=======
+            
+            flash(f'Encuesta "{nombre}" creada con éxito. Ahora puedes asignarla.', 'success')
+            return redirect(url_for('asignar_encuesta'))
+
+        except Exception as e:
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             print(f"ERROR: Falló el guardado de la encuesta: {e}")
             flash('Error grave al procesar y guardar la encuesta. Revisa los logs del servidor.', 'danger')
             return redirect(url_for('crear_encuesta'))
@@ -1724,7 +2117,11 @@ def asignar_encuesta():
     if request.method == 'POST':
         try:
             encuesta_id = request.form.get('encuesta_seleccionada')
+<<<<<<< HEAD
             usuarios_ids = request.form.getlist('usuarios_a_asignar') 
+=======
+            usuarios_ids = request.form.getlist('usuarios_a_asignar')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             grupos_ids = request.form.getlist('grupos_a_asignar')     
 
             if not encuesta_id:
@@ -1745,8 +2142,14 @@ def asignar_encuesta():
             print(f"ERROR: Falló la asignación de la encuesta: {e}")
             flash('Error al asignar la encuesta. Inténtalo de nuevo.', 'danger')
             return redirect(url_for('asignar_encuesta'))
+<<<<<<< HEAD
     
     try:
+=======
+
+    try:
+
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         encuestas = [
             {'id': 1, 'nombre': 'Clima Laboral Q4'}, 
             {'id': 2, 'nombre': 'Desempeño Anual'}
@@ -1779,6 +2182,7 @@ def revision_encuestas():
     """Permite al Admin/Supervisor revisar encuestas completadas y añadir comentarios."""
     return render_template('encuestas/revision_encuestas.html', title='Revisión de Encuestas', base='base_admin.html')
 
+<<<<<<< HEAD
 @app.route('/mis_encuestas')
 @login_required
 def mis_encuestas():
@@ -1839,6 +2243,12 @@ def mis_encuestas():
         total_pendientes=len(encuestas['pendientes']),
         base=base_template
     )
+=======
+@app.route('/mis-encuestas', methods=['GET', 'POST'])
+def mis_encuestas():
+    """Vista para que cualquier empleado vea y complete sus encuestas asignadas."""
+    return render_template('encuestas/mis_encuestas.html', title='Mis Encuestas Asignadas')
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 
 def status_401(error):
     return redirect(url_for('login'))

@@ -10,7 +10,10 @@
 <body class="text-center">
     <form class="form-signin" action="/login" method="POST">
         <img class="mb-4" src="{{ url_for('static', filename='img/logo.png') }}" alt="" width="200" height="100">
+<<<<<<< HEAD
         
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             <br />
@@ -22,19 +25,28 @@
             {% endfor %}
         {% endif %}
         {% endwith %}
+<<<<<<< HEAD
         
         <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         
+=======
+        <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         <div class="form-floating">
             <input type="text" class="form-control" id="username" name="username" placeholder="Correo">
             <label for="username">Correo</label>
         </div>
+<<<<<<< HEAD
         
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         <div class="form-floating mt-2">
             <input type="password" class="form-control" name="password" placeholder="Password">
             <label for="password">Contraseña</label>
         </div>
+<<<<<<< HEAD
         
         <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
 
@@ -44,6 +56,9 @@
             </a>
         </div>
         
+=======
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

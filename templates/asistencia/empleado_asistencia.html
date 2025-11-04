@@ -1,15 +1,11 @@
-<<<<<<< HEAD
-{% extends 'base_vendedora.html' %}
-=======
-{% extends 'base_empleado.html' %}
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+{% extends 'base_dashboard.html' %}
 
-{% block title %}Agregar Asistencia{% endblock %}
+{% block title %}Registro de Asistencia{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="card shadow p-4">
-        <h3 class="text-center mb-4">Agregar Asistencia</h3>
+        <h3 class="text-center mb-4">Registro de Asistencia</h3>
         <form method="POST" action="{{ url_for('add_asistencia') }}">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-3">
@@ -17,16 +13,16 @@
                 <input type="date" class="form-control" id="fecha" name="Fecha" required>
             </div>
             <div class="mb-3">
-                <label for="horaentrada" class="form-label">Hora de Entrada</label>
-                <input type="time" class="form-control" id="horaentrada" name="HoraEntrada" required>
+                <label for="hora_entrada" class="form-label">Hora de Entrada</label>
+                <input type="time" class="form-control" id="hora_entrada" name="HoraEntrada" required>
             </div>
             <div class="mb-3">
-                <label for="horasalida" class="form-label">Hora de Salida</label>
-                <input type="time" class="form-control" id="horasalida" name="HoraSalida">
+                <label for="hora_salida" class="form-label">Hora de Salida</label>
+                <input type="time" class="form-control" id="hora_salida" name="HoraSalida">
             </div>
             <div class="mb-3">
-                <label for="descanso" class="form-label">Descanso (minutos)</label>
-                <input type="number" class="form-control" id="descanso" name="Descanso">
+                <label for="descanso" class="form-label">Tiempo de Descanso (minutos)</label>
+                <input type="number" class="form-control" id="descanso" name="Descanso" placeholder="Ej: 30">
             </div>
             <div class="mb-3">
                 <label for="estado" class="form-label">Estado</label>
@@ -36,8 +32,7 @@
                     <option value="Ausente">Ausente</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-success w-100 mt-3">Guardar</button>
-            <a href="{{ url_for('lista_asistencia') }}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+            <button type="submit" class="btn btn-success w-100">Registrar</button>
         </form>
     </div>
 </div>

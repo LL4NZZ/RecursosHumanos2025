@@ -13,8 +13,13 @@
         </div>
         
         <form action="{{ url_for('edit_usuario', id=usuario.IdUsuario) }}" method="POST" class="row g-3">
+<<<<<<< HEAD
     
              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+=======
+            
+            <input type="hidden" name="csrf_token" value="{{ csrf_token if csrf_token is defined else '' }}">
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
             
             <div class="col-md-6">
                 <label for="idRol" class="form-label">Rol</label>

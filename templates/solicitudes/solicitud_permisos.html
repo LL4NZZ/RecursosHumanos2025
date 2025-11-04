@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 {% extends 'base_vendedora.html' %}
+=======
+{% extends 'base_empleado.html' %}
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
 {% block title %}Enviar Solicitud{% endblock %}
 {% block page_title %}Enviar Solicitud{% endblock %}
 {% block content %}
 <div class="card shadow p-4">
     <h3 class="fw-bold mb-4">✍️ Enviar Solicitud de Permiso</h3>
+<<<<<<< HEAD
 <form action="{{ url_for('enviar_solicitudes_proceso') }}" method="POST" enctype="multipart/form-data">
+=======
+    <form action="{{ url_for('enviar_solicitudes') }}" method="POST" enctype="multipart/form-data">
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         
         <div class="mb-3">
