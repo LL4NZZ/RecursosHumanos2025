@@ -1,0 +1,173 @@
+{% extends "base_vendedora.html" %}
+
+{% block page_title %}Dashboard de Ventas{% endblock %}
+{% block page_subtitle %}Vista rápida de tu rendimiento y actividades clave.{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Venta Neta (Mes)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{ '45,800' }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Cuota Mensual (%)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ '85' }}%</div>
+                            <div class="progress progress-sm mt-1">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-bullseye fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Oportunidades Abiertas
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ '14' }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Tasa de Conversión
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ '18.5' }}%</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    ---
+    
+    <div class="row">
+
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Rendimiento de Ventas (6 Meses)</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <div style="height: 320px; background-color: #f7f7f7; display: flex; align-items: center; justify-content: center; color: #aaa;">
+                            [GRÁFICO DE LÍNEAS AQUÍ: Ventas Mensuales]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Embudo de Oportunidades</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                         <div style="height: 320px; background-color: #f7f7f7; display: flex; align-items: center; justify-content: center; color: #aaa;">
+                            [GRÁFICO DE PASTEL/DONA AQUÍ: Etapas de Venta]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    ---
+
+    <div class="row">
+        
+        <div class="col-lg-8 mb-4">
+             <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Tareas y Seguimientos Pendientes 📅</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Llamar a **GlobalTech** para presentación final.
+                            <span class="badge bg-danger rounded-pill">Hoy</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Enviar contrato de **InnovateCorp**.
+                            <span class="badge bg-warning rounded-pill">Mañana</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Reunión de revisión de pipeline con el gerente.
+                            <span class="badge bg-primary rounded-pill">29/09</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Seguimiento de oferta a **Punto Net**.
+                            <span class="badge bg-secondary rounded-pill">02/10</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="mt-3 btn btn-sm btn-outline-info">Ver todas las tareas &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">Alertas del Sistema</h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Aquí aparecen notificaciones importantes del CRM o del sistema:</p>
+                    <div class="alert alert-danger p-2 small" role="alert">
+                        <strong>Alerta:</strong> La cuota de cierre está 15% por debajo del objetivo. ¡Activa!
+                    </div>
+                     <div class="alert alert-success p-2 small" role="alert">
+                        ¡Felicidades! Tasa de conversión ha subido 3% este mes.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reglas de Asistencia</title>
+
+  <!-- CSS global (tu hoja principal) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <!-- CSS específico del módulo (puedes fusionarlo en styles.css si prefieres) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='reglas.css') }}">
+</head>
+<body>
+  <!-- Banner superior -->
+  <header>
+    <h1> Reglas de Asistencia</h1>
+  </header>
+
+  <!-- Formulario para crear / editar -->
+  <section class="formulario" id="formSection">
+    <h2 id="formTitle">Crear nueva regla</h2>
+
+    <form id="reglaForm">
+      <!-- Hidden para editar -->
+      <input type="hidden" id="IdRegla" value="">
+
+      <input type="time" id="HoraEntrada" required />
+      <input type="time" id="HoraSalida" required />
+
+      <input type="number" id="ToleranciaMinutos" placeholder="Tolerancia (minutos)" min="0" required />
+      <input type="number" id="DescansoMinutos" placeholder="Descanso (minutos)" min="0" required />
+
+      <select id="Estado" required>
+        <option value="Activa">Activa</option>
+        <option value="Inactiva">Inactiva</option>
+      </select>
+
+      <button type="submit" id="btnGuardar"> Guardar regla</button>
+      <button type="button" id="btnCancelar" class="btn" style="background:#9e9e9e; margin-top:8px;">Cancelar edición</button>
+    </form>
+
+    <div id="mensaje" style="margin-top:12px;"></div>
+  </section>
+
+  <!-- Listado de reglas (server-side render con Jinja) -->
+  <section class="formulario" style="margin-top:16px;">
+    <h2>Reglas actuales</h2>
+
+    <div style="overflow-x:auto;">
+      <table class="tabla" id="tablaReglas">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th>Tolerancia</th>
+            <th>Descanso</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reglas %}
+          <tr data-id="{{ r.IdRegla }}"
+              data-horaentrada="{{ r.HoraEntrada }}"
+              data-horasalida="{{ r.HoraSalida }}"
+              data-tolerancia="{{ r.ToleranciaMinutos }}"
+              data-descanso="{{ r.DescansoMinutos }}"
+              data-estado="{{ r.Estado }}">
+            <td>{{ r.IdRegla }}</td>
+            <td>{{ r.HoraEntrada }}</td>
+            <td>{{ r.HoraSalida }}</td>
+            <td>{{ r.ToleranciaMinutos }} min</td>
+            <td>{{ r.DescansoMinutos }} min</td>
+            <td>{{ r.Estado }}</td>
+            <td>
+              <div class="botones-acciones">
+                <button class="btn btn-editar" data-action="editar">Editar</button>
+                <button class="btn btn-rechazar" data-action="toggle">Toggle Estado</button>
+                <button class="btn btn-eliminar" data-action="eliminar">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" style="text-align:center; padding:14px;">No hay reglas definidas aún.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <script src="{{ url_for('static', filename='reglas.js') }}"></script>
+</body>
+</html>

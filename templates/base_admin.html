@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal del Administrador{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    {% block head_extras %}{% endblock %}
+</head>
+
+<body class="d-flex bg-light">
+    <aside id="sidebar" class="sidebar bg-blue-dark text-white d-flex flex-column">
+        
+        <div class="px-4 py-3 mb-2"> 
+            <h1 class="h5 fw-bold text-white mb-2">Portal Administrador</h1>
+        </div>
+
+        <div class="mb-4 w-100 text-center">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="d-block mx-auto"
+                style="width: 160px; height: auto;"> </div>
+
+        <nav class="w-100 flex-grow-1 px-3 overflow-y-auto"> <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('dashboard_admin') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-house me-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#usuarios-submenu" aria-expanded="false"
+                        aria-controls="usuarios-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-users me-3"></i>
+                            <span>Gestión de Usuarios</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="usuarios-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('usuarios') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Ver y Editar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('add_usuario') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Crear Nuevo</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#horarios-submenu" aria-expanded="false"
+                        aria-controls="horarios-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-clock me-3"></i>
+                            <span>Control Horario/Asistencia</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="horarios-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('lista_horarios') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Horarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('lista_asistencia') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Asistencias</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('monitoreo') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-chart-line me-3"></i>
+                        <span>Monitoreo T. Real</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('reportes_asistencia') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-chart-bar me-3"></i>
+                        <span>Generar Reportes</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#pedidos-submenu" aria-expanded="false"
+                        aria-controls="pedidos-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-hand-holding-dollar me-3"></i>
+                            <span>Cartera y Pedidos</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="pedidos-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('pedidos_pagos') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Admin. Pedidos/Pagos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('cartera') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Cobro</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('aprobar_solicitudes_proceso') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-check-to-slot me-3"></i>
+                        <span>Aprobación Solicitudes</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('documentacion_admin') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-folder-open me-3"></i>
+                        <span>Admin. Documentos</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('denuncias') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-shield-halved me-3"></i>
+                        <span>Gestión de Denuncias</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#encuestas-submenu" aria-expanded="false"
+                        aria-controls="encuestas-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-square-poll-vertical me-3"></i>
+                            <span>Gestión de Encuestas</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="encuestas-submenu">
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item">
+                                <a href="{{ url_for('crear_encuesta') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Crear y Configurar Tipos</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ url_for('asignar_encuesta') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Asignar y Notificar</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="{{ url_for('revision_encuestas') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Revisión y Comentarios</a>
+                            </li>
+                            
+                            {% if current_user.rol != 'Administrador' %}
+                            <li class="nav-item">
+                                <a href="{{ url_for('mis_encuestas') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Mis Encuestas Asignadas</a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('canal_admin') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-bullhorn me-3"></i>
+                        <span>Admin. Comunicaciones</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    
+    <div class="main-content flex-grow-1 d-flex flex-column">
+        
+        <header class="bg-white p-4 shadow-sm d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center w-100">
+                <button id="hamburger-menu" class="d-md-none btn btn-light me-3" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <i class="fa-solid fa-bars text-gray-500"></i>
+                </button>
+                
+                <div class="position-relative me-3" style="max-width: 450px; flex-grow: 1;"> 
+                    <input type="text" placeholder="Buscar" class="form-control rounded-pill bg-light ps-5 py-2">
+                    <i class="fa-solid fa-magnifying-glass position-absolute text-gray-400"
+                        style="left: 1.25rem; top: 50%; transform: translateY(-50%);"></i>
+                </div>
+            </div>
+            <div class="d-flex align-items-center space-x-4">
+                <a href="{{ url_for('notificaciones') }}" class="text-gray-500 nav-icons me-4"><i class="fa-solid fa-bell fa-xl"></i></a>
+                <a href="{{ url_for('logout') }}" class="text-gray-500 nav-icons"><i class="fa-solid fa-right-from-bracket fa-xl"></i></a>
+            </div>
+        </header>
+
+        <main class="main-content d-flex flex-column flex-grow-1">
+            
+            <div class="dashboard-view"> 
+                <h1 class="h2 fw-bold text-blue-dark mb-4 mt-4 text-center">
+                    {% block page_title %}{% endblock %}
+                </h1>
+                <p class="text-muted mb-4 text-center">
+                    {% block page_subtitle %}{% endblock %}
+                </p>
+                
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ... (Tu código JavaScript para el menú hamburguesa se mantiene igual) ...
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            document.addEventListener('click', (event) => {
+                if (window.innerWidth <= 767) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnHamburger = hamburgerMenu.contains(event.target);
+                    if (!isClickInsideSidebar && !isClickOnHamburger && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

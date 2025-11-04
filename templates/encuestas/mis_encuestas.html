@@ -1,0 +1,84 @@
+{% extends 'base_admin.html' %} 
+
+{% block title %}Mis Encuestas Pendientes{% endblock %}
+{% block page_title %}📝 Mis Encuestas Asignadas{% endblock %}
+{% block page_subtitle %}Aquí puedes ver las encuestas que tienes pendientes y completarlas.{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    
+    {% if not mis_encuestas %}
+    <div class="alert alert-info shadow-sm" role="alert">
+        <i class="fa-solid fa-circle-check me-2"></i> ¡Felicidades! No tienes encuestas pendientes de responder en este momento.
+    </div>
+    {% endif %}
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Lista de Encuestas Asignadas ({{ mis_encuestas | length }} Registros)</h5>
+        </div>
+        
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 5%;">ID Asig.</th>
+                            <th style="width: 40%;">Título de la Encuesta</th> 
+                            <th style="width: 20%;">Fecha Límite</th>
+                            <th style="width: 15%;">Estado</th>
+                            <th class="text-center" style="width: 20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for e in mis_encuestas %}
+                        <tr>
+                            <td>{{ e.IdAsignacion }}</td> 
+                            
+                            <td>{{ e.TituloEncuesta | default('Encuesta sin título') }}</td>
+                            
+                            <td>
+                                {% if e.FechaLimite %}
+                                    {{ e.FechaLimite }}
+                                    {% if e.FechaLimite < today %}
+                                        <span class="badge bg-danger ms-2">Vencida</span>
+                                    {% endif %}
+                                {% else %}
+                                    Sin Límite
+                                {% endif %}
+                            </td>
+                            
+                            <td>
+                                {% if e.Estado == 'Completada' %}
+                                    <span class="badge bg-success">Completada</span>
+                                {% elif e.Estado == 'Pendiente' %}
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">En Progreso</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                {% if e.Estado == 'Completada' %}
+                                    <a href="{{ url_for('ver_mis_respuestas', id_asignacion=e.IdAsignacion) }}" 
+                                       class="btn btn-secondary btn-sm" 
+                                       title="Ver Respuestas">
+                                        <i class="fa-solid fa-eye me-1"></i> Revisar
+                                    </a>
+                                {% else %}
+                                    <a href="{{ url_for('iniciar_encuesta', id_asignacion=e.IdAsignacion) }}" 
+                                       class="btn btn-primary btn-sm" 
+                                       title="Comenzar/Continuar">
+                                        <i class="fa-solid fa-play me-1"></i> Iniciar Encuesta
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Gestión de Canal de Noticias{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <header class="mb-4 d-flex justify-content-between align-items-center">
+        <h1 class="h3"><i class="fas fa-newspaper"></i> Administración del Canal de Noticias</h1>
+        <button class="btn btn-success" data-toggle="modal" data-target="#crearPublicacionModal">
+            <i class="fas fa-plus-circle"></i> Nueva Publicación
+        </button>
+    </header>
+
+    <ul class="nav nav-tabs" id="publicacionTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="activas-tab" data-toggle="tab" href="#activas" role="tab">
+                <i class="fas fas fa-check-circle"></i> Activas
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="borradores-tab" data-toggle="tab" href="#borradores" role="tab">
+                <i class="fas fa-pencil-alt"></i> Borradores
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="archivadas-tab" data-toggle="tab" href="#archivadas" role="tab">
+                <i class="fas fa-archive"></i> Archivadas
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="publicacionTabsContent">
+        
+        <div class="tab-pane fade show active" id="activas" role="tabpanel">
+            {% include 'noticias/_tabla_activas.html' %} 
+        </div>
+        
+        <div class="tab-pane fade" id="borradores" role="tabpanel">
+            {% include 'noticias/_tabla_borradores.html' %} 
+        </div>
+
+        <div class="tab-pane fade" id="archivadas" role="tabpanel">
+            {% include 'noticias/_tabla_archivadas.html' %} 
+        </div>
+
+    </div>
+</div>
+
+{% include "noticias/crear_publicacion.html" %} 
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    
+    <script>
+        // Inicialización de JQuery para asegurar que el DOM esté listo antes de inicializar scripts
+        $(document).ready(function() {
+            // Inicializa los modales manualmente (a veces necesario)
+            $('#crearPublicacionModal').modal({
+                show: false
+            });
+        });
+
+        function confirmarEliminacion(id) {
+            if (confirm("¿Estás seguro de que quieres ELIMINAR definitivamente esta publicación? Esta acción no se puede deshacer.")) {
+                window.location.href = "{{ url_for('eliminar_publicacion') }}" + "?id=" + id;
+            }
+        }
+        
+        $('#crearPublicacionModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var publicacionId = button.data('publicacion-id');
+            var publicacionEstado = button.data('publicacion-estado');
+            
+            $('#formPublicacion')[0].reset();
+            $('#idPublicacionHidden').val(''); 
+            $('#estado').val('Activa'); 
+
+            if (publicacionId) {
+                $('#crearPublicacionModalLabel').text('Editar Publicación');
+                $('#idPublicacionHidden').val(publicacionId);
+                $('#btnGuardarPublicacion').text('Guardar Cambios');
+                
+                if (publicacionEstado) {
+                    $('#estado').val(publicacionEstado);
+                    if (publicacionEstado === 'Borrador') {
+                        $('#btnGuardarPublicacion').text('Guardar Borrador');
+                    }
+                }
+            } else {
+                $('#crearPublicacionModalLabel').text('Crear Nueva Publicación');
+                $('#btnGuardarPublicacion').text('Publicar');
+            }
+        });
+
+        function forzarEnvioPublicacion() {
+            var titulo = $('#titulo').val();
+            var contenido = $('#contenido').val();
+            
+            if (!titulo || !contenido) {
+                alert('Debe completar el Título y el Contenido.');
+                return; 
+            }
+
+            document.getElementById('formPublicacion').submit();
+        }
+    </script>
+{% endblock %}

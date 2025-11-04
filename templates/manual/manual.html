@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajuste Manual - RRHH</title>
+  <link rel="stylesheet" href="static/manual.css">
+</head>
+<body>
+
+  <!-- Banner superior -->
+  <header>
+    <h1> Ajuste Manual de Asistencia</h1>
+  </header>
+
+  <!-- Formulario -->
+  <section class="formulario">
+    <h2>Registrar / Modificar Asistencia</h2>
+
+    <form id="ajusteForm">
+      <input type="text" id="empleadoId" placeholder="ID del Empleado (Ej: EMP123)" required>
+      <input type="text" id="nombreEmpleado" placeholder="Nombre del Empleado (Ej: Juan Pérez)" required>
+
+      <input type="date" id="fecha" required>
+      <input type="time" id="horaEntrada" required>
+      <input type="time" id="horaSalida" required>
+
+      <button type="submit"> Guardar Registro</button>
+    </form>
+
+    <div id="mensaje"></div>
+  </section>
+
+  <script src="static/manual.js"></script>
+</body>
+</html>

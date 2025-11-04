@@ -1,0 +1,72 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Asignar Encuestas{% endblock %}
+{% block page_title %}📝 Asignar Encuestas a Usuarios{% endblock %}
+{% block page_subtitle %}Selecciona una encuesta y asigna los destinatarios (individuales o por rol).{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card shadow-lg mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fa-solid fa-list-check me-2"></i> Formulario de Asignación</h5>
+        </div>
+        
+        <div class="card-body">
+            <form action="{{ url_for('asignar_encuesta') }}" method="POST">
+                
+                {% if csrf_token %}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                {% endif %}
+                
+                <div class="mb-4">
+                    <label for="encuesta_id" class="form-label fw-semibold">Seleccionar Encuesta</label>
+                    <select id="encuesta_id" name="encuesta_id" class="form-select" required>
+                        <option value="" disabled selected>— Elige una encuesta para asignar —</option>
+                        {% for encuesta in encuestas %}
+                            <option value="{{ encuesta.IdEncuesta }}">{{ encuesta.Titulo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <hr class="my-4">
+                <h6 class="mb-3 text-primary">Destinatarios (Seleccionar una opción):</h6>
+
+                <div class="mb-4 p-3 border rounded">
+                    <label class="form-label fw-semibold">Asignar por Rol</label>
+                    <div class="form-text mb-2">Asigna la encuesta a todos los usuarios que pertenecen al rol seleccionado.</div>
+                    <select name="rol_id" class="form-select">
+                        <option value="" selected>— No asignar por Rol —</option>
+                        {% for rol in roles %}
+                            <option value="{{ rol.IdRol }}">{{ rol.NombreRol }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-4 p-3 border rounded">
+                    <label for="usuarios_seleccionados" class="form-label fw-semibold">Asignar Usuarios Individuales</label>
+                    <div class="form-text mb-2">Selecciona uno o varios usuarios específicos. (Ignorar si se seleccionó un rol).</div>
+                    <select id="usuarios_seleccionados" name="usuarios_id" class="form-select" multiple size="8">
+                        {% for usuario in usuarios %}
+                            <option value="{{ usuario.IdUsuario }}">
+                                {{ usuario.Nombres }} {{ usuario.Apellidos }} (ID: {{ usuario.IdUsuario }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="fecha_limite" class="form-label">Fecha Límite para Responder (Opcional)</label>
+                    <input type="date" class="form-control" id="fecha_limite" name="fecha_limite">
+                    <div class="form-text">Si se deja vacío, la encuesta no tendrá una fecha de cierre.</div>
+                </div>
+
+                <div class="mt-4 pt-3 border-top d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="fa-solid fa-paper-plane me-2"></i> Confirmar Asignación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Editar Asistencia{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h3 class="text-center mb-4">Editar Asistencia</h3>
+        <form method="POST" action="{{ url_for('edit_asistencia', id=asistencia.IdAsistencia) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" name="Fecha" value="{{ asistencia.Fecha }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="horaentrada" class="form-label">Hora de Entrada</label>
+                <input type="time" class="form-control" id="horaentrada" name="HoraEntrada" value="{{ asistencia.HoraEntrada }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="horasalida" class="form-label">Hora de Salida</label>
+                <input type="time" class="form-control" id="horasalida" name="HoraSalida" value="{{ asistencia.HoraSalida }}">
+            </div>
+            <div class="mb-3">
+                <label for="descanso" class="form-label">Descanso (minutos)</label>
+                <input type="number" class="form-control" id="descanso" name="Descanso" value="{{ asistencia.Descanso }}">
+            </div>
+            <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select class="form-select" id="estado" name="Estado">
+                    <option value="Presente" {% if asistencia.Estado == 'Presente' %}selected{% endif %}>Presente</option>
+                    <option value="Retardo" {% if asistencia.Estado == 'Retardo' %}selected{% endif %}>Retardo</option>
+                    <option value="Ausente" {% if asistencia.Estado == 'Ausente' %}selected{% endif %}>Ausente</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+            <a href="{{ url_for('lista_asistencia') }}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

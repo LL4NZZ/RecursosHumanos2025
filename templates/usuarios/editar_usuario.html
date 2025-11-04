@@ -1,0 +1,85 @@
+{% extends 'base_admin.html' %} 
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="m-0 fw-bold">✏️ Editar Usuario: {{ usuario.Nombres }} {{ usuario.Apellidos }}</h3>
+            <a href="{{ url_for('usuarios') }}" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left me-2"></i> Volver a Usuarios
+            </a>
+        </div>
+        
+        <form action="{{ url_for('edit_usuario', id=usuario.IdUsuario) }}" method="POST" class="row g-3">
+    
+             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="col-md-6">
+                <label for="idRol" class="form-label">Rol</label>
+                <select class="form-select" id="idRol" name="idRol" required>
+                    <option value="" disabled>Seleccione el Rol...</option>
+                    {% for rol_item in roles %}
+                        <option value="{{ rol_item.IdRol }}" 
+                                {% if rol_item.IdRol == usuario.IdRol %}selected{% endif %}>
+                            {{ rol_item.NombreRol }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="nombres" class="form-label">Nombres</label>
+                <input type="text" class="form-control" id="nombres" name="nombres" value="{{ usuario.Nombres }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ usuario.Apellidos }}" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="tipoDocumento" class="form-label">Tipo Documento</label>
+                <input type="text" class="form-control" id="tipoDocumento" name="tipoDocumento" value="{{ usuario.TipoDocumento }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="documento" class="form-label">Documento</label>
+                <input type="text" class="form-control" id="documento" name="documento" value="{{ usuario.Documento }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="correo" class="form-label">Correo</label>
+                <input type="email" class="form-control" id="correo" name="correo" value="{{ usuario.Correo }}" required>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="correo_corporativo" class="form-label">Correo Corporativo</label>
+                <input type="email" class="form-control" id="correo_corporativo" name="correo_corporativo" value="{{ usuario.CorreoCorporativo }}">
+            </div>
+            
+            <div class="col-md-6">
+                <label for="fechaContratacion" class="form-label">Fecha Contratación</label>
+                <input type="date" class="form-control" id="fechaContratacion" name="fechaContratacion" value="{{ usuario.FechaContratacion | default('') }}">
+            </div>
+            <div class="col-md-6">
+                <label for="fechaNacimiento" class="form-label">Fecha Nacimiento</label>
+                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" value="{{ usuario.FechaNacimiento | default('') }}">
+            </div>
+            <div class="col-md-6">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ usuario.Telefono }}">
+            </div>
+            
+            <div class="col-md-6">
+                <label for="contrasena" class="form-label">Contraseña (Dejar vacío para no cambiar)</label>
+                <input type="password" class="form-control" id="contrasena" name="contrasena">
+            </div>
+            
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-warning">
+                    <i class="fa-solid fa-pen-to-square me-2"></i> Actualizar Usuario
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

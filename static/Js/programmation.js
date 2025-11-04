@@ -1,0 +1,1 @@
+console.log("Programación de horarios cargada correctamente.");

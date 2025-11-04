@@ -1,0 +1,47 @@
+:root{
+  --azul:#1976d2;
+  --azul-oscuro:#0d47a1;
+  --fondo:#f5f8fb;
+  --blanco:#fff;
+  --sombra:0 8px 22px rgba(0,0,0,0.07);
+  --verde:#43a047;
+  --rojo:#e53935;
+  --radio:12px;
+}
+
+body{
+  font-family:"Segoe UI",sans-serif;
+  background:var(--fondo);
+  color:#222;
+}
+
+header{
+  background:linear-gradient(90deg,var(--azul),var(--azul-oscuro));
+  color:#fff;
+  padding:14px 20px;
+  box-shadow:var(--sombra);
+}
+
+.container{
+  max-width:1200px;
+  margin:30px auto;
+  padding:16px;
+}
+
+.panel{
+  background:var(--blanco);
+  border-radius:var(--radio);
+  box-shadow:var(--sombra);
+  padding:24px;
+}
+
+/* Botones */
+.btn-entrada{
+  background:var(--verde);
+  color:#fff;
+}
+.btn-entrada:hover{opacity:.9}
+
+.table th, .table td{
+  vertical-align: middle;
+}

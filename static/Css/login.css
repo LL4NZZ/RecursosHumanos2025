@@ -1,0 +1,66 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+
+  /* Fondo degradado elegante */
+  background: linear-gradient(135deg, #001f3f, #0056b3, #00aaff);
+  background-attachment: fixed;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor principal */
+.form-signin {
+  background: rgba(255, 255, 255, 0.98);
+  padding: 80px 100px;   /* más aire interno */
+  border-radius: 25px;
+  box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  max-width: 900px;      /* bien grande */
+  text-align: center;
+}
+
+/* Logo */
+.form-signin img {
+  width: 220px;
+  height: auto;
+  margin-bottom: 40px;
+}
+
+/* Inputs grandes */
+.form-signin .form-control {
+  border-radius: 15px;
+  padding: 22px;
+  margin-bottom: 28px;
+  border: 1px solid #bbb;
+  font-size: 20px;       /* texto grande */
+}
+
+/* Botón grande */
+.form-signin button {
+  background: #0056b3;
+  border: none;
+  border-radius: 16px;
+  padding: 22px;
+  font-size: 22px;       /* botón con letra grande */
+  font-weight: bold;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.form-signin button:hover {
+  background: #003c8f;
+}
+
+/* Título */
+.form-signin h1 {
+  font-size: 34px;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 45px;
+}

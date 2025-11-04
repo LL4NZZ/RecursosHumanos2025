@@ -1,0 +1,46 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Lista de Asistencias{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 fw-bold text-blue-dark">📋 Lista de Asistencias</h1>
+        <a href="{{ url_for('add_asistencia') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i> Agregar Asistencia
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Entrada</th>
+                    <th>Salida</th>
+                    <th>Descanso</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asistencia in asistencias %}
+                <tr>
+                    <td>{{ asistencia.Fecha }}</td>
+                    <td>{{ asistencia.HoraEntrada }}</td>
+                    <td>{{ asistencia.HoraSalida }}</td>
+                    <td>{{ asistencia.Descanso }}</td>
+                    <td>{{ asistencia.Estado }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_asistencia', id=asistencia.IdAsistencia) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{{ url_for('delete_asistencia', id=asistencia.IdAsistencia) }}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Seguro que quieres eliminar esta asistencia?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

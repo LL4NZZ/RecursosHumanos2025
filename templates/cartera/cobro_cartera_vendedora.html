@@ -1,0 +1,91 @@
+{% extends "base_vendedora.html" %}
+
+{% block title %}Gestión de Cobro (Cartera){% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-danger text-white">
+            <h6 class="m-0 font-weight-bold">Cuentas por Cobrar Pendientes</h6>
+        </div>
+        <div class="card-body">
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="filtroVencimiento">Filtrar por Vencimiento:</label>
+                    <select id="filtroVencimiento" class="form-control">
+                        <option value="todos">Todos</option>
+                        <option value="hoy">Vence Hoy</option>
+                        <option value="semana">Vence esta Semana</option>
+                        <option value="vencidos">Vencidos (Más de 30 días)</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="busqueda">Buscar Cliente/Factura:</label>
+                    <input type="text" id="busqueda" class="form-control" placeholder="Escribe nombre, ID de factura o monto...">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-danger w-100">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                {% if cuentas_pendientes %}
+                <table class="table table-bordered table-hover" id="carteraTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID Factura/Pedido</th>
+                            <th>Cliente</th>
+                            <th>Fecha Emisión</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Días Retraso</th>
+                            <th>Monto Pendiente</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cuenta in cuentas_pendientes %}
+                        <tr class="{% if cuenta.DiasRetraso > 0 %}table-danger{% endif %}">
+                            <td>{{ cuenta.IdFactura }}</td>
+                            <td>{{ cuenta.NombreCliente }}</td>
+                            <td>{{ cuenta.FechaEmision }}</td>
+                            <td>{{ cuenta.FechaVencimiento }}</td>
+                            <td>
+                                {% if cuenta.DiasRetraso > 0 %}
+                                    <span class="badge bg-danger text-white">{{ cuenta.DiasRetraso }}</span>
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </td>
+                            <td>${{ cuenta.MontoPendiente | round(2) }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success" title="Registrar Pago"
+                                        data-toggle="modal" data-target="#registrarPagoModal"
+                                        data-id="{{ cuenta.IdFactura }}" data-monto="{{ cuenta.MontoPendiente }}">
+                                    <i class="fas fa-check"></i> Pago
+                                </button>
+                                <a href="{{ url_for('detalles_cliente', id_cliente=cuenta.IdCliente) }}" class="btn btn-sm btn-warning" title="Ver Historial">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-success text-center">
+                    ¡Excelente! No hay cuentas pendientes de cobro en la cartera.
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% include "modals/registrar_pago.html" %}
+
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Centro de Notificaciones</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Centro de Notificaciones</h1>
+    <p>Consulta, gestiona y revisa tus alertas</p>
+  </header>
+
+  <div class="container">
+    <div class="filtros">
+      <h2>Notificaciones</h2>
+      <select id="filtro">
+        <option value="todas">Todas</option>
+        <option value="no-leidas">No leídas</option>
+        <option value="alerta">Alertas</option>
+        <option value="recordatorio">Recordatorios</option>
+        <option value="aviso">Avisos</option>
+      </select>
+    </div>
+
+    <div class="lista" id="listaNotificaciones"></div>
+  </div>
+
+  <!-- Modal detalle -->
+  <div class="modal" id="modalDetalle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitulo"></h2>
+        <button class="btn-cerrar" id="cerrarModal">Cerrar</button>
+      </div>
+      <p><strong>Tipo:</strong> <span id="modalTipo"></span></p>
+      <p id="modalContenido"></p>
+      <p class="fecha" id="modalFecha"></p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% if encuestas %}
+<div class="list-group">
+    {% for enc in encuestas %}
+    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">{{ enc.nombre_encuesta }}</h5>
+            <small class="text-muted">Límite: {{ enc.fecha_limite }}</small>
+        </div>
+        <div>
+            {% if enc.estado == 'Completada' %}
+                <span class="badge bg-success me-2">Completada</span>
+            {% else %}
+                <span class="badge bg-warning me-2">{{ enc.estado }}</span>
+            {% endif %}
+            
+            <a href="{{ enc.url_responder }}" class="btn btn-sm btn-primary">
+                {{ accion }} <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <div class="alert alert-info mt-3">
+        No tienes encuestas en esta categoría.
+    </div>
+{% endif %}

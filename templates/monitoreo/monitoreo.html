@@ -1,0 +1,182 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Monitoreo en Tiempo Real{% endblock %}
+
+{% block head %}
+    {{ super() }} 
+    <style>
+        /* Estilo para simular la alerta de cambio */
+        .card-body {
+            transition: background-color 0.3s ease;
+        }
+        .highlight-change {
+            background-color: #ffda63 !important; /* Amarillo suave */
+        }
+        /* Ajuste de altura para el área de logs */
+        #log-area {
+            max-height: 300px; 
+            overflow-y: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <header class="mb-4">
+        <h1 class="h3">Dashboard de Monitoreo en Tiempo Real</h1>
+        <p class="text-secondary">Datos simulados actualizados cada segundo (1000ms). En una aplicación real, esto se conectaría a un API en el servidor.</p>
+    </header>
+
+    <div class="row">
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow border-left-success">
+                <div class="card-body" id="card-trafico">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tráfico de Red</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="dato-trafico">85.4 Mbps</div>
+                            <small class="text-muted">Última actualización: <span id="hora-trafico"></span></small>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-signal fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow border-left-warning">
+                <div class="card-body" id="card-cpu">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Carga de CPU</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="dato-cpu">45%</div>
+                            <small class="text-muted">Última actualización: <span id="hora-cpu"></span></small>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-microchip fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow border-left-info">
+                <div class="card-body" id="card-usuarios">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Usuarios Activos</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="dato-usuarios">1,245</div>
+                            <small class="text-muted">Última actualización: <span id="hora-usuarios"></span></small>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">Registro de Eventos (Logs)</div>
+                <div class="card-body p-0">
+                    <div id="log-area" class="list-group list-group-flush">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        // Función para obtener la hora actual
+        function getNowTime() {
+            // Asegúrate de usar la librería de fecha que maneje tu base_admin.html si hay una
+            return new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+        }
+
+        // Función para simular y actualizar un dato
+        function actualizarDato(idDato, idHora, idCard, minVal, maxVal, unit, decimalPlaces) {
+            const datoElement = document.getElementById(idDato);
+            const horaElement = document.getElementById(idHora);
+            const cardElement = document.getElementById(idCard);
+
+            // Generar un nuevo valor aleatorio
+            const newValue = (Math.random() * (maxVal - minVal) + minVal).toFixed(decimalPlaces);
+            const currentValue = datoElement.textContent.replace(unit, '').trim();
+
+            // Resaltar si el valor es significativamente diferente
+            if (Math.abs(parseFloat(newValue) - parseFloat(currentValue)) > 5) {
+                cardElement.classList.add('highlight-change');
+                setTimeout(() => {
+                    cardElement.classList.remove('highlight-change');
+                }, 500); // Quita el resaltado después de medio segundo
+            }
+
+            // Actualizar el valor y la hora
+            datoElement.textContent = newValue + unit;
+            horaElement.textContent = getNowTime();
+        }
+
+        // Función para simular un nuevo log
+        function generarLog() {
+            const logArea = document.getElementById('log-area');
+            const mensajes = [
+                'Servidor principal: Conexión establecida.',
+                'Alerta: Carga de CPU sobre el 80% (Pico breve).',
+                'Nuevo usuario conectado: IP 192.168.1.55',
+                'Base de datos: Copia de seguridad iniciada.',
+                'Sistema: Ajuste automático de recursos completado.'
+            ];
+            // Si base_admin usa Bootstrap 5, usa los colores: success, warning, info, primary, secondary
+            const estado = ['success', 'warning', 'info', 'primary', 'secondary'];
+
+            const randomIndex = Math.floor(Math.random() * mensajes.length);
+            const randomState = estado[Math.floor(Math.random() * estado.length)];
+
+            const newLog = document.createElement('div');
+            newLog.className = `list-group-item list-group-item-action list-group-item-${randomState} small`;
+            newLog.innerHTML = `<strong>[${getNowTime()}]</strong> ${mensajes[randomIndex]}`;
+            
+            // Añadir el nuevo log al principio
+            logArea.prepend(newLog);
+
+            // Limitar el número de logs
+            if (logArea.children.length > 20) {
+                logArea.removeChild(logArea.lastElementChild);
+            }
+        }
+
+        // Función principal de actualización (Se ejecuta cada 1000ms)
+        function actualizarDashboard() {
+            // Tráfico (valor entre 50 y 150 Mbps)
+            actualizarDato('dato-trafico', 'hora-trafico', 'card-trafico', 50, 150, ' Mbps', 1);
+
+            // CPU (valor entre 20 y 90%)
+            actualizarDato('dato-cpu', 'hora-cpu', 'card-cpu', 20, 90, '%', 0);
+            
+            // Usuarios (valor entre 1200 y 1300)
+            actualizarDato('dato-usuarios', 'hora-usuarios', 'card-usuarios', 1200, 1300, '', 0);
+
+            // Generar un nuevo log con un 40% de probabilidad
+            if (Math.random() < 0.4) {
+                generarLog();
+            }
+        }
+
+        // Iniciar la actualización y configurarla para repetirse
+        actualizarDashboard(); // Llamada inicial para cargar los datos
+        setInterval(actualizarDashboard, 1000); // Llama a la función cada 1000 milisegundos (1 segundo)
+    </script>
+{% endblock %}

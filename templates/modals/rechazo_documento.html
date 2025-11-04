@@ -1,0 +1,57 @@
+<div class="modal fade" id="rechazarModal" tabindex="-1" role="dialog" aria-labelledby="rechazarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="rechazarModalLabel">⚠️ Confirmar Rechazo</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <form id="formRechazo" action="{{ url_for('aprobar_documento_proceso') }}" method="POST">
+                <div class="modal-body">
+                    <p>
+                        Está a punto de rechazar un documento. Por favor, 
+                        escriba una justificación clara y profesional para informar al empleado.
+                    </p>
+                    <div class="form-group">
+                        <label for="justificacion">Motivo de Rechazo Obligatorio:</label>
+                        <textarea class="form-control" id="justificacion" name="justificacion" rows="4" required 
+                                  placeholder="Ej: El documento expiró el 10/05/2024 o falta la firma del supervisor."></textarea>
+                    </div>
+                    
+                    <input type="hidden" name="id" id="modal_id_item"> 
+                    
+                    <input type="hidden" name="accion" value="rechazar">
+                    
+                    {% if csrf_token %}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    {% endif %}
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" id="btnConfirmarRechazo">
+                        <i class="fa fa-times-circle"></i> Rechazar y Enviar Justificación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Este script asume que estás usando jQuery y Bootstrap
+    $('#rechazarModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que activó el modal
+        var itemId = button.data('id');      // Extrae la información del atributo data-id del botón
+        
+        var modal = $(this);
+        
+        // 1. Establece el ID del documento en el campo oculto del formulario
+        modal.find('#modal_id_item').val(itemId); 
+        
+        // 2. Opcional: Establece la URL de acción si tienes diferentes endpoints de gestión
+        // modal.find('#formRechazo').attr('action', '/tu/url/de/rechazo/' + itemId); 
+    });
+</script>

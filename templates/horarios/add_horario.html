@@ -1,0 +1,91 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Agregar Horario{% endblock %}
+{% block page_title %}➕ Agregar Horario{% endblock %}
+{% block page_subtitle %}Asigna un nuevo horario laboral a un usuario, especificando fechas y horas.{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                    <h3 class="m-0 fw-bold text-primary">Detalles del Nuevo Horario</h3>
+                    <a href="{{ url_for('lista_horarios') }}" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Lista
+                    </a>
+                </div>
+                
+                <form action="{{ url_for('add_horario') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <label for="idUsuario" class="form-label fw-semibold">Usuario a Asignar</label>
+                            <select class="form-select" id="idUsuario" name="IdUsuario" required>
+                                <option value="">Selecciona un usuario</option>
+                                {% for usuario in usuarios %}
+                                <option value="{{ usuario.IdUsuario }}">{{ usuario.Nombres }} {{ usuario.Apellidos }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <hr>
+
+                    <h6 class="text-secondary mb-3">Vigencia del Horario</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="FechaInicio" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin" class="form-label">Fecha Fin</label>
+                            <input type="date" class="form-control" id="fechaFin" name="FechaFin" required>
+                        </div>
+                    </div>
+
+                    <h6 class="text-secondary mb-3">Tiempos Laborales</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="horaEntradaP" class="form-label">Hora Entrada Programada</label>
+                            <input type="time" class="form-control" id="horaEntradaP" name="HoraEntradaP" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="horaSalidaP" class="form-label">Hora Salida Programada</label>
+                            <input type="time" class="form-control" id="horaSalidaP" name="HoraSalidaP" required>
+                        </div>
+                    </div>
+
+                    <h6 class="text-secondary mb-3">Detalles Adicionales</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="descansoP" class="form-label">Descanso (en minutos)</label>
+                            <input type="number" class="form-control" id="descansoP" name="DescansoP" required min="0" value="30">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tipoJornada" class="form-label">Tipo de Jornada</label>
+                            <select class="form-select" id="tipoJornada" name="TipoJornada" required>
+                                <option value="" selected disabled>-- Selecciona una opción --</option>
+                                <option value="Tiempo Completo">Tiempo Completo</option>
+                                <option value="Medio Tiempo">Medio Tiempo</option>
+                                <option value="Turno Nocturno">Turno Nocturno</option>
+                                <option value="Turno Rotativo">Turno Rotativo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-5 border-top pt-3">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fa-solid fa-calendar-check me-2"></i> Guardar Horario
+                        </button>
+                        <a href="{{ url_for('lista_horarios') }}" class="btn btn-secondary btn-lg">
+                            <i class="fa-solid fa-xmark me-2"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-secondary">Publicaciones en estado: Archivada</h6>
+    </div>
+    <div class="card-body">
+        {% set publicaciones = publicaciones_archivadas %}
+        {% set estado_actual = 'Archivada' %}
+        {% if publicaciones %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Fecha Publicación</th>
+                        <th>Fecha Archivo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for publicacion in publicaciones %}
+                    <tr>
+                        <td>{{ publicacion.Titulo }}</td>
+                        <td>{{ publicacion.Autor }}</td>
+                        <td>{{ publicacion.FechaPublicacion }}</td>
+                        <td>{{ publicacion.FechaArchivo }}</td>
+                        <td>
+                            <a href="{{ url_for('cambiar_estado_publicacion', id=publicacion.IdPublicacion, estado='Activa') }}" class="btn btn-sm btn-info" title="Republicar">
+                                <i class="fas fa-redo"></i>
+                            </a>
+                            <button class="btn btn-sm btn-danger" title="Eliminar" onclick="confirmarEliminacion('{{ publicacion.IdPublicacion }}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            No hay publicaciones en estado **Archivada** en este momento.
+        </div>
+        {% endif %}
+    </div>
+</div>

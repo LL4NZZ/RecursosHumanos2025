@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial de Asistencia</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='historial.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Historial de Asistencia</h1>
+  </header>
+
+  <section class="historial">
+    <h2>Registros de tus asistencias</h2>
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Entrada</th>
+          <th>Salida</th>
+          <th>Descanso (min)</th>
+          <th>Estado</th>
+          <th>Horas Trabajadas</th>
+        </tr>
+      </thead>
+      <tbody id="tablaAsistencia">
+        {% for a in asistencias %}
+        <tr>
+          <td>{{ a.Fecha }}</td>
+          <td>{{ a.HoraEntrada }}</td>
+          <td>{{ a.HoraSalida or '-' }}</td>
+          <td>{{ a.Descanso or 0 }}</td>
+          <td class="estado {{ a.Estado|lower|replace(' ', '-') }}">{{ a.Estado }}</td>
+          <td>{{ a.HorasTrabajadas }} h</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <script src="{{ url_for('static', filename='historial.js') }}"></script>
+</body>
+</html>

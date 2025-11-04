@@ -1,0 +1,83 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Reporte de Asistencia{% endblock %}
+{% block page_title %}⏰ Reporte de Asistencia General{% endblock %}
+{% block page_subtitle %}Visualiza y filtra todas las marcas de entrada y salida de los usuarios.{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Filtros de Búsqueda</h5>
+            <form action="{{ url_for('reportes_asistencia') }}" method="GET" class="row g-3">
+                <div class="col-md-3">
+                    {# ... (rest of the form fields remain unchanged) ... #}
+                </div>
+                {# ... (rest of the form fields) ... #}
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-info w-100">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i> Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered align-middle mb-0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th style="width: 20%;">Usuario</th> 
+                            <th style="width: 10%;">Fecha</th>
+                            <th style="width: 10%;">Entrada</th>
+                            <th style="width: 10%;">Salida</th>
+                            <th style="width: 10%;">Total Horas</th>
+                            <th style="width: 10%;">Estado</th>
+                            <th style="width: 15%;">Ubicación Entrada</th>
+                            <th style="width: 10%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for a in asistencias %}
+                        <tr>
+                            
+                            <td>{{ a.NombreCompleto or a.IdUsuario }}</td> 
+                            
+                            <td>{{ a.Fecha | default('N/A') }}</td>
+                            <td>{{ a.HoraEntrada | default('---') }}</td>
+                            <td>{{ a.HoraSalida | default('---') }}</td>
+                            
+                            <td>{{ a.HorasTrabajadas | default('N/A') }}</td> 
+                            
+                            <td>
+                                {% if a.HoraSalida %}
+                                    <span class="badge bg-success">Completa</span>
+                                {% elif a.HoraEntrada %}
+                                    <span class="badge bg-warning text-dark">Pendiente Salida</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Falta</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>{{ a.UbicacionEntrada | default('Desconocida') }}</td>
+                            
+                            <td class="text-center">
+                                <a href="{{ url_for('editar_asistencia', id=a.IdAsistencia) }}" class="btn btn-info btn-sm" title="Ver/Editar">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9" class="text-center text-muted">No se encontraron registros de asistencia con los filtros seleccionados.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

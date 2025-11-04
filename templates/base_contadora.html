@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal de la Contadora{% endblock %}</title>         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    {% block head_extras %}{% endblock %}
+</head>
+
+<body class="d-flex bg-light">
+    <aside id="sidebar" class="sidebar bg-blue-dark text-white p-4 d-flex flex-column align-items-center">
+        <div class="mb-5 mt-4">
+            <h1 class="h3 fw-bold text-white">Portal Contadora</h1>         </div>
+        <div class="mb-5 w-100 text-center">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="User Profile" class="d-block mx-auto"
+                style="width: 200px; height: 100px;">
+        </div>
+        <nav class="w-100">
+            <ul class="nav flex-column">
+                                <li class="nav-item mb-2">
+                    <a href="{{ url_for('dashboard_contadora') }}"                         class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-house me-3"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('perfil') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-user me-3"></i>
+                        <span>Mi Perfil/Contraseña</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#asistencia-submenu" aria-expanded="false"
+                        aria-controls="asistencia-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-clock me-3"></i>
+                            <span>Control Horario</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="asistencia-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('add_asistencia') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Registrar Asistencia</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('historial_asistencia') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Historial Asistencia</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('horarios_empleado') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Mi Horario</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('solicitudes') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-file-alt me-3"></i>
+                        <span>Realizar Solicitudes</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('documentacion') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-folder-open me-3"></i>
+                        <span>Adjuntar Documentos</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#finanzas-submenu" aria-expanded="false"
+                        aria-controls="finanzas-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-money-check-dollar me-3"></i>
+                            <span>Finanzas y Pedidos</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="finanzas-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('pedidos_pagos') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Admin. Pedidos/Comprobantes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('cartera') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Cartera y Verificación</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                                <li class="nav-item mb-2">
+                    <a href="{{ url_for('denuncias') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-exclamation-triangle me-3"></i>
+                        <span>Denuncias</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#comunicacion-submenu" aria-expanded="false"
+                        aria-controls="comunicacion-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-bullhorn me-3"></i>
+                            <span>Comunicación</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="comunicacion-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('canal') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Noticias y Reconocimientos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('encuestas') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Revisar Encuestas</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <div class="main-content flex-grow-1 d-flex flex-column">
+        <header class="bg-white p-4 shadow-sm d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center w-100">
+                <button id="hamburger-menu" class="d-md-none btn btn-light me-3" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <i class="fa-solid fa-bars text-gray-500"></i>
+                </button>
+                <div class="position-relative flex-grow-1 me-3" style="max-width: 600px;">
+                    <input type="text" placeholder="Buscar" class="form-control rounded-pill bg-light ps-5 py-2">
+                    <i class="fa-solid fa-magnifying-glass position-absolute text-gray-400"
+                        style="left: 1.25rem; top: 50%; transform: translateY(-50%);"></i>
+                </div>
+            </div>
+            <div class="d-flex align-items-center space-x-4">
+                <a href="{{ url_for('notificaciones') }}" class="text-gray-500 nav-icons me-4"><i class="fa-solid fa-bell fa-xl"></i></a>
+                <a href="{{ url_for('logout') }}" class="text-gray-500 nav-icons"><i class="fa-solid fa-right-from-bracket fa-xl"></i></a>
+            </div>
+        </header>
+
+        <main class="main-content d-flex flex-column flex-grow-1">
+            <div class="container-fluid">
+                <h1 class="h2 fw-bold text-blue-dark mb-4 mt-4 text-center">
+                    {% block page_title %}{% endblock %}
+                </h1>
+                <p class="text-muted mb-4 text-center">
+                    {% block page_subtitle %}{% endblock %}
+                </p>
+                
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            document.addEventListener('click', (event) => {
+                if (window.innerWidth <= 767) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnHamburger = hamburgerMenu.contains(event.target);
+                    if (!isClickInsideSidebar && !isClickOnHamburger && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

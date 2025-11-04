@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Solicitudes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='solicitudes.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Historial de Solicitudes</h1>
+    </header>
+
+    <div class="formulario">
+        <h2>Solicitudes Realizadas</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Detalles</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in solicitudes %}
+                <tr>
+                    <td>{{ s.IdSolicitud }}</td>
+                    <td>{{ s.IdUsuario }}</td>
+                    <td>{{ s.FechaSolicitud }}</td>
+                    <td>{{ s.TipoSolicitud }}</td>
+                    <td>{{ s.Detalles }}</td>
+                    <td>
+                        <span class="estado-badge estado-{{ s.Estado|lower }}">{{ s.Estado }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='solicitudes.js') }}"></script>
+</body>
+</html>

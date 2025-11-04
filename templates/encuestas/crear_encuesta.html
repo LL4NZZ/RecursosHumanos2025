@@ -1,0 +1,202 @@
+{% extends "base_admin.html" %}
+
+{% block page_title %}Crear y Configurar Encuesta{% endblock %}
+{% block page_subtitle %}Define el tipo de encuesta (Desempeño, Clima, etc.) y añade tus preguntas.{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            <form id="surveyForm" action="{{ url_for('crear_encuesta') }}" method="POST" class="p-4 p-md-5 rounded-3 shadow bg-white">
+                
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <h4 class="mb-4 text-primary border-bottom pb-2"><i class="fa-solid fa-list-check me-2"></i> Configuración General</h4>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-md-7">
+                        <label for="nombreEncuesta" class="form-label fw-bold">Nombre de la Encuesta (*)</label>
+                        <input type="text" class="form-control" id="nombreEncuesta" name="nombreEncuesta" required
+                                placeholder="Ej: Encuesta de Clima Laboral Q3 2024">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="tipoEncuesta" class="form-label fw-bold">Tipo de Encuesta (*)</label>
+                        <select class="form-select" id="tipoEncuesta" name="tipoEncuesta" required>
+                            <option value="" selected disabled>Seleccionar tipo...</option>
+                            <option value="Clima_Laboral">Clima Laboral</option>
+                            <option value="Desempeño_Periodico">Desempeño Periódico</option>
+                            <option value="Satisfaccion">Satisfacción Cliente/Interna</option>
+                            <option value="General">General/Otro</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="descripcionEncuesta" class="form-label fw-bold">Descripción</label>
+                        <textarea class="form-control" id="descripcionEncuesta" name="descripcionEncuesta" rows="3"
+                                    placeholder="Una breve descripción para los encuestados."></textarea>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="fechaLimite" class="form-label fw-bold">Fecha Límite para Responder</label>
+                        <input type="date" class="form-control" id="fechaLimite" name="fechaLimite">
+                    </div>
+                </div>
+
+                <hr class="my-4">
+                <h4 class="mb-4 text-primary border-bottom pb-2"><i class="fa-solid fa-circle-question me-2"></i> Diseño de Preguntas</h4>
+
+                <div id="questionsContainer" class="mb-4">
+                </div>
+
+                <div class="d-grid mb-5">
+                    <button type="button" id="addQuestionBtn" class="btn btn-outline-success btn-lg">
+                        <i class="fa-solid fa-plus me-2"></i> Añadir Nueva Pregunta
+                    </button>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 border-top pt-3">
+                    <a href="{{ url_for('mis_encuestas') }}" class="btn btn-secondary btn-lg">
+                        <i class="fa-solid fa-xmark me-2"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-save me-2"></i> Crear y Guardar Encuesta
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const questionsContainer = document.getElementById('questionsContainer');
+        const addQuestionBtn = document.getElementById('addQuestionBtn');
+        let questionCount = 0;
+        
+        // Función auxiliar para crear un bloque de opción de respuesta (para reutilización)
+        function createOptionInput(qId) {
+            return `
+                <div class="input-group mb-2 option-template">
+                    <input type="text" class="form-control form-control-sm" name="questions[${qId}][options][]" placeholder="Nueva Opción" required>
+                    <button type="button" class="btn btn-outline-secondary btn-sm remove-option-btn" title="Eliminar Opción"><i class="fa-solid fa-minus"></i></button>
+                </div>
+            `;
+        }
+
+        // Función para agregar el bloque de pregunta
+        function addQuestion() {
+            questionCount++;
+            
+            const questionHtml = `
+                <div class="card mb-3 shadow-sm question-block" data-question-id="${questionCount}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="card-title text-info fw-bold">Pregunta #${questionCount}</h6>
+                            <button type="button" class="btn btn-sm btn-outline-danger remove-question-btn" title="Eliminar Pregunta">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label for="question_text_${questionCount}" class="form-label small fw-bold">Texto de la Pregunta (*)</label>
+                                <input type="text" class="form-control" id="question_text_${questionCount}" 
+                                        name="questions[${questionCount}][text]" required placeholder="Escribe la pregunta aquí">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="question_type_${questionCount}" class="form-label small fw-bold">Tipo de Respuesta (*)</label>
+                                <select class="form-select question-type-select" id="question_type_${questionCount}" 
+                                         name="questions[${questionCount}][type]" required>
+                                    <option value="texto">Texto Abierto</option>
+                                    <option value="escala_likert">Escala Likert (1-5)</option>
+                                    <option value="opcion_multiple">Opción Múltiple</option>
+                                    <option value="si_no">Sí/No</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="options-container mt-3" id="options_container_${questionCount}" style="display:none;">
+                            <label class="form-label small fw-bold text-muted">Opciones de Respuesta</label>
+                            ${createOptionInput(questionCount)} 
+                            <button type="button" class="btn btn-sm btn-outline-secondary add-option-btn"><i class="fa-solid fa-plus"></i> Agregar Opción</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            `;
+            questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
+        }
+
+        // Event listener para añadir pregunta
+        addQuestionBtn.addEventListener('click', addQuestion);
+
+        // Event listener para manejar la eliminación de preguntas y opciones
+        questionsContainer.addEventListener('click', function(e) {
+            
+            // Eliminar Pregunta
+            if (e.target.closest('.remove-question-btn')) {
+                const button = e.target.closest('.remove-question-btn');
+                const questionBlock = button.closest('.question-block');
+                questionBlock.remove();
+                // No es necesario reindexar en este esquema de naming (questions[count][...])
+            }
+            
+            // Agregar Opción (solo para Opción Múltiple)
+            if (e.target.closest('.add-option-btn')) {
+                const button = e.target.closest('.add-option-btn');
+                const questionBlock = button.closest('.question-block');
+                const qId = questionBlock.dataset.questionId;
+                
+                // Usa la función auxiliar para añadir el nuevo input antes del botón
+                button.insertAdjacentHTML('beforebegin', createOptionInput(qId));
+            }
+
+            // Eliminar Opción
+            if (e.target.closest('.remove-option-btn')) {
+                const button = e.target.closest('.remove-option-btn');
+                const optionsContainer = button.closest('.options-container');
+                const optionGroups = optionsContainer.querySelectorAll('.input-group.option-template');
+                
+                // CRITICAL FIX: Solo permite eliminar si quedan más de una opción.
+                if (optionGroups.length > 1) { 
+                    button.closest('.input-group').remove();
+                } else {
+                     alert("Debe haber al menos una opción de respuesta.");
+                }
+            }
+        });
+        
+        // Event listener para mostrar/ocultar opciones según el tipo de respuesta
+        questionsContainer.addEventListener('change', function(e) {
+            if (e.target.classList.contains('question-type-select')) {
+                const select = e.target;
+                const questionBlock = select.closest('.question-block');
+                const optionsContainer = questionBlock.querySelector('.options-container');
+                
+                if (select.value === 'opcion_multiple') {
+                    optionsContainer.style.display = 'block';
+                    // Asegurar que las opciones sean requeridas cuando se muestran
+                    optionsContainer.querySelectorAll('input[type="text"]').forEach(input => input.setAttribute('required', 'required'));
+                } else {
+                    optionsContainer.style.display = 'none';
+                    // Remover el atributo required cuando se ocultan
+                    optionsContainer.querySelectorAll('input[type="text"]').forEach(input => input.removeAttribute('required'));
+                }
+                
+                // Limpia el contenido si el tipo cambia a no-opción-múltiple, como buena práctica
+                if (select.value !== 'opcion_multiple') {
+                     const optionInputs = optionsContainer.querySelectorAll('input[type="text"]');
+                     // Mantener el input, pero vaciarlo
+                     optionInputs.forEach(input => input.value = ''); 
+                }
+            }
+        });
+
+        // Inicializar con una pregunta al cargar la página
+        addQuestion();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,340 @@
+/* ===========================================
+    Variables CSS
+    =========================================== */
+:root {
+    --color-blue-dark: #1e3a8a;
+    --color-blue-light: #eff6ff;
+    --color-gray-100: #ffffff;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-white: #ffffff;
+    --font-inter: 'Inter', sans-serif;
+}
+
+/* ===========================================
+    Estilos Generales y del Body
+    =========================================== */
+body {
+    font-family: var(--font-inter);
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ===========================================
+    Estilos de la Barra Lateral (Sidebar)
+    =========================================== */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(to bottom, #0067b5, #00a2e8, #0067b5);
+    color: var(--color-white);
+    transition: transform 0.3s ease-in-out;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.sidebar h1 {
+    font-weight: 700;
+}
+
+.sidebar .nav-link {
+    color: var(--color-white);
+    transition: all 0.2s ease-in-out;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: var(--color-white);
+    color: var(--color-blue-dark);
+}
+
+.sidebar .nav-link i {
+    font-size: 1.25rem;
+}
+
+/* Botones del submenú */
+.sidebar .btn-outline-light {
+    border: none;
+    color: var(--color-white);
+    transition: all 0.2s ease-in-out;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: left;
+}
+
+.sidebar .btn-outline-light:hover {
+    background-color: var(--color-white);
+    color: var(--color-blue-dark);
+}
+
+.sidebar .btn-outline-light:focus {
+    box-shadow: none;
+}
+
+/* Flechas submenús */
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+}
+
+.btn-outline-light[aria-expanded="true"] .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Submenú */
+.submenu .nav-link {
+    padding-left: 2.5rem !important;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.submenu .nav-link:hover {
+    background-color: var(--color-white);
+    color: var(--color-blue-dark) !important;
+}
+
+/* ===========================================
+    Estilos del Contenido Principal
+    =========================================== */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ebf9ff;
+}
+
+/* Barra de búsqueda */
+.form-control {
+    border-radius: 9999px;
+    padding-left: 3.5rem;
+    background-color: #ffffff !important; 
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: var(--color-blue-dark);
+    background-color: #ffffff !important; 
+}
+
+
+/* Iconos de cabecera */
+.nav-icons {
+    color: #00a2e8;
+}
+
+.hover-text-blue-dark {
+    transition: color 0.2s ease-in-out;
+}
+
+.hover-text-blue-dark:hover {
+    color: var(--color-blue-dark) !important;
+}
+
+/* ===========================================
+    Módulo de Novedades y Galería
+    =========================================== */
+.custom-card {
+    background-color: #deeafa; /* Azul muy claro */
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: none;
+    transition: transform 0.2s ease-in-out;
+}
+
+.custom-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Estilos para el dashboard de administrador */
+.custom-card .card-body i {
+    color: #0067b5; /* Azul corporativo */
+}
+
+.custom-card .fw-bold {
+    color: #1e3a8a;
+}
+
+/* Tarjetas de imágenes */
+.image-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.image-card:hover {
+    transform: scale(1.03);
+}
+
+/* ===========================================
+    Responsividad
+    =========================================== */
+@media (max-width: 767.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1060;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-header {
+        z-index: 1050;
+    }
+
+    .d-md-none {
+        display: block !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        position: static;
+        transform: translateX(0);
+    }
+
+    .page-content {
+        margin-left: 280px;
+    }
+
+    .d-md-none {
+        display: none !important;
+    }
+
+    /* Header */
+    .header {
+        background: linear-gradient(to bottom, #00a2e8, #0067b5);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    /* Notificaciones */
+    .notification-icon {
+        position: relative;
+        cursor: pointer;
+        margin-right: 15px;
+    }
+
+    .notification-count {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        font-size: 0.75rem;
+        padding: 0.35em 0.65em;
+        border-radius: 50%;
+    }
+
+    .profile-icon,
+    .logout-icon {
+        font-size: 1.2rem;
+    }
+
+    .profile-icon:hover,
+    .logout-icon:hover {
+        color: #c9e6ff !important;
+    }
+
+    /* Modal notificaciones */
+    .modal-content {
+        border-radius: 1rem !important;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--color-gray-light);
+        border-top-left-radius: 1rem !important;
+        border-top-right-radius: 1rem !important;
+    }
+
+    .modal-title {
+        color: var(--color-blue-dark);
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    /* Spinner */
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+        color: var(--color-blue-dark) !important;
+    }
+
+    /* Lista de notificaciones */
+    .notification-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--color-gray-light);
+        border-radius: 0.5rem;
+    }
+
+    .notification-item.read {
+        opacity: 0.6;
+    }
+
+    .notification-icon {
+        flex-shrink: 0;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        color: var(--color-blue-medium);
+    }
+
+    .notification-urgent .notification-icon {
+        color: #dc3545;
+    }
+
+    .notification-content {
+        flex-grow: 1;
+    }
+
+    .notification-title {
+        font-weight: 600;
+        color: var(--color-gray-dark);
+        margin-bottom: 0.25rem;
+    }
+
+    .notification-message {
+        color: var(--color-gray-500);
+        margin-bottom: 0.5rem;
+    }
+
+    .notification-date {
+        font-size: 0.8rem;
+        color: var(--color-gray-400);
+    }
+
+    .notification-unread {
+        background-color: var(--color-blue-light);
+        border-left: 4px solid var(--color-blue-dark);
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .notification-item.seen .notification-title,
+    .notification-item.seen .notification-message {
+        color: var(--color-gray-400);
+    }
+
+    /* Otros ajustes */
+    .card.bg-light {
+        background-color: var(--color-gray-100) !important;
+    }
+
+    .form-label.small {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--color-gray-500);
+    }
+
+    .d-inline-block.text-truncate {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

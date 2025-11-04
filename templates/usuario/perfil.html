@@ -1,0 +1,54 @@
+{% extends "base_vendedora.html" %} 
+{% block page_title %}Mi Perfil{% endblock %}
+{% block page_subtitle %}Información y configuración de tu cuenta.{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i> Detalles del Usuario</h5>
+                </div>
+                <div class="card-body">
+                    
+                    <h4 class="card-title fw-bold text-primary">
+                        {{ current_user.Nombres }} {{ current_user.Apellidos }}
+                    </h4>
+                    <p class="text-muted small">{{ current_user.NombreRol | default('Vendedora') }} | ID: {{ current_user.IdUsuario }}</p> 
+                    
+                    <hr>
+                    
+                    <dl class="row">
+                        <dt class="col-sm-4 text-muted">Documento:</dt>
+                        <dd class="col-sm-8">{{ current_user.TipoDocumento }}: {{ current_user.Documento }}</dd>
+
+                        <dt class="col-sm-4 text-muted">Correo Personal:</dt>
+                        <dd class="col-sm-8">{{ current_user.Correo | default('N/A') }}</dd>
+
+                        <dt class="col-sm-4 text-muted">Correo Corporativo:</dt>
+                        <dd class="col-sm-8">{{ current_user.CorreoCorporativo | default('N/A') }}</dd>
+                        
+                        <dt class="col-sm-4 text-muted">Teléfono:</dt>
+                        <dd class="col-sm-8">{{ current_user.Telefono | default('N/A') }}</dd>
+
+                        <dt class="col-sm-4 text-muted">Fecha de Nacimiento:</dt>
+                        <dd class="col-sm-8">{{ current_user.FechaNacimiento | default('N/A') }}</dd>
+                        
+                        <dt class="col-sm-4 text-muted">Fecha de Contratación:</dt>
+                        <dd class="col-sm-8">{{ current_user.FechaContratacion | default('N/A') }}</dd>
+                    </dl>
+                    
+                    <hr>
+                    
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ url_for('editar_perfil') }}" class="btn btn-warning me-2">
+                            <i class="fas fa-edit me-1"></i> Editar Perfil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Publicaciones en estado: Activa</h6>
+    </div>
+    <div class="card-body">
+        {% set publicaciones = publicaciones_activas %}
+        {% set estado_actual = 'Activa' %}
+        {% if publicaciones %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Fecha Publicación</th>
+                        <th>Vigencia</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for publicacion in publicaciones %}
+                    <tr>
+                        <td>{{ publicacion.Titulo }}</td>
+                        <td>{{ publicacion.Autor }}</td>
+                        <td>{{ publicacion.FechaPublicacion | default("Inmediata") }}</td>
+                        <td>{{ publicacion.FechaVigencia | default("Indefinida") }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" title="Editar" data-toggle="modal" data-target="#crearPublicacionModal" data-publicacion-id="{{ publicacion.IdPublicacion }}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <a href="{{ url_for('cambiar_estado_publicacion', id=publicacion.IdPublicacion, estado='Archivada') }}" class="btn btn-sm btn-secondary" title="Archivar">
+                                <i class="fas fa-archive"></i>
+                            </a>
+                            <button class="btn btn-sm btn-danger" title="Eliminar" onclick="confirmarEliminacion('{{ publicacion.IdPublicacion }}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            No hay publicaciones en estado **Activa** en este momento.
+        </div>
+        {% endif %}
+    </div>
+</div>

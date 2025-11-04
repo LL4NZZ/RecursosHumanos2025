@@ -1,0 +1,83 @@
+{% extends "base_vendedora.html" %} 
+{% block page_title %}Editar Perfil{% endblock %}
+{% block page_subtitle %}Actualiza tu información y contraseña.{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-warning text-white py-3">
+                    <h5 class="mb-0"><i class="fas fa-edit me-2"></i> Editar Mi Perfil</h5>
+                </div>
+                <div class="card-body">
+                    
+                    <form method="POST" action="{{ url_for('editar_perfil') }}">
+                        
+                        {# SOLUCIÓN 2: Añadir el token CSRF aquí #}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <h6 class="text-warning fw-bold mb-3">Información Personal</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombres" class="form-label">Nombres</label>
+                                <input type="text" class="form-control" id="nombres" name="nombres" 
+                                       value="{{ usuario.Nombres }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apellidos" class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" id="apellidos" name="apellidos" 
+                                       value="{{ usuario.Apellidos }}" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" name="telefono" 
+                                       value="{{ usuario.Telefono | default('') }}">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" 
+                                       value="{{ usuario.FechaNacimiento | default('') }}">
+                            </div>
+                        </div>
+
+                        <h6 class="text-warning fw-bold my-3">Correos Electrónicos</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="correo" class="form-label">Correo Personal</label>
+                                <input type="email" class="form-control" id="correo" name="correo" 
+                                       value="{{ usuario.Correo }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="correo_corporativo" class="form-label">Correo Corporativo</label>
+                                <input type="email" class="form-control" id="correo_corporativo" name="correo_corporativo" 
+                                       value="{{ usuario.CorreoCorporativo | default('') }}">
+                            </div>
+                        </div>
+                        
+                        <h6 class="text-warning fw-bold my-3">Cambiar Contraseña (Opcional)</h6>
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="contrasena" name="contrasena" 
+                                   placeholder="Déjalo vacío para no cambiarla">
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-success me-2">
+                                <i class="fas fa-save me-1"></i> Guardar Cambios
+                            </button>
+                            <a href="{{ url_for('perfil') }}" class="btn btn-secondary">
+                                <i class="fas fa-times me-1"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
