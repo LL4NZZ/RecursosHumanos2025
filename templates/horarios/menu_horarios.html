@@ -1,0 +1,60 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Gestión de Horarios{% endblock %}
+{% block page_title %}⏱️ Gestión de Horarios{% endblock %}
+{% block page_subtitle %}Gestiona y organiza los horarios laborales de cada usuario.{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <!-- MENU DE OPCIONES -->
+    <div class="row justify-content-center">
+
+        <!-- ✅ CREAR HORARIO -->
+        <div class="col-md-5">
+            <div class="card shadow-lg card-accion text-center p-4">
+                <i class="fa-solid fa-calendar-plus fa-4x text-primary mb-3"></i>
+
+                <h4 class="fw-bold mb-2">Crear Horario</h4>
+                <p class="text-muted">
+                    Registra un nuevo horario laboral para un usuario.
+                </p>
+
+                <a href="{{ url_for('add_horario') }}" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-plus me-2"></i> Agregar Horario
+                </a>
+            </div>
+        </div>
+
+        <!-- ✅ LISTADO DE HORARIOS -->
+        <div class="col-md-5">
+            <div class="card shadow-lg card-accion text-center p-4">
+                <i class="fa-solid fa-clock fa-4x text-success mb-3"></i>
+
+                <h4 class="fw-bold mb-2">Listado de Horarios</h4>
+                <p class="text-muted">
+                    Consulta, edita y administra los horarios registrados.
+                </p>
+
+                <a href="{{ url_for('lista_horarios') }}" class="btn btn-success w-100">
+                    <i class="fa-solid fa-list me-2"></i> Ver Horarios
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .card-accion {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        cursor: pointer;
+    }
+
+    .card-accion:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0.75rem 1.2rem rgba(0,0,0,.15);
+    }
+</style>
+{% endblock %}

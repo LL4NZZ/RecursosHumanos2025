@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'base_vendedora.html' %}
 
 {% block title %}Canal de Noticias{% endblock %}
@@ -65,62 +64,3 @@
     });
 </script>
 {% endblock %}
-=======
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Noticias</title>
-  <!-- CSS desde la carpeta static -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/canal.css') }}">
-</head>
-
-<body>
-
-  <header>
-    <h1>Gestión de Noticias</h1>
-  </header>
-
-  <section class="filtros">
-    <input type="text" id="buscar" placeholder="Buscar noticia...">
-    <input type="date" id="fechaFiltro">
-    <button onclick="filtrar()">Filtrar</button>
-    <button onclick="abrirModal()">Nueva Noticia</button>
-  </section>
-
-  <section class="kanban">
-    <div class="columna">
-      <h2>Noticias</h2>
-      <div id="lista-noticias"></div>
-    </div>
-  </section>
-
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-titulo">Nueva Noticia</h3>
-        <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
-      </div>
-      <form id="form-noticia">
-        <label>Título:</label>
-        <input type="text" id="titulo" required>
-
-        <label>Contenido:</label>
-        <textarea id="contenido" rows="4" required></textarea>
-
-        <label>Fecha de Publicación:</label>
-        <input type="date" id="fecha_publicacion" required>
-
-        <button type="submit" class="btn btn-aprobar">Guardar</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- JS desde la carpeta static -->
-  <script src="{{ url_for('static', filename='js/canal.js') }}"></script>
-</body>
-
-</html>
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757

@@ -1,0 +1,132 @@
+:root {
+    --azul: #007bff;
+    --gris-claro: #f4f6f8;
+    --texto: #333;
+    --blanco: #fff;
+    --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: var(--gris-claro);
+    color: var(--texto);
+}
+
+header {
+    background: var(--azul);
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    box-shadow: var(--sombra);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+header p {
+    margin-top: 0.3rem;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--sombra);
+}
+
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+#filtro {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.notificacion {
+    background: #f8f9fa;
+    border-left: 5px solid var(--azul);
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notificacion:hover {
+    transform: scale(1.02);
+    box-shadow: var(--sombra);
+}
+
+.notificacion h3 {
+    margin: 0;
+    color: var(--azul);
+}
+
+.fecha {
+    font-size: 0.85rem;
+    color: gray;
+    margin-top: 0.5rem;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--blanco);
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--sombra);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.btn-cerrar {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

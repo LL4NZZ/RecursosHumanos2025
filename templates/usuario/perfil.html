@@ -1,48 +1,63 @@
-{% extends "base_vendedora.html" %} 
+{% extends base_template %}
 {% block page_title %}Mi Perfil{% endblock %}
-{% block page_subtitle %}Información y configuración de tu cuenta.{% endblock %}
+{% block page_subtitle %}Información general y configuración de tu cuenta personal de la empresa.{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white py-3">
-                    <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i> Detalles del Usuario</h5>
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <!-- Encabezado con fondo -->
+                <div class="bg-primary text-white p-4 d-flex align-items-center">
+                    <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center me-3" 
+                         style="width:70px; height:70px; font-size:2rem;">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <h3 class="mb-0 fw-bold">{{ current_user.Nombres }} {{ current_user.Apellidos }}</h3>
+                        <p class="mb-0 small">
+                            <span class="badge bg-light text-primary me-1">{{ current_user.NombreRol or 'Usuario' }}</span>
+                            ID: {{ current_user.IdUsuario }}
+                        </p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    
-                    <h4 class="card-title fw-bold text-primary">
-                        {{ current_user.Nombres }} {{ current_user.Apellidos }}
-                    </h4>
-                    <p class="text-muted small">{{ current_user.NombreRol | default('Vendedora') }} | ID: {{ current_user.IdUsuario }}</p> 
-                    
+
+                <!-- Cuerpo -->
+                <div class="card-body bg-white">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted"><i class="fa-solid fa-id-card me-2"></i><strong>Documento:</strong></p>
+                            <p>{{ current_user.TipoDocumento }} {{ current_user.Documento }}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted"><i class="fa-solid fa-phone me-2"></i><strong>Teléfono:</strong></p>
+                            <p>{{ current_user.Telefono or 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted"><i class="fa-solid fa-envelope me-2"></i><strong>Correo Personal:</strong></p>
+                            <p>{{ current_user.Correo or 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted"><i class="fa-solid fa-building me-2"></i><strong>Correo Corporativo:</strong></p>
+                            <p>{{ current_user.CorreoCorporativo or 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted"><i class="fa-solid fa-cake-candles me-2"></i><strong>Fecha de Nacimiento:</strong></p>
+                            <p>{{ current_user.FechaNacimiento or 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted"><i class="fa-solid fa-calendar-check me-2"></i><strong>Fecha de Contratación:</strong></p>
+                            <p>{{ current_user.FechaContratacion or 'N/A' }}</p>
+                        </div>
                     <hr>
-                    
-                    <dl class="row">
-                        <dt class="col-sm-4 text-muted">Documento:</dt>
-                        <dd class="col-sm-8">{{ current_user.TipoDocumento }}: {{ current_user.Documento }}</dd>
 
-                        <dt class="col-sm-4 text-muted">Correo Personal:</dt>
-                        <dd class="col-sm-8">{{ current_user.Correo | default('N/A') }}</dd>
-
-                        <dt class="col-sm-4 text-muted">Correo Corporativo:</dt>
-                        <dd class="col-sm-8">{{ current_user.CorreoCorporativo | default('N/A') }}</dd>
-                        
-                        <dt class="col-sm-4 text-muted">Teléfono:</dt>
-                        <dd class="col-sm-8">{{ current_user.Telefono | default('N/A') }}</dd>
-
-                        <dt class="col-sm-4 text-muted">Fecha de Nacimiento:</dt>
-                        <dd class="col-sm-8">{{ current_user.FechaNacimiento | default('N/A') }}</dd>
-                        
-                        <dt class="col-sm-4 text-muted">Fecha de Contratación:</dt>
-                        <dd class="col-sm-8">{{ current_user.FechaContratacion | default('N/A') }}</dd>
-                    </dl>
-                    
-                    <hr>
-                    
                     <div class="d-flex justify-content-end">
-                        <a href="{{ url_for('editar_perfil') }}" class="btn btn-warning me-2">
+                        <a href="{{ url_for('editar_perfil') }}" class="btn btn-warning">
                             <i class="fas fa-edit me-1"></i> Editar Perfil
                         </a>
                     </div>

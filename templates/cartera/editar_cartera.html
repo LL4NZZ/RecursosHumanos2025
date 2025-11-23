@@ -1,0 +1,66 @@
+{% extends "base_vendedora.html" %}
+{% block title %}Editar Cartera{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editar_cartera.css') }}">
+
+<div class="container my-5 d-flex justify-content-center">
+    <div class="form-card shadow rounded-4 p-5">
+
+        <h3 class="fw-bold mb-4 text-center">Editar Cartera</h3>
+
+        <form action="{{ url_for('editar_cartera', id_cartera=cartera.IdCartera) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Usuario asignado</label>
+                <select name="IdUsuario" class="form-select custom-input" required>
+                    {% for u in usuarios %}
+                        <option value="{{ u.IdUsuario }}"
+                            {% if u.IdUsuario == cartera.IdUsuario %}selected{% endif %}>
+                            {{ u.Nombres }} {{ u.Apellidos }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Nombre del Contacto</label>
+                    <input type="text" name="NombreContacto" value="{{ cartera.NombreContacto }}"
+                           class="form-control custom-input" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Teléfono</label>
+                    <input type="text" name="TelefonoContacto" value="{{ cartera.TelefonoContacto }}"
+                           class="form-control custom-input" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Correo</label>
+                    <input type="email" name="CorreoContacto" value="{{ cartera.CorreoContacto }}"
+                           class="form-control custom-input" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Fecha de Asignación</label>
+                    <input type="datetime-local" name="FechaAsignacion"
+                           value="{{ cartera.FechaAsignacion|replace(' ', 'T') }}"
+                           class="form-control custom-input" required>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-end">
+                <a href="{{ url_for('listar_carteras') }}" class="btn btn-secondary me-2">Cancelar</a>
+                <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 /* ===========================================
+/* ===========================================
     Variables CSS
     =========================================== */
 :root {
@@ -167,6 +168,49 @@ body {
 
 .image-card:hover {
     transform: scale(1.03);
+}
+
+.alert {
+    border-radius: 0.75rem !important;
+    padding: 1rem 1.25rem !important;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ✅ Éxito */
+.alert-success {
+    background-color: #d1f2e4 !important;
+    border-left: 6px solid #0f8d61 !important;
+    color: #0f5132 !important;
+}
+
+/* ✅ Error */
+.alert-danger {
+    background-color: #fde2e0 !important;
+    border-left: 6px solid #b02a37 !important;
+    color: #842029 !important;
+}
+
+/* ✅ Información */
+.alert-info {
+    background-color: #d8ecff !important;
+    border-left: 6px solid #1e3a8a !important;
+    color: #0c3c78 !important;
+}
+
+/* ✅ Advertencia */
+.alert-warning {
+    background-color: #fff3cd !important;
+    border-left: 6px solid #d39e00 !important;
+    color: #664d03 !important;
+}
+
+/* Botón de cierre */
+.alert .btn-close {
+    filter: invert(40%);
 }
 
 /* ===========================================

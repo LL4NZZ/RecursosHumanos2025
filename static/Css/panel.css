@@ -1,0 +1,54 @@
+/* ==========================
+   Estilos Panel Contadora
+   ========================== */
+
+.header {
+    background: linear-gradient(to bottom, #00a2e8, #0067b5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Filtros estilizados */
+.card .form-control,
+.card .form-select {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.card .btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.table th {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-sm {
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.6em;
+}
+
+/* Hover fila tabla */
+.table-hover tbody tr:hover {
+    background-color: #f8f9ff;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Acciones con hover mejorado */
+.btn-outline-primary:hover,
+.btn-outline-success:hover,
+.btn-outline-info:hover {
+    transform: scale(1.05);
+}

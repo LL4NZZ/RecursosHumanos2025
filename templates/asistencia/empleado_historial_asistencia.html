@@ -1,44 +1,140 @@
-{% extends 'base_vendedora.html' %}
+{% extends base_template %}
 
 {% block title %}Historial de Asistencia{% endblock %}
-
 {% block page_title %}Historial de Asistencia{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="card shadow p-4">
-        <h3 class="text-center mb-4">Mis Registros de Horario</h3>
+    <div class="card border-0 shadow rounded-4">
+        <div class="card-body p-4">
+            <h4 class="text-center fw-bold text-primary mb-4">
+                <i class="fa-solid fa-rotate-left me-2"></i> Mis Registros de Asistencia
+            </h4>
 
-        {% if historial %}
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="bg-blue-dark text-white">
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                        <th>Descanso (min)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for registro in historial %}
-                    <tr>
-                        <td>{{ registro.Fecha }}</td>
-                        <td>{{ registro.HoraEntrada }}</td>
-                        <td>{{ registro.HoraSalida if registro.HoraSalida else 'N/A' }}</td>
-                        <td>{{ registro.Descanso if registro.Descanso else '0' }}</td>
-                        <td>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% if historial %}
+            <div class="table-responsive">
+                <table class="table align-middle text-center">
+                    <thead class="table-light text-primary fw-semibold">
+                        <tr>
+                            <th>📅 Fecha</th>
+                            <th>⏰ Entrada</th>
+                            <th>☕ Inicio Descanso</th>
+                            <th>🍽 Fin Descanso</th>
+                            <th>🕒 Total Descanso (min)</th>
+                            <th>🏁 Salida</th>
+                            <th>📋 Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registro in historial %}
+                        <tr>
+                            <!-- Fecha -->
+                            <td>{{ registro.Fecha.strftime("%d/%m/%Y") }}</td>
+
+                            <!-- Entrada -->
+                            <td>
+                                {% if registro.HoraEntrada %}
+                                    {{ registro.HoraEntrada.strftime("%I:%M %p") }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Inicio Descanso -->
+                            <td>
+                                {% if registro.HoraInicioDescanso %}
+                                    {{ registro.HoraInicioDescanso.strftime("%I:%M %p") }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Fin Descanso -->
+                            <td>
+                                {% if registro.HoraFinDescanso %}
+                                    {{ registro.HoraFinDescanso.strftime("%I:%M %p") }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Duración del descanso -->
+                            <td>
+                                {% if registro.Descanso %}
+                                    {{ registro.Descanso }} min
+                                {% else %}
+                                    <span class="text-muted">0 min</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Salida -->
+                            <td>
+                                {% if registro.HoraSalida %}
+                                    {{ registro.HoraSalida.strftime("%I:%M %p") }}
+                                {% else %}
+                                    <span class="text-muted">—</span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Estado -->
+                            <td>
+                                {% if registro.Estado == 'Descanso' %}
+                                    <span class="badge bg-info text-dark">Descanso</span>
+                                {% elif registro.Estado == 'Finalizado' %}
+                                    <span class="badge bg-success">Finalizado</span>
+                                {% elif registro.Estado == 'A tiempo' %}
+                                    <span class="badge bg-primary">A tiempo</span>
+                                {% elif registro.Estado == 'Tarde' %}
+                                    <span class="badge bg-warning text-dark">Tarde</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Pendiente</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center mb-0">
+                No hay registros de asistencia disponibles.
+            </div>
+            {% endif %}
         </div>
-        {% else %}
-        <div class="alert alert-info text-center">
-            No hay registros de asistencia disponibles.
-        </div>
-        {% endif %}
     </div>
 </div>
+
+<style>
+.card {
+    border-radius: 1rem;
+    background-color: #fff;
+}
+th {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+td {
+    font-size: 0.9rem;
+}
+.table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+.table tr {
+    background-color: #f8f9fa;
+    border-radius: 0.75rem;
+}
+.table td:first-child {
+    border-top-left-radius: 0.75rem;
+    border-bottom-left-radius: 0.75rem;
+}
+.table td:last-child {
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+.badge {
+    font-size: 0.75rem;
+    padding: 0.4em 0.6em;
+}
+</style>
 {% endblock %}

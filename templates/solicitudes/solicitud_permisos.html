@@ -1,68 +1,79 @@
-<<<<<<< HEAD
-{% extends 'base_vendedora.html' %}
-=======
-{% extends 'base_empleado.html' %}
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+{% extends base_template %}
 {% block title %}Enviar Solicitud{% endblock %}
-{% block page_title %}Enviar Solicitud{% endblock %}
 {% block content %}
-<div class="card shadow p-4">
-    <h3 class="fw-bold mb-4">✍️ Enviar Solicitud de Permiso</h3>
-<<<<<<< HEAD
-<form action="{{ url_for('enviar_solicitudes_proceso') }}" method="POST" enctype="multipart/form-data">
-=======
-    <form action="{{ url_for('enviar_solicitudes') }}" method="POST" enctype="multipart/form-data">
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        
-        <div class="mb-3">
-            <label for="id_tipo_solicitud" class="form-label">Tipo de Solicitud</label>
-            <select class="form-select" id="id_tipo_solicitud" name="id_tipo_solicitud" required>
-                <option value="" selected disabled>Seleccione...</option>
-                <option value="1">Vacaciones</option>
-                <option value="2">Permiso Personal</option>
-                <option value="3">Permiso Médico</option>
-                <option value="4">Capacitación</option>
-                <option value="5">Maternidad/Paternidad</option>
-                <option value="6">Luto</option>
-                <option value="7">Estudio</option>
-                <option value="8">Otro</option>
-            </select>
+<div class="container mt-4">
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-header bg-primary text-white py-3 text-center">
+            <h3 class="fw-semibold mb-0">✍️ Enviar Solicitud de Permiso</h3>
         </div>
-        
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="hora_inicio" class="form-label">Hora de Inicio</label>
-                <input type="time" class="form-control" id="hora_inicio" name="hora_inicio">
-            </div>
-        </div>
+        <div class="card-body p-4 bg-light">
+            <form action="{{ url_for('enviar_solicitudes_proceso') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="fecha_fin" class="form-label">Fecha de Fin</label>
-                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="hora_fin" class="form-label">Hora de Fin</label>
-                <input type="time" class="form-control" id="hora_fin" name="hora_fin">
-            </div>
-        </div>
-        
-        <div class="mb-3">
-            <label for="justificacion" class="form-label">Justificación</label>
-            <textarea class="form-control" id="justificacion" name="justificacion" rows="4" required></textarea>
-        </div>
+                <!-- Tipo de Solicitud -->
+                <div class="mb-3">
+                    <label for="id_tipo_solicitud" class="form-label fw-semibold">Tipo de Solicitud</label>
+                    <select class="form-select rounded-pill shadow-sm" id="id_tipo_solicitud" name="id_tipo_solicitud"
+                        required>
+                        <option value="" selected disabled>Seleccione...</option>
+                        <option value="1">Vacaciones</option>
+                        <option value="2">Permiso Personal</option>
+                        <option value="3">Permiso Médico</option>
+                        <option value="4">Capacitación</option>
+                        <option value="5">Maternidad/Paternidad</option>
+                        <option value="6">Luto</option>
+                        <option value="7">Estudio</option>
+                        <option value="8">Otro</option>
+                    </select>
+                </div>
 
-        <div class="mb-3">
-            <label for="adjunto" class="form-label">Adjuntar comprobante (Opcional)</label>
-            <input class="form-control" type="file" id="adjunto" name="adjunto">
-        </div>
+                <!-- Fechas y Horas -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="fecha_inicio" class="form-label fw-semibold">Fecha de Inicio</label>
+                        <input type="date" class="form-control rounded-pill shadow-sm" id="fecha_inicio"
+                            name="fecha_inicio" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="hora_inicio" class="form-label fw-semibold">Hora de Inicio</label>
+                        <input type="time" class="form-control rounded-pill shadow-sm" id="hora_inicio"
+                            name="hora_inicio">
+                    </div>
+                </div>
 
-        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
-    </form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="fecha_fin" class="form-label fw-semibold">Fecha de Fin</label>
+                        <input type="date" class="form-control rounded-pill shadow-sm" id="fecha_fin" name="fecha_fin"
+                            required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="hora_fin" class="form-label fw-semibold">Hora de Fin</label>
+                        <input type="time" class="form-control rounded-pill shadow-sm" id="hora_fin" name="hora_fin">
+                    </div>
+                </div>
+
+                <!-- Justificación -->
+                <div class="mb-3">
+                    <label for="justificacion" class="form-label fw-semibold">Justificación</label>
+                    <textarea class="form-control shadow-sm rounded-4" id="justificacion" name="justificacion" rows="4"
+                        required></textarea>
+                </div>
+
+                <!-- Adjunto -->
+                <div class="mb-4">
+                    <label for="adjunto" class="form-label fw-semibold">Adjuntar comprobante (Opcional)</label>
+                    <input class="form-control shadow-sm rounded-pill" type="file" id="adjunto" name="adjunto">
+                </div>
+
+                <!-- Botón -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow-sm">
+                        <i class="fa-solid fa-paper-plane me-2"></i>Enviar Solicitud
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

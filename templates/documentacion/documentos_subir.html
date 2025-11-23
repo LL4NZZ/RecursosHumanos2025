@@ -1,0 +1,41 @@
+{% extends base_template %}
+
+{% block page_title %}Subir Nuevo Documento{% endblock %}
+{% block page_subtitle %}Carga un archivo y clasifícalo correctamente.{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-lg p-4 col-lg-8 mx-auto">
+
+    <form action="{{ url_for('subir_documento') }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Tipo de Documento</label>
+            <select name="tipo" class="form-select" required>
+                <option value="">Seleccionar...</option>
+                <option>Hoja de vida</option>
+                <option>Contrato</option>
+                <option>Certificado</option>
+                <option>Capacitación</option>
+                <option>Seguridad Social</option>
+                <option>Otros</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Seleccionar Archivo</label>
+            <input type="file" name="archivo" class="form-control" 
+                accept=".pdf,.doc,.docx,.xlsx,.jpg,.png" required>
+            <small class="text-muted">Formatos permitidos: PDF, DOCX, XLSX, JPG, PNG</small>
+        </div>
+
+        <div class="text-end">
+            <a href="{{ url_for('documentos_menu') }}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Subir Documento</button>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

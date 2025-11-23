@@ -4,52 +4,165 @@
 
 {% block content %}
 <div class="container-fluid py-4">
-    <div class="card p-4">
+
+    <div class="card p-4 custom-card">
+
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="m-0 fw-bold">👥 Gestión de Usuarios</h3>
+            <h3 class="m-0 fw-bold">👥 Listado de Usuarios</h3>
         </div>
-        
+
+        <!-- ✅ FILTROS -->
+        <div class="card shadow-sm mb-4 custom-card">
+            <div class="card-body">
+
+                <div class="row g-3 align-items-end">
+
+                    <!-- Buscar nombre -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Nombre o Apellido</label>
+                        <input type="text" id="filtroNombre" class="form-control"
+                            placeholder="Buscar por nombre o apellido">
+                    </div>
+
+                    <!-- Filtro por rol -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Rol</label>
+                        <select id="filtroRol" class="form-select">
+                            <option value="">Todos</option>
+                            {% for rol in roles %}
+                            <option value="{{ rol.IdRol }}">{{ rol.NombreRol }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="col-md-4 d-flex gap-2">
+                        <button type="button" class="btn btn-primary w-50" id="btnBuscar">🔍 Buscar</button>
+                        <button type="button" class="btn btn-secondary w-50" id="btnLimpiar">🧽 Limpiar</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ✅ TABLA -->
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
+            <table id="tablaUsuarios" class="table table-striped table-hover align-middle">
                 <thead class="bg-dark text-white">
                     <tr>
-<<<<<<< HEAD
-=======
-                        <th scope="col">ID</th>
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-                        <th scope="col">Nombres</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">Documento</th>
-                        <th scope="col">Correo</th>
-                        <th scope="col">Rol</th>
-                        <th scope="col" class="text-center">Acciones</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Documento</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {% for usuario in usuarios %}
-                    <tr>
-<<<<<<< HEAD
-=======
-                        <th scope="row">{{ usuario.IdUsuario }}</th>
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-                        <td>{{ usuario.Nombres }}</td>
-                        <td>{{ usuario.Apellidos }}</td>
+                    <tr data-rol="{{ usuario.IdRol }}">
+                        <td class="col-nombre">{{ usuario.Nombres }}</td>
+                        <td class="col-apellido">{{ usuario.Apellidos }}</td>
                         <td>{{ usuario.Documento }}</td>
                         <td>{{ usuario.Correo }}</td>
-                        <td>{{ usuario.IdRol }}</td>
+
+                        <td>
+                            <!-- Select para cambiar rol -->
+                            <form action="{{ url_for('cambiar_rol', id=usuario.IdUsuario) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <select name="idRol" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    {% for rol in roles %}
+                                    <option value="{{ rol.IdRol }}" 
+                                            {% if usuario.IdRol == rol.IdRol %}selected{% endif %}>
+                                        {{ rol.NombreRol }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </td>
+
                         <td class="text-center">
-                            <a href="{{ url_for('edit_usuario', id=usuario.IdUsuario) }}" class="btn btn-warning btn-sm">
+
+                            <a href="{{ url_for('edit_usuario', id=usuario.IdUsuario) }}"
+                                class="btn btn-warning btn-sm">
                                 <i class="fa-solid fa-edit"></i>
                             </a>
-                            <a href="{{ url_for('delete_usuario', id=usuario.IdUsuario) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
-                                <i class="fa-solid fa-trash"></i>
+
+                            {% if usuario.Estado == 1 %}
+                            <a href="{{ url_for('desactivar_usuario', id=usuario.IdUsuario) }}"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('❗ ¿Deseas desactivar este usuario?')">
+                                <i class="fa-solid fa-user-slash"></i>
                             </a>
+
+                            {% else %}
+                            <a href="{{ url_for('activar_usuario', id=usuario.IdUsuario) }}"
+                                class="btn btn-success btn-sm"
+                                onclick="return confirm('✅ ¿Deseas activar este usuario?')">
+                                <i class="fa-solid fa-user-check"></i>
+                            </a>
+                            {% endif %}
+
                         </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const inputNombre = document.getElementById("filtroNombre");
+    const selectRol = document.getElementById("filtroRol");
+    const btnBuscar = document.getElementById("btnBuscar");
+    const btnLimpiar = document.getElementById("btnLimpiar");
+
+    const filas = document.querySelectorAll("#tablaUsuarios tbody tr");
+
+    function normalizar(txt) {
+        return (txt || "").toLowerCase().trim();
+    }
+
+    function filtrar() {
+        const filtroNombre = normalizar(inputNombre.value);
+        const filtroRol = selectRol.value;
+
+        filas.forEach(f => {
+            const nombre = normalizar(f.querySelector(".col-nombre").textContent);
+            const apellido = normalizar(f.querySelector(".col-apellido").textContent);
+            const rolFila = f.getAttribute("data-rol");
+
+            const coincideNombre =
+                nombre.includes(filtroNombre) ||
+                apellido.includes(filtroNombre);
+
+            const coincideRol =
+                filtroRol === "" || filtroRol === rolFila;
+
+            f.style.display = (coincideNombre && coincideRol) ? "" : "none";
+        });
+    }
+
+    btnBuscar.addEventListener("click", filtrar);
+    inputNombre.addEventListener("input", filtrar);
+    selectRol.addEventListener("change", filtrar);
+
+    btnLimpiar.addEventListener("click", () => {
+        inputNombre.value = "";
+        selectRol.value = "";
+        filtrar();
+    });
+
+});
+</script>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %} 
+{% extends 'base_admin.html' %}
 
 {% block title %}Gestión de Denuncias{% endblock %}
 {% block page_title %}🚨 Gestión de Denuncias{% endblock %}
@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container-fluid">
-    
+
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Denuncias Recibidas ({{ denuncias | length }} Registros)</h5>
@@ -18,48 +18,51 @@
                     <thead class="table-light">
                         <tr>
                             <th style="width: 5%;">ID</th>
-                            <th style="width: 20%;">Usuario Reportado</th> 
+                            <th style="width: 20%;">Usuario Reportado</th>
                             <th style="width: 15%;">Fecha Denuncia</th>
                             <th style="width: 40%;">Motivo/Descripción</th>
                             <th class="text-center" style="width: 20%;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for d in denuncias %}
+                        {% for d in denuncias %}
                         <tr>
                             <td>{{ d.IdDenuncia }}</td>
-                            
+
                             <td>
                                 {% if d.Nombres is defined and d.Apellidos is defined %}
-                                    {{ d.Nombres }} {{ d.Apellidos }}
+                                {{ d.Nombres }} {{ d.Apellidos }}
                                 {% else %}
-                                    ID: {{ d.IdUsuarioReportado }}
+                                ID: {{ d.IdUsuarioReportado }}
                                 {% endif %}
                             </td>
-                            
+
                             <td>{{ d.FechaDenuncia }}</td>
                             <td>
                                 {{ d.Descripcion | truncate(80) }}
                             </td>
                             <td class="text-center">
-                                <a href="{{ url_for('ver_denuncia', id=d.IdDenuncia) }}" class="btn btn-info btn-sm me-1" title="Ver Detalles">
+                                <a href="{{ url_for('ver_denuncia', id=d.IdDenuncia) }}"
+                                    class="btn btn-info btn-sm me-1" title="Ver Detalles">
                                     <i class="fa-solid fa-eye"></i> Ver
                                 </a>
-                                
-                                <a href="{{ url_for('resolver_denuncia', id=d.IdDenuncia) }}" class="btn btn-success btn-sm" 
-                                   onclick="return confirm('¿Confirma que desea MARCAR esta denuncia como RESUELTA?')" 
-                                   title="Marcar como Resuelta">
+
+                                <a href="{{ url_for('resolver_denuncia', id=d.IdDenuncia) }}"
+                                    class="btn btn-success btn-sm"
+                                    onclick="return confirm('¿Confirma que desea MARCAR esta denuncia como RESUELTA?')"
+                                    title="Marcar como Resuelta">
                                     <i class="fa-solid fa-check"></i> Resolver
                                 </a>
                             </td>
                         </tr>
-                    {% else %}
+                        {% else %}
                         <tr>
                             <td colspan="5" class="text-center py-4">
-                                <i class="fa-solid fa-bell-slash me-2"></i> No hay denuncias pendientes o no se encontraron registros.
+                                <i class="fa-solid fa-bell-slash me-2"></i> No hay denuncias pendientes o no se
+                                encontraron registros.
                             </td>
                         </tr>
-                    {% endfor %}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

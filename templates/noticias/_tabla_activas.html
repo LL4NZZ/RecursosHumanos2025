@@ -1,49 +1,58 @@
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Publicaciones en estado: Activa</h6>
-    </div>
-    <div class="card-body">
-        {% set publicaciones = publicaciones_activas %}
-        {% set estado_actual = 'Activa' %}
-        {% if publicaciones %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Autor</th>
-                        <th>Fecha Publicación</th>
-                        <th>Vigencia</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for publicacion in publicaciones %}
-                    <tr>
-                        <td>{{ publicacion.Titulo }}</td>
-                        <td>{{ publicacion.Autor }}</td>
-                        <td>{{ publicacion.FechaPublicacion | default("Inmediata") }}</td>
-                        <td>{{ publicacion.FechaVigencia | default("Indefinida") }}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" title="Editar" data-toggle="modal" data-target="#crearPublicacionModal" data-publicacion-id="{{ publicacion.IdPublicacion }}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <a href="{{ url_for('cambiar_estado_publicacion', id=publicacion.IdPublicacion, estado='Archivada') }}" class="btn btn-sm btn-secondary" title="Archivar">
-                                <i class="fas fa-archive"></i>
-                            </a>
-                            <button class="btn btn-sm btn-danger" title="Eliminar" onclick="confirmarEliminacion('{{ publicacion.IdPublicacion }}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+
+        {% if publicaciones_activas %}
+        <table class="table table-hover table-striped align-middle mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Fecha Publicación</th>
+                    <th>Fecha Vigencia</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in publicaciones_activas %}
+                <tr>
+                    <td class="fw-semibold">{{ p.Titulo }}</td>
+                    <td>{{ p.Autor }}</td>
+                    <td>{{ p.FechaPublicacion or "Inmediata" }}</td>
+                    <td>{{ p.FechaVigencia or "Indefinida" }}</td>
+
+                    <td class="text-center">
+
+                        <!-- EDITAR -->
+                        <button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal"
+                            data-bs-target="#crearPublicacionModal" data-publicacion-id="{{ p.IdNoticia }}"
+                            data-publicacion-estado="{{ p.Estado }}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                        <!-- ARCHIVAR -->
+                        <a href="{{ url_for('cambiar_estado_publicacion', id=p.IdNoticia, estado='Archivada') }}"
+                            class="btn btn-secondary btn-sm me-1"
+                            onclick="return confirm('¿Mover esta publicación a Archivadas?');">
+                            <i class="fas fa-box-archive"></i>
+                        </a>
+
+                        <!-- ELIMINAR -->
+                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion('{{ p.IdNoticia }}')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
         {% else %}
-        <div class="alert alert-info text-center">
-            No hay publicaciones en estado **Activa** en este momento.
+        <div class="alert alert-info m-3 text-center">
+            No hay publicaciones activas en este momento.
         </div>
         {% endif %}
+
     </div>
 </div>

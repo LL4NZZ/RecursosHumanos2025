@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +10,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
   <!-- Header -->
   <header class="d-flex justify-content-between align-items-center">
@@ -20,6 +22,44 @@
   <div class="container">
     <main class="panel">
       <h4 class="mb-4">Lista de Usuarios</h4>
+      <!-- ✅ FILTROS DE BÚSQUEDA -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+          <div class="row g-3 align-items-end">
+
+            <!-- Filtro nombre/apellido -->
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Nombre o Apellido</label>
+              <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre o apellido">
+            </div>
+
+            <!-- Filtro rol -->
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Rol</label>
+              <select id="filtroRol" class="form-select">
+                <option value="">Todos</option>
+                {% for rol in roles %}
+                <option value="{{ rol.IdRol }}">{{ rol.NombreRol }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- Botones -->
+            <div class="col-md-4 d-flex gap-2">
+              <button class="btn btn-primary w-50" id="btnBuscar">
+                🔍 Buscar
+              </button>
+
+              <button class="btn btn-secondary w-50" id="btnLimpiar">
+                🧽 Limpiar
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
       <div class="table-responsive">
         <table class="table table-striped align-middle">
           <thead class="table-primary">
@@ -53,8 +93,10 @@
               <td>{{ usuario.FechaNacimiento }}</td>
               <td>{{ usuario.Telefono }}</td>
               <td>
-                <a href="{{ url_for('editar_usuario', id=usuario.IdUsuario) }}" class="btn btn-warning btn-sm">✏ Editar</a>
-                <a href="{{ url_for('eliminar_usuario', id=usuario.IdUsuario) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">🗑 Eliminar</a>
+                <a href="{{ url_for('editar_usuario', id=usuario.IdUsuario) }}" class="btn btn-warning btn-sm">✏
+                  Editar</a>
+                <a href="{{ url_for('eliminar_usuario', id=usuario.IdUsuario) }}" class="btn btn-danger btn-sm"
+                  onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">🗑 Eliminar</a>
               </td>
             </tr>
             {% endfor %}
@@ -65,5 +107,45 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const inputNombre = document.getElementById("filtroNombre");
+      const selectRol = document.getElementById("filtroRol");
+      const btnBuscar = document.getElementById("btnBuscar");
+      const btnLimpiar = document.getElementById("btnLimpiar");
+
+      function filtrar() {
+        const nombre = inputNombre.value.toLowerCase();
+        const rol = selectRol.value;
+
+        const filas = document.querySelectorAll("table tbody tr");
+
+        filas.forEach(fila => {
+          const colNombre = fila.children[2].textContent.toLowerCase();
+          const colApellido = fila.children[3].textContent.toLowerCase();
+          const colRol = fila.children[1].textContent.trim();
+
+          let coincideNombre = colNombre.includes(nombre) || colApellido.includes(nombre);
+          let coincideRol = rol === "" || colRol === rol;
+
+          fila.style.display = (coincideNombre && coincideRol) ? "" : "none";
+        });
+      }
+
+      btnBuscar.addEventListener("click", filtrar);
+
+      btnLimpiar.addEventListener("click", () => {
+        inputNombre.value = "";
+        selectRol.value = "";
+        filtrar();
+      });
+
+    });
+  </script>
+
+
 </body>
+
 </html>

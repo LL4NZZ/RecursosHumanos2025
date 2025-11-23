@@ -1,0 +1,138 @@
+{% extends "base_contadora.html" %}
+
+{% block title %}Comprobantes de Pago{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contadora/cobrador.css') }}">
+
+<main class="container py-4">
+
+    <!-- Info Pedido -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold">Pedido #{{ pedido.NumeroPedido }}</h5>
+            <p class="mb-1"><strong>Cliente:</strong> {{ pedido.ClienteNombre }}</p>
+            <p class="mb-0"><strong>Vendedora:</strong> {{ pedido.VendedoraNombre }}</p>
+        </div>
+    </div>
+
+    <!-- Registrar nuevo comprobante -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3">Registrar nuevo comprobante</h5>
+            <form action="{{ url_for('guardar_comprobante') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="IdPedido" value="{{ pedido.IdPedido }}">
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Monto Pagado</label>
+                        <input type="number" class="form-control" name="MontoPagado" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha Pago</label>
+                        <input type="date" class="form-control" name="FechaPago" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Método de Pago</label>
+                        <select class="form-select" name="MetodoPago" required>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label">Archivo Adjunto</label>
+                        <input type="file" class="form-control" name="ArchivoAdjunto" accept=".pdf,.jpg,.jpeg,.png">
+                    </div>
+                </div>
+
+                <div class="mt-3 text-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla Comprobantes -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Monto</th>
+                        <th>Fecha Pago</th>
+                        <th>Método</th>
+                        <th>Archivo</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if comprobantes %}
+                    {% for c in comprobantes %}
+                    <tr>
+                        <td>{{ c.IdComprobante }}</td>
+                        <td>${{ "{:,.2f}".format(c.MontoPagado) }}</td>
+                        <td>{{ c.FechaPago.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ c.MetodoPago }}</td>
+                        <td>
+                            {% if c.ArchivoAdjunto %}
+                            <a href="{{ url_for('static', filename='uploads/comprobantes/' + c.ArchivoAdjunto) }}"
+                                target="_blank">Ver archivo</a>
+                            {% else %}
+                            No adjunto
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if c.Verificado == 1 %}
+                            <span class="badge bg-success">Verificado</span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if c.Verificado == 0 %}
+                            <a href="{{ url_for('verificar_comprobante', id_comprobante=c.IdComprobante, id_pedido=pedido.IdPedido) }}"
+                                class="btn btn-success btn-sm"
+                                onclick="return confirm('¿Estás seguro de que deseas verificar este comprobante?')">
+                                <i class="fas fa-check"></i> Verificar
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No hay comprobantes registrados</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<script>
+function verificarComprobante(url) {
+    Swal.fire({
+        title: '¿Verificar comprobante?',
+        text: "Esta acción actualizará el estado del pedido.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, verificar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = url;
+        }
+    });
+}
+</script>
+{% endblock %}

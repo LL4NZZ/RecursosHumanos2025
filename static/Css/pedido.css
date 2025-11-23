@@ -1,0 +1,40 @@
+/* Contenedor principal */
+.card {
+    border-radius: 18px !important;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 18px !important;
+}
+
+/* Inputs suaves */
+.form-control, .form-select {
+    border-radius: 12px !important;
+    padding: 10px 14px;
+}
+
+/* Botones */
+.btn {
+    border-radius: 12px !important;
+}
+
+/* Tabla */
+.table thead th {
+    font-weight: 600;
+    background: #f8f9fa !important;
+}
+
+.table tbody tr {
+    transition: 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+    background: #f0f7ff !important;
+}
+
+/* Badges */
+.badge {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+}

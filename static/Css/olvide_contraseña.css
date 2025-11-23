@@ -1,0 +1,157 @@
+/* Estilos globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #001f3f, #0056b3, #00aaff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+}
+
+/* Estilos del contenedor */
+.row.justify-content-center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilos de la tarjeta */
+.card {
+    border-radius: 12px;
+    border: none;
+    background-color: #fff;  /* Fondo blanco */
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Efecto de hover sobre la tarjeta */
+.card:hover {
+    transform: translateY(-10px);
+}
+
+/* Estilos del encabezado de la tarjeta */
+.card-header {
+    background-color: #fff; /* Fondo blanco */
+    color: #000; /* Título en negro */
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.logo {
+    max-width: 150px; /* Ajusta el tamaño máximo del logo */
+    margin-bottom: 20px; /* Espaciado debajo del logo */
+    object-fit: contain; /* Mantiene la relación de aspecto del logo */
+}
+
+.title {
+    font-size: 1.8em; /* Tamaño del título */
+    color: #000;  /* Color del título */
+    margin-top: 10px; /* Espaciado encima del título */
+}
+
+/* Estilos del cuerpo de la tarjeta */
+.card-body {
+    padding: 20px;
+}
+
+.card-body .form-label {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Estilos de los inputs */
+.card-body .form-control {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.card-body .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Botón de enviar */
+.card-body .btn {
+    padding: 12px;
+    background-color: #0065fd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+    width: 100%;
+}
+
+.card-body .btn:hover {
+    background-color: #0077ff;
+    transform: scale(1.05); /* Efecto de hover para aumentar el botón */
+}
+
+.card-body .btn:active {
+    transform: scale(1); /* Evitar el efecto después de presionar */
+}
+
+/* Estilo de enlaces */
+.text-primary {
+    color: #007bff !important;
+    font-weight: 600;
+}
+
+.mt-3 {
+    margin-top: 15px;
+}
+
+/* Enlace para volver */
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Mejoras en la accesibilidad: foco de accesibilidad */
+:focus {
+    outline: 3px solid #007bff; /* Mejorar la visibilidad del foco */
+}
+
+/* Animación de la tarjeta (aparición suave) */
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInCard 0.8s ease-out;
+}

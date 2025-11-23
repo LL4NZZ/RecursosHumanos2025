@@ -1,0 +1,63 @@
+{% extends base_template %}
+{% block title %}Gestión de Solicitudes{% endblock %}
+{% block content %}
+
+<!-- ✅ Carga de íconos de Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">Gestión de Solicitudes</h2>
+    <p class="text-muted">Crea nuevas solicitudes o revisa tu historial</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <!-- 📝 Crear Solicitud -->
+    <div class="col-md-5 mb-4">
+      <div class="card shadow-lg border-0 p-4 text-center h-100 card-hover">
+        <div class="mb-3">
+          <i class="bi bi-file-earmark-plus text-primary" style="font-size: 3rem;"></i>
+        </div>
+        <h5 class="fw-bold">Crear Solicitud</h5>
+        <p class="text-muted">Envía una nueva solicitud al área correspondiente.</p>
+        <a href="{{ url_for('enviar_solicitudes_proceso') }}" class="btn btn-primary w-100">
+          <i class="bi bi-plus-circle me-2"></i> Nueva Solicitud
+        </a>
+      </div>
+    </div>
+
+    <!-- 📜 Historial -->
+    <div class="col-md-5 mb-4">
+      <div class="card shadow-lg border-0 p-4 text-center h-100 card-hover">
+        <div class="mb-3">
+          <i class="bi bi-clock-history text-success" style="font-size: 3rem;"></i>
+        </div>
+        <h5 class="fw-bold">Historial</h5>
+        <p class="text-muted">Consulta el estado y detalle de tus solicitudes anteriores.</p>
+        <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-success w-100">
+          <i class="bi bi-journal-text me-2"></i> Ver Historial
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🎨 Estilos personalizados -->
+<style>
+.card-hover {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.card-hover i {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.card-hover:hover i {
+  transform: scale(1.15);
+}
+</style>
+
+{% endblock %}

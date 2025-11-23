@@ -1,77 +1,92 @@
-{% extends "base_vendedora.html" %} 
+{% extends base_template %}
 {% block page_title %}Editar Perfil{% endblock %}
 {% block page_subtitle %}Actualiza tu información y contraseña.{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-warning text-white py-3">
-                    <h5 class="mb-0"><i class="fas fa-edit me-2"></i> Editar Mi Perfil</h5>
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <!-- Cabecera -->
+                <div class="bg-warning text-dark py-3 px-4 d-flex align-items-center">
+                    <div class="rounded-circle bg-white text-warning d-flex align-items-center justify-content-center me-3"
+                        style="width:55px; height:55px; font-size:1.6rem;">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Editar Mi Perfil</h5>
+                        <small class="text-dark-50">Actualiza tus datos personales o cambia tu contraseña.</small>
+                    </div>
                 </div>
-                <div class="card-body">
-                    
+
+                <!-- Cuerpo del formulario -->
+                <div class="card-body bg-white p-4">
                     <form method="POST" action="{{ url_for('editar_perfil') }}">
-                        
-                        {# SOLUCIÓN 2: Añadir el token CSRF aquí #}
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                        <h6 class="text-warning fw-bold mb-3">Información Personal</h6>
+                        <!-- Sección: Información Personal -->
+                        <h6 class="fw-bold text-warning mb-3 mt-1"><i class="fa-solid fa-id-card me-2"></i> Información
+                            Personal</h6>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="nombres" class="form-label">Nombres</label>
-                                <input type="text" class="form-control" id="nombres" name="nombres" 
-                                       value="{{ usuario.Nombres }}" required>
+                                <label for="nombres" class="form-label fw-semibold">Nombres</label>
+                                <input type="text" class="form-control rounded-pill" id="nombres" name="nombres"
+                                    value="{{ usuario.Nombres }}" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="apellidos" class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" 
-                                       value="{{ usuario.Apellidos }}" required>
+                                <label for="apellidos" class="form-label fw-semibold">Apellidos</label>
+                                <input type="text" class="form-control rounded-pill" id="apellidos" name="apellidos"
+                                    value="{{ usuario.Apellidos }}" required>
                             </div>
-                            
+
                             <div class="col-md-6">
-                                <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="telefono" name="telefono" 
-                                       value="{{ usuario.Telefono | default('') }}">
+                                <label for="telefono" class="form-label fw-semibold">Teléfono</label>
+                                <input type="text" class="form-control rounded-pill" id="telefono" name="telefono"
+                                    value="{{ usuario.Telefono | default('') }}">
                             </div>
-                            
+
                             <div class="col-md-6">
-                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" 
-                                       value="{{ usuario.FechaNacimiento | default('') }}">
+                                <label for="fechaNacimiento" class="form-label fw-semibold">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control rounded-pill" id="fechaNacimiento"
+                                    name="fechaNacimiento" value="{{ usuario.FechaNacimiento | default('') }}">
                             </div>
                         </div>
 
-                        <h6 class="text-warning fw-bold my-3">Correos Electrónicos</h6>
+                        <!-- Sección: Correos -->
+                        <h6 class="fw-bold text-warning mb-3 mt-4"><i class="fa-solid fa-envelope me-2"></i> Correos
+                            Electrónicos</h6>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="correo" class="form-label">Correo Personal</label>
-                                <input type="email" class="form-control" id="correo" name="correo" 
-                                       value="{{ usuario.Correo }}" required>
+                                <label for="correo" class="form-label fw-semibold">Correo Personal</label>
+                                <input type="email" class="form-control rounded-pill" id="correo" name="correo"
+                                    value="{{ usuario.Correo }}" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="correo_corporativo" class="form-label">Correo Corporativo</label>
-                                <input type="email" class="form-control" id="correo_corporativo" name="correo_corporativo" 
-                                       value="{{ usuario.CorreoCorporativo | default('') }}">
+                                <label for="correo_corporativo" class="form-label fw-semibold">Correo
+                                    Corporativo</label>
+                                <input type="email" class="form-control rounded-pill" id="correo_corporativo"
+                                    name="correo_corporativo" value="{{ usuario.CorreoCorporativo | default('') }}">
                             </div>
                         </div>
-                        
-                        <h6 class="text-warning fw-bold my-3">Cambiar Contraseña (Opcional)</h6>
+
+                        <!-- Sección: Contraseña -->
+                        <h6 class="fw-bold text-warning mb-3 mt-4"><i class="fa-solid fa-lock me-2"></i> Cambiar
+                            Contraseña (Opcional)</h6>
                         <div class="mb-3">
-                            <label for="contrasena" class="form-label">Nueva Contraseña</label>
-                            <input type="password" class="form-control" id="contrasena" name="contrasena" 
-                                   placeholder="Déjalo vacío para no cambiarla">
+                            <label for="contrasena" class="form-label fw-semibold">Nueva Contraseña</label>
+                            <input type="password" class="form-control rounded-pill" id="contrasena" name="contrasena"
+                                placeholder="Déjalo vacío para no cambiarla">
                         </div>
-                        
+
                         <hr>
-                        
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-success me-2">
-                                <i class="fas fa-save me-1"></i> Guardar Cambios
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="submit" class="btn btn-success px-4 rounded-pill">
+                                <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cambios
                             </button>
-                            <a href="{{ url_for('perfil') }}" class="btn btn-secondary">
-                                <i class="fas fa-times me-1"></i> Cancelar
+                            <a href="{{ url_for('perfil') }}" class="btn btn-secondary px-4 rounded-pill">
+                                <i class="fa-solid fa-xmark me-2"></i> Cancelar
                             </a>
                         </div>
                     </form>

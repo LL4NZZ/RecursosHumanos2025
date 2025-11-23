@@ -2,22 +2,59 @@
 
 {% block title %}Gestión de Horarios{% endblock %}
 {% block page_title %}📋 Gestión de Horarios{% endblock %}
-{% block page_subtitle %}Visualiza, agrega, edita y elimina horarios de los usuarios.{% endblock %}
+{% block page_subtitle %}Administra los horarios laborales de los usuarios de manera fácil y rápida.{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
-    <a href="{{ url_for('add_horario') }}" class="btn btn-primary mb-4 shadow-sm">
-        <i class="fa-solid fa-plus-circle me-2"></i> Agregar Horario
-    </a>
 
+    <!-- ✅ BARRA DE FILTRADO -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <div class="row g-3 align-items-end">
+
+                <!-- Filtro por nombre -->
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Nombre del usuario</label>
+                    <input type="text" id="filtroNombre" class="form-control" placeholder="Buscar por nombre...">
+                </div>
+
+                <!-- Filtro por tipo de jornada -->
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Tipo de Jornada</label>
+                    <select id="filtroJornada" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="Tiempo Completo">Tiempo Completo</option>
+                        <option value="Medio Tiempo">Medio Tiempo</option>
+                        <option value="Turno Nocturno">Turno Nocturno</option>
+                        <option value="Turno Rotativo">Turno Rotativo</option>
+                    </select>
+                </div>
+
+                <!-- Botones -->
+                <div class="col-md-4 d-flex gap-2">
+                    <button class="btn btn-primary w-50" id="btnBuscar">
+                        <i class="fa-solid fa-search me-1"></i> Buscar
+                    </button>
+
+                    <button class="btn btn-secondary w-50" id="btnLimpiar">
+                        <i class="fa-solid fa-eraser me-1"></i> Limpiar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ✅ TABLA DE HORARIOS -->
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered align-middle mb-0">
+                <table id="tablaHorarios" class="table table-striped table-hover table-bordered align-middle mb-0">
                     <thead class="table-primary">
                         <tr>
-                            <th style="width: 25%;">Usuario (Nombre Completo)</th> 
-                            
+                            <th style="width: 25%;">Usuario (Nombre Completo)</th>
                             <th style="width: 12%;">Fecha Inicio</th>
                             <th style="width: 12%;">Fecha Fin</th>
                             <th style="width: 10%;">Entrada</th>
@@ -27,47 +64,99 @@
                             <th class="text-center" style="width: 13%;">Acciones</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                    {% for h in horarios %}
+                        {% for h in horarios %}
                         <tr>
-                            <td>
+                            <td class="col-nombre">
                                 {% if h.NombreUsuario is defined %}
-                                    {{ h.NombreUsuario }} 
+                                {{ h.NombreUsuario }}
                                 {% else %}
-                                    ID: {{ h.IdUsuario }}
+                                ID: {{ h.IdUsuario }}
                                 {% endif %}
                             </td>
-                            
+
                             <td>{{ h.FechaInicio }}</td>
                             <td>{{ h.FechaFin }}</td>
                             <td>{{ h.HoraEntradaP }}</td>
                             <td>{{ h.HoraSalidaP }}</td>
                             <td>{{ h.DescansoP }} min</td>
+
                             <td>
                                 {% if h.TipoJornada == 'Tiempo Completo' %}
-                                    <span class="badge bg-success">{{ h.TipoJornada }}</span>
+                                <span class="badge bg-success">{{ h.TipoJornada }}</span>
                                 {% elif h.TipoJornada == 'Medio Tiempo' %}
-                                    <span class="badge bg-warning text-dark">{{ h.TipoJornada }}</span>
+                                <span class="badge bg-warning text-dark">{{ h.TipoJornada }}</span>
+                                {% elif h.TipoJornada == 'Turno Nocturno' %}
+                                <span class="badge" style="background-color:#6f42c1; color:white;">{{ h.TipoJornada
+                                    }}</span>
+                                {% elif h.TipoJornada == 'Turno Rotativo' %}
+                                <span class="badge" style="background-color:#0dcaf0; color:black;">{{ h.TipoJornada
+                                    }}</span>
                                 {% else %}
-                                    <span class="badge bg-info">{{ h.TipoJornada }}</span>
+                                <span class="badge bg-secondary">{{ h.TipoJornada }}</span>
                                 {% endif %}
                             </td>
-                            
+
                             <td class="text-center">
-                                <a href="{{ url_for('edit_horario', id=h.IdHorario) }}" class="btn btn-warning btn-sm my-1 me-1" title="Editar">
+                                <a href="{{ url_for('edit_horario', id=h.IdHorario) }}"
+                                    class="btn btn-warning btn-sm me-1">
                                     <i class="fa-solid fa-pencil-alt"></i>
                                 </a>
-                                <a href="{{ url_for('delete_horario', id=h.IdHorario) }}" class="btn btn-danger btn-sm my-1" 
-                                    onclick="return confirm('¿Seguro que deseas eliminar el horario ID: {{ h.IdHorario }}? Esta acción es irreversible.')" title="Eliminar">
+
+                                <a href="{{ url_for('delete_horario', id=h.IdHorario) }}"
+                                    onclick="return confirm('¿Seguro que deseas eliminar el horario ID: {{ h.IdHorario }}?')"
+                                    class="btn btn-danger btn-sm">
                                     <i class="fa-solid fa-trash-alt"></i>
                                 </a>
                             </td>
                         </tr>
-                    {% endfor %}
+                        {% endfor %}
                     </tbody>
+
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<!-- ✅ SCRIPT DEL FILTRO -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const inputNombre = document.getElementById("filtroNombre");
+        const selectJornada = document.getElementById("filtroJornada");
+        const btnBuscar = document.getElementById("btnBuscar");
+        const btnLimpiar = document.getElementById("btnLimpiar");
+
+        function filtrar() {
+            const nombre = inputNombre.value.toLowerCase();
+            const jornada = selectJornada.value.toLowerCase();
+
+            const filas = document.querySelectorAll("#tablaHorarios tbody tr");
+
+            filas.forEach(fila => {
+                const colNombre = fila.querySelector(".col-nombre").textContent.toLowerCase();
+                const colJornada = fila.children[6].textContent.toLowerCase();
+
+                let coincideNombre = colNombre.includes(nombre);
+                let coincideJornada = jornada === "" || colJornada.includes(jornada);
+
+                fila.style.display = (coincideNombre && coincideJornada) ? "" : "none";
+            });
+        }
+
+        btnBuscar.addEventListener("click", filtrar);
+
+        btnLimpiar.addEventListener("click", () => {
+            inputNombre.value = "";
+            selectJornada.value = "";
+            filtrar(); // mostrar todo
+        });
+
+    });
+</script>
+
+
+
 {% endblock %}

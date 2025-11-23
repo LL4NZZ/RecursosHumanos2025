@@ -1,17 +1,41 @@
-<<<<<<< HEAD
-{% extends 'base_vendedora.html' %}
-=======
-{% extends 'base_empleado.html' %}
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+{% extends base_template %}
 {% block title %}Historial de Solicitudes{% endblock %}
 {% block page_title %}Historial de Solicitudes{% endblock %}
+
 {% block content %}
 <div class="card shadow p-4">
     <h3 class="fw-bold mb-4">📜 Historial de Mis Solicitudes</h3>
+
+    <!-- 🔍 FILTROS -->
+    <form method="GET" action="{{ url_for('historial_solicitudes') }}" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label for="fecha_inicio" class="form-label">Desde</label>
+            <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="{{ request.args.get('fecha_inicio', '') }}">
+        </div>
+        <div class="col-md-3">
+            <label for="fecha_fin" class="form-label">Hasta</label>
+            <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{ request.args.get('fecha_fin', '') }}">
+        </div>
+        <div class="col-md-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select class="form-select" name="estado" id="estado">
+                <option value="">Todos</option>
+                <option value="Pendiente" {% if request.args.get('estado') == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="Aprobada" {% if request.args.get('estado') == 'Aprobada' %}selected{% endif %}>Aprobada</option>
+                <option value="Rechazada" {% if request.args.get('estado') == 'Rechazada' %}selected{% endif %}>Rechazada</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fa-solid fa-filter"></i> Filtrar
+            </button>
+        </div>
+    </form>
+
     {% if historial %}
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
+        <table class="table table-hover align-middle text-center">
+            <thead class="table-light">
                 <tr>
                     <th>Tipo</th>
                     <th>Fecha Inicio</th>
@@ -19,6 +43,7 @@
                     <th>Días</th>
                     <th>Estado</th>
                     <th>Justificación</th>
+                    <th>Observaciones</th>
                     <th>Adjunto</th>
                 </tr>
             </thead>
@@ -38,9 +63,11 @@
                         </span>
                     </td>
                     <td>{{ solicitud.Justificacion }}</td>
+                    <td>{{ solicitud.Observaciones or '—' }}</td>
                     <td>
                         {% if solicitud.RutaAdjunto %}
-                            <a href="{{ url_for('descargar_adjunto', filename=solicitud.RutaAdjunto.split('/')[-1]) }}" class="btn btn-sm btn-info" target="_blank">
+                            <a href="{{ url_for('descargar_adjunto', filename=solicitud.RutaAdjunto.split('/')[-1]) }}" 
+                               class="btn btn-sm btn-info text-white" target="_blank">
                                 <i class="fa-solid fa-download"></i> Descargar
                             </a>
                         {% else %}
@@ -53,7 +80,9 @@
         </table>
     </div>
     {% else %}
-    <div class="alert alert-info">No has enviado ninguna solicitud aún.</div>
+    <div class="alert alert-info text-center mt-3">
+        No has enviado ninguna solicitud aún.
+    </div>
     {% endif %}
 </div>
 {% endblock %}

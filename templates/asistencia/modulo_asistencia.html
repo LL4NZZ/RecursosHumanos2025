@@ -1,0 +1,71 @@
+{% extends base_template %}
+{% block title %}Módulo de Asistencia{% endblock %}
+{% block page_title %}Gestión de Asistencia{% endblock %}
+{% block page_subtitle %}Controla tus horarios y registros de trabajo{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+        <h3 class="fw-bold text-primary mb-4">
+          <i class="fa-solid fa-clock me-2"></i> Módulo de Asistencia
+        </h3>
+        <p class="text-muted mb-4">Selecciona una opción para gestionar tu jornada laboral</p>
+
+        <div class="row g-4">
+          <!-- Opción 1 -->
+          <div class="col-md-4">
+            <a href="{{ url_for('add_asistencia') }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm rounded-4 hover-card h-100">
+                <div class="card-body py-4">
+                  <i class="fa-solid fa-user-check fa-3x text-success mb-3"></i>
+                  <h6 class="fw-bold text-dark">Registrar Asistencia</h6>
+                  <p class="small text-muted">Entrada, descanso y salida</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Opción 2 -->
+          <div class="col-md-4">
+            <a href="{{ url_for('historial_asistencia_empleado') }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm rounded-4 hover-card h-100">
+                <div class="card-body py-4">
+                  <i class="fa-solid fa-list fa-3x text-primary mb-3"></i>
+                  <h6 class="fw-bold text-dark">Historial</h6>
+                  <p class="small text-muted">Consulta tus registros pasados</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Opción 3 -->
+          <div class="col-md-4">
+            <a href="{{ url_for('horarios_empleado') }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm rounded-4 hover-card h-100">
+                <div class="card-body py-4">
+                  <i class="fa-solid fa-calendar-days fa-3x text-warning mb-3"></i>
+                  <h6 class="fw-bold text-dark">Horario Asignado</h6>
+                  <p class="small text-muted">Visualiza tus horas de trabajo</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.hover-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}
