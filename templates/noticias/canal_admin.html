@@ -4,219 +4,118 @@
 
 {% block content %}
 <div class="container-fluid py-4">
-    
+
     <header class="mb-4 d-flex justify-content-between align-items-center">
-<<<<<<< HEAD
         <h1 class="h3"><i class="fas fa-newspaper"></i> Administración del Canal de Noticias</h1>
-=======
-        <h1 class="h3">Administración del Canal de Noticias</h1>
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-        <button class="btn btn-success" data-toggle="modal" data-target="#crearPublicacionModal">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearPublicacionModal">
             <i class="fas fa-plus-circle"></i> Nueva Publicación
         </button>
     </header>
 
+    <!-- Tabs -->
     <ul class="nav nav-tabs" id="publicacionTabs" role="tablist">
+
         <li class="nav-item">
-            <a class="nav-link active" id="activas-tab" data-toggle="tab" href="#activas" role="tab">
-<<<<<<< HEAD
-                <i class="fas fas fa-check-circle"></i> Activas
-=======
-                Publicaciones Activas
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-            </a>
+            <button class="nav-link active" id="activas-tab" data-bs-toggle="tab" data-bs-target="#activas"
+                type="button" role="tab">
+                <i class="fas fa-check-circle"></i> Activas
+            </button>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" id="borradores-tab" data-toggle="tab" href="#borradores" role="tab">
-<<<<<<< HEAD
+            <button class="nav-link" id="borradores-tab" data-bs-toggle="tab" data-bs-target="#borradores" type="button"
+                role="tab">
                 <i class="fas fa-pencil-alt"></i> Borradores
-=======
-                Borradores
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-            </a>
+            </button>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" id="archivadas-tab" data-toggle="tab" href="#archivadas" role="tab">
-<<<<<<< HEAD
+            <button class="nav-link" id="archivadas-tab" data-bs-toggle="tab" data-bs-target="#archivadas" type="button"
+                role="tab">
                 <i class="fas fa-archive"></i> Archivadas
-=======
-                Archivadas
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-            </a>
+            </button>
         </li>
+
     </ul>
 
-    <div class="tab-content mt-3" id="publicacionTabsContent">
-        
+    <!-- Contenido de tabs -->
+    <div class="tab-content mt-3">
+
         <div class="tab-pane fade show active" id="activas" role="tabpanel">
-<<<<<<< HEAD
-            {% include 'noticias/_tabla_activas.html' %} 
+            {% include 'noticias/_tabla_activas.html' %}
         </div>
-        
+
         <div class="tab-pane fade" id="borradores" role="tabpanel">
-            {% include 'noticias/_tabla_borradores.html' %} 
+            {% include 'noticias/_tabla_borradores.html' %}
         </div>
 
         <div class="tab-pane fade" id="archivadas" role="tabpanel">
-            {% include 'noticias/_tabla_archivadas.html' %} 
-=======
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Noticias Visibles para Empleados</h6>
-                </div>
-                <div class="card-body">
-                    {% if publicaciones_activas %}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover" id="activasTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Título</th>
-                                    <th>Autor</th>
-                                    <th>Fecha Publicación</th>
-                                    <th>Vigencia</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for publicacion in publicaciones_activas %}
-                                <tr>
-                                    <td>{{ publicacion.Titulo }}</td>
-                                    <td>{{ publicacion.Autor }}</td>
-                                    <td>{{ publicacion.FechaPublicacion | default("Inmediata") }}</td>
-                                    <td>{{ publicacion.FechaVigencia | default("Indefinida") }}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning" title="Editar" 
-                                                data-toggle="modal" data-target="#crearPublicacionModal"
-                                                data-publicacion-id="{{ publicacion.IdPublicacion }}">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <a href="{{ url_for('cambiar_estado_publicacion', id=publicacion.IdPublicacion, estado='Archivada') }}" 
-                                        class="btn btn-sm btn-secondary" title="Archivar">
-                                            <i class="fas fa-archive"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-danger" title="Eliminar" onclick="confirmarEliminacion('{{ publicacion.IdPublicacion }}')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <div class="alert alert-info text-center">
-                        No hay publicaciones activas en este momento. ¡Crea una nueva!
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        
-        <div class="tab-pane fade" id="borradores" role="tabpanel">
-             <p>Aquí se listarán las publicaciones en estado 'Borrador' o 'Pendiente'.</p>
-        </div>
-
-        <div class="tab-pane fade" id="archivadas" role="tabpanel">
-            <p>Aquí se listarán las publicaciones en estado 'Archivada' o 'Inactiva'.</p>
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+            {% include 'noticias/_tabla_archivadas.html' %}
         </div>
 
     </div>
 </div>
 
-<<<<<<< HEAD
-{% include "noticias/crear_publicacion.html" %} 
-=======
-{% include "modals/crear_publicacion.html" %} 
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+{% include "noticias/crear_publicacion.html" %}
 
 {% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    
-    <script>
-<<<<<<< HEAD
-        // Inicialización de JQuery para asegurar que el DOM esté listo antes de inicializar scripts
-        $(document).ready(function() {
-            // Inicializa los modales manualmente (a veces necesario)
-            $('#crearPublicacionModal').modal({
-                show: false
-            });
-        });
+{{ super() }}
 
-        function confirmarEliminacion(id) {
-            if (confirm("¿Estás seguro de que quieres ELIMINAR definitivamente esta publicación? Esta acción no se puede deshacer.")) {
-=======
-        function confirmarEliminacion(id) {
-            if (confirm("¿Estás seguro de que quieres ELIMINAR definitivamente esta publicación? Esta acción no se puede deshacer.")) {
-                // Redirigir a un endpoint de eliminación
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-                window.location.href = "{{ url_for('eliminar_publicacion') }}" + "?id=" + id;
-            }
+<script>
+
+    // Confirmación de eliminación
+    function confirmarEliminacion(id) {
+        if (confirm("¿Seguro que deseas eliminar esta publicación? Esta acción no se puede deshacer.")) {
+            window.location.href = "{{ url_for('eliminar_publicacion') }}?id=" + id;
         }
-        
-<<<<<<< HEAD
-        $('#crearPublicacionModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var publicacionId = button.data('publicacion-id');
-            var publicacionEstado = button.data('publicacion-estado');
-            
-            $('#formPublicacion')[0].reset();
-            $('#idPublicacionHidden').val(''); 
-            $('#estado').val('Activa'); 
+    }
 
-            if (publicacionId) {
-                $('#crearPublicacionModalLabel').text('Editar Publicación');
-                $('#idPublicacionHidden').val(publicacionId);
-                $('#btnGuardarPublicacion').text('Guardar Cambios');
-                
-                if (publicacionEstado) {
-                    $('#estado').val(publicacionEstado);
-                    if (publicacionEstado === 'Borrador') {
-                        $('#btnGuardarPublicacion').text('Guardar Borrador');
+    // Evento al abrir modal
+    document.getElementById('crearPublicacionModal')
+        .addEventListener('show.bs.modal', function (event) {
+
+            let button = event.relatedTarget;
+            let idPub = button ? button.getAttribute('data-publicacion-id') : null;
+            let estadoPub = button ? button.getAttribute('data-publicacion-estado') : null;
+
+            document.getElementById('formPublicacion').reset();
+            document.getElementById('idPublicacionHidden').value = "";
+            document.getElementById('estado').value = "Activa";
+
+            if (idPub) {
+                document.getElementById('crearPublicacionModalLabel').innerText = "Editar Publicación";
+                document.getElementById('idPublicacionHidden').value = idPub;
+
+                if (estadoPub) {
+                    document.getElementById('estado').value = estadoPub;
+                    if (estadoPub === "Borrador") {
+                        document.getElementById('btnGuardarPublicacion').innerText = "Guardar Borrador";
+                    } else {
+                        document.getElementById('btnGuardarPublicacion').innerText = "Guardar Cambios";
                     }
                 }
+
             } else {
-                $('#crearPublicacionModalLabel').text('Crear Nueva Publicación');
-                $('#btnGuardarPublicacion').text('Publicar');
+                document.getElementById('crearPublicacionModalLabel').innerText = "Crear Nueva Publicación";
+                document.getElementById('btnGuardarPublicacion').innerText = "Publicar";
             }
         });
 
-        function forzarEnvioPublicacion() {
-            var titulo = $('#titulo').val();
-            var contenido = $('#contenido').val();
-            
-            if (!titulo || !contenido) {
-                alert('Debe completar el Título y el Contenido.');
-                return; 
-            }
+    // Validación de envío
+    function forzarEnvioPublicacion() {
+        let titulo = document.getElementById('titulo').value.trim();
+        let contenido = document.getElementById('contenido').value.trim();
 
-            document.getElementById('formPublicacion').submit();
+        if (!titulo || !contenido) {
+            alert("Debes completar el Título y el Contenido.");
+            return;
         }
-=======
-        // Lógica de JavaScript para precargar datos en el modal de edición
-        $('#crearPublicacionModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var publicacionId = button.data('publicacion-id'); // Obtiene el ID si es una edición
 
-            if (publicacionId) {
-                // Lógica AJAX para obtener los datos de la publicación por ID y rellenar el formulario
-                // fetch('/api/publicacion/' + publicacionId) ...
-                
-                $('#crearPublicacionModalLabel').text('Editar Publicación');
-                $('#btnGuardarPublicacion').text('Guardar Cambios');
-                
-                // (Se necesita AJAX para rellenar los campos aquí)
+        document.getElementById('formPublicacion').submit();
+    }
 
-            } else {
-                // Configuración para nuevo
-                $('#crearPublicacionModalLabel').text('Crear Nueva Publicación');
-                $('#btnGuardarPublicacion').text('Publicar');
-                // Asegurar que el formulario esté limpio
-                $('#formPublicacion')[0].reset();
-            }
-        });
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-    </script>
+</script>
+
 {% endblock %}

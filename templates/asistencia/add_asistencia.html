@@ -1,44 +1,74 @@
-<<<<<<< HEAD
-{% extends 'base_vendedora.html' %}
-=======
-{% extends 'base_empleado.html' %}
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+{% extends base_template %}
 
-{% block title %}Agregar Asistencia{% endblock %}
+{% block title %}Control de Asistencia{% endblock %}
+{% block page_title %}Registrar Asistencia{% endblock %}
+{% block page_subtitle %}Marca tus registros del día fácilmente{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="card shadow p-4">
-        <h3 class="text-center mb-4">Agregar Asistencia</h3>
-        <form method="POST" action="{{ url_for('add_asistencia') }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="Fecha" required>
+<div class="container py-5">
+    <div class="col-lg-6 mx-auto">
+        <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-body text-center p-5">
+                <h3 class="fw-bold text-primary mb-4">
+                    <i class="fa-solid fa-clock me-2"></i> Control de Asistencia
+                </h3>
+
+                <p class="text-muted mb-4">Selecciona una acción para registrar tu jornada de hoy.</p>
+
+                <!-- Botón: Registrar Entrada -->
+                <form method="POST" action="{{ url_for('add_asistencia') }}" class="d-grid mb-3">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm">
+                        <i class="fa-solid fa-door-open me-2"></i> Registrar Entrada
+                    </button>
+                </form>
+
+                <!-- Botón: Iniciar Descanso -->
+                <form method="POST" action="{{ url_for('iniciar_descanso') }}" class="d-grid mb-3">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-info text-white btn-lg rounded-pill shadow-sm">
+                        <i class="fa-solid fa-mug-hot me-2"></i> Iniciar Descanso
+                    </button>
+                </form>
+
+                <!-- Botón: Finalizar Descanso -->
+                <form method="POST" action="{{ url_for('finalizar_descanso') }}" class="d-grid mb-3">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-secondary btn-lg rounded-pill shadow-sm">
+                        <i class="fa-solid fa-stopwatch me-2"></i> Finalizar Descanso
+                    </button>
+                </form>
+
+                <!-- Botón: Registrar Salida -->
+                <form method="POST" action="{{ url_for('registrar_salida') }}" class="d-grid mb-3">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-warning btn-lg rounded-pill shadow-sm">
+                        <i class="fa-solid fa-door-closed me-2"></i> Registrar Salida
+                    </button>
+                </form>
+
+                <hr class="my-4">
+
+                <a href="{{ url_for('historial_asistencia_empleado') }}" 
+                   class="btn btn-outline-primary w-100 rounded-pill">
+                    <i class="fa-solid fa-list me-2"></i> Ver Historial de Asistencia
+                </a>
             </div>
-            <div class="mb-3">
-                <label for="horaentrada" class="form-label">Hora de Entrada</label>
-                <input type="time" class="form-control" id="horaentrada" name="HoraEntrada" required>
-            </div>
-            <div class="mb-3">
-                <label for="horasalida" class="form-label">Hora de Salida</label>
-                <input type="time" class="form-control" id="horasalida" name="HoraSalida">
-            </div>
-            <div class="mb-3">
-                <label for="descanso" class="form-label">Descanso (minutos)</label>
-                <input type="number" class="form-control" id="descanso" name="Descanso">
-            </div>
-            <div class="mb-3">
-                <label for="estado" class="form-label">Estado</label>
-                <select class="form-select" id="estado" name="Estado" required>
-                    <option value="Presente">Presente</option>
-                    <option value="Retardo">Retardo</option>
-                    <option value="Ausente">Ausente</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success w-100 mt-3">Guardar</button>
-            <a href="{{ url_for('lista_asistencia') }}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
-        </form>
+        </div>
     </div>
 </div>
+
+<style>
+.card {
+    background-color: #fff;
+    border-radius: 1.5rem;
+}
+.btn-lg {
+    font-size: 1rem;
+    padding: 0.8rem;
+}
+h3 {
+    font-size: 1.4rem;
+}
+</style>
 {% endblock %}

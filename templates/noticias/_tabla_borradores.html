@@ -1,47 +1,55 @@
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-warning">Publicaciones en estado: Borrador</h6>
-    </div>
-    <div class="card-body">
-        {% set publicaciones = publicaciones_borradores %}
-        {% set estado_actual = 'Borrador' %}
-        {% if publicaciones %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Autor</th>
-                        <th>Fecha Creación</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for publicacion in publicaciones %}
-                    <tr>
-                        <td>{{ publicacion.Titulo }}</td>
-                        <td>{{ publicacion.Autor }}</td>
-                        <td>{{ publicacion.FechaCreacion }}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" title="Editar" data-toggle="modal" data-target="#crearPublicacionModal" data-publicacion-id="{{ publicacion.IdPublicacion }}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <a href="{{ url_for('cambiar_estado_publicacion', id=publicacion.IdPublicacion, estado='Activa') }}" class="btn btn-sm btn-success" title="Publicar">
-                                <i class="fas fa-upload"></i>
-                            </a>
-                            <button class="btn btn-sm btn-danger" title="Eliminar" onclick="confirmarEliminacion('{{ publicacion.IdPublicacion }}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+
+        {% if publicaciones_borradores %}
+        <table class="table table-hover table-striped align-middle mb-0">
+            <thead class="table-warning">
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Fecha Creación</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in publicaciones_borradores %}
+                <tr>
+                    <td class="fw-semibold">{{ p.Titulo }}</td>
+                    <td>{{ p.Autor }}</td>
+                    <td>{{ p.FechaCreacion }}</td>
+
+                    <td class="text-center">
+
+                        <!-- EDITAR BORRADOR -->
+                        <button class="btn btn-primary btn-sm me-1" data-bs-toggle="modal"
+                            data-bs-target="#crearPublicacionModal" data-publicacion-id="{{ p.IdNoticia }}"
+                            data-publicacion-estado="{{ p.Estado }}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                        <!-- PUBLICAR (PASAR DE BORRADOR A ACTIVA) -->
+                        <a href="{{ url_for('cambiar_estado_publicacion', id=p.IdNoticia, estado='Activa') }}"
+                            class="btn btn-success btn-sm me-1" onclick="return confirm('¿Publicar esta noticia?');">
+                            <i class="fas fa-upload"></i>
+                        </a>
+
+                        <!-- ELIMINAR -->
+                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion('{{ p.IdNoticia }}')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
         {% else %}
-        <div class="alert alert-info text-center">
-            No hay publicaciones en estado **Borrador** en este momento.
+        <div class="alert alert-info m-3 text-center">
+            No hay borradores disponibles.
         </div>
         {% endif %}
+
     </div>
 </div>

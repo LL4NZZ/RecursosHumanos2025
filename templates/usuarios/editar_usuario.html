@@ -1,90 +1,177 @@
-{% extends 'base_admin.html' %} 
+{% extends 'base_admin.html' %}
 
 {% block title %}Editar Usuario{% endblock %}
+{% block page_title %}Editar Usuario{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
-    <div class="card p-4">
+    <div class="card shadow-lg p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="m-0 fw-bold">✏️ Editar Usuario: {{ usuario.Nombres }} {{ usuario.Apellidos }}</h3>
+            <h3 class="m-0 fw-bold">
+                ✏️ Editar Usuario: <span class="text-primary">{{ usuario.Nombres }} {{ usuario.Apellidos }}</span>
+            </h3>
             <a href="{{ url_for('usuarios') }}" class="btn btn-outline-secondary">
                 <i class="fa-solid fa-arrow-left me-2"></i> Volver a Usuarios
             </a>
         </div>
-        
-        <form action="{{ url_for('edit_usuario', id=usuario.IdUsuario) }}" method="POST" class="row g-3">
-<<<<<<< HEAD
-    
-             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-=======
-            
-            <input type="hidden" name="csrf_token" value="{{ csrf_token if csrf_token is defined else '' }}">
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
-            
-            <div class="col-md-6">
-                <label for="idRol" class="form-label">Rol</label>
-                <select class="form-select" id="idRol" name="idRol" required>
-                    <option value="" disabled>Seleccione el Rol...</option>
+
+        <!-- FORMULARIO -->
+        <form action="{{ url_for('edit_usuario', id=usuario.IdUsuario) }}" method="POST" class="row g-3"
+            id="formEditUsuario">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <!-- Sección Datos Personales -->
+            <h5 class="fw-bold text-secondary mt-3">📌 Datos personales</h5>
+            <hr>
+
+            <div class="col-md-4">
+                <label class="form-label">Rol *</label>
+                <select class="form-select required" name="idRol" id="idRol">
+                    <option disabled>Seleccione...</option>
                     {% for rol_item in roles %}
-                        <option value="{{ rol_item.IdRol }}" 
-                                {% if rol_item.IdRol == usuario.IdRol %}selected{% endif %}>
-                            {{ rol_item.NombreRol }}
-                        </option>
+                    <option value="{{ rol_item.IdRol }}" {% if rol_item.IdRol==usuario.IdRol %}selected{% endif %}>
+                        {{ rol_item.NombreRol }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
-            
-            <div class="col-md-6">
-                <label for="nombres" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="nombres" name="nombres" value="{{ usuario.Nombres }}" required>
+
+            <div class="col-md-4">
+                <label class="form-label">Nombres *</label>
+                <input type="text" class="form-control required" name="nombres" value="{{ usuario.Nombres }}">
             </div>
-            <div class="col-md-6">
-                <label for="apellidos" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ usuario.Apellidos }}" required>
+
+            <div class="col-md-4">
+                <label class="form-label">Apellidos *</label>
+                <input type="text" class="form-control required" name="apellidos" value="{{ usuario.Apellidos }}">
             </div>
 
             <div class="col-md-6">
-                <label for="tipoDocumento" class="form-label">Tipo Documento</label>
-                <input type="text" class="form-control" id="tipoDocumento" name="tipoDocumento" value="{{ usuario.TipoDocumento }}" required>
+                <label class="form-label">Tipo Documento *</label>
+                <input type="text" class="form-control required" name="tipoDocumento"
+                    value="{{ usuario.TipoDocumento }}">
             </div>
+
             <div class="col-md-6">
-                <label for="documento" class="form-label">Documento</label>
-                <input type="text" class="form-control" id="documento" name="documento" value="{{ usuario.Documento }}" required>
+                <label class="form-label">Documento *</label>
+                <input type="text" class="form-control required" name="documento" value="{{ usuario.Documento }}">
             </div>
+
+            <!-- Sección Contacto -->
+            <h5 class="fw-bold text-secondary mt-4">📞 Información de contacto</h5>
+            <hr>
+
             <div class="col-md-6">
-                <label for="correo" class="form-label">Correo</label>
-                <input type="email" class="form-control" id="correo" name="correo" value="{{ usuario.Correo }}" required>
+                <label class="form-label">Correo *</label>
+                <input type="email" class="form-control required" name="correo" value="{{ usuario.Correo }}">
             </div>
-            
-            <div class="col-md-6">
-                <label for="correo_corporativo" class="form-label">Correo Corporativo</label>
-                <input type="email" class="form-control" id="correo_corporativo" name="correo_corporativo" value="{{ usuario.CorreoCorporativo }}">
+
+            <div class="col-md-6" id="correoCorpContainer">
+                <label class="form-label">Correo Corporativo</label>
+                <input type="email" class="form-control" name="correo_corporativo"
+                    value="{{ usuario.CorreoCorporativo }}">
             </div>
-            
+
             <div class="col-md-6">
-                <label for="fechaContratacion" class="form-label">Fecha Contratación</label>
-                <input type="date" class="form-control" id="fechaContratacion" name="fechaContratacion" value="{{ usuario.FechaContratacion | default('') }}">
+                <label class="form-label">Teléfono *</label>
+                <input type="text" class="form-control required" name="telefono" value="{{ usuario.Telefono }}">
             </div>
+
             <div class="col-md-6">
-                <label for="fechaNacimiento" class="form-label">Fecha Nacimiento</label>
-                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" value="{{ usuario.FechaNacimiento | default('') }}">
+                <label class="form-label">Fecha de Contratación</label>
+                <input type="date" class="form-control" id="fechaContratacion" name="fechaContratacion"
+                    value="{{ usuario.FechaContratacion }}">
             </div>
+
             <div class="col-md-6">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ usuario.Telefono }}">
+                <label class="form-label">Fecha de Nacimiento *</label>
+                <input type="date" class="form-control required" id="fechaNacimiento" name="fechaNacimiento"
+                    value="{{ usuario.FechaNacimiento }}">
             </div>
-            
-            <div class="col-md-6">
-                <label for="contrasena" class="form-label">Contraseña (Dejar vacío para no cambiar)</label>
+
+            <!-- Sección Acceso -->
+            <h5 class="fw-bold text-secondary mt-4">🔐 Acceso al sistema</h5>
+            <hr>
+
+            <div class="col-md-6 position-relative">
+                <label class="form-label">Contraseña (dejar vacío para no modificar)</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena">
-            </div>
-            
-            <div class="col-12 text-end">
-                <button type="submit" class="btn btn-warning">
-                    <i class="fa-solid fa-pen-to-square me-2"></i> Actualizar Usuario
+
+                <!-- Botón mostrar/ocultar -->
+                <button type="button" id="togglePass" class="btn btn-sm btn-light position-absolute"
+                    style="right:10px; top:35px;">
+                    <i class="fa-solid fa-eye-slash"></i>
                 </button>
             </div>
+
+            <!-- Botón actualizar -->
+            <div class="col-12 mt-4 text-end">
+                <button type="submit" class="btn btn-warning px-4">
+                    <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cambios
+                </button>
+            </div>
+
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // ✅ Mostrar/ocultar contraseña
+        document.getElementById("togglePass").addEventListener("click", () => {
+            let pass = document.getElementById("contrasena");
+            let icon = document.querySelector("#togglePass i");
+
+            pass.type = pass.type === "password" ? "text" : "password";
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
+        });
+
+        // ✅ Fecha no futura para nacimiento
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("fechaNacimiento").setAttribute("max", today);
+
+        // ✅ Validación de campos obligatorios en el EDITAR
+        const form = document.getElementById("formEditUsuario");
+
+        form.addEventListener("submit", (e) => {
+            let errores = false;
+
+            document.querySelectorAll(".required").forEach(campo => {
+
+                campo.classList.remove("is-invalid");
+
+                // ❌ Si está vacío → marcar error
+                if (campo.value.trim() === "") {
+                    campo.classList.add("is-invalid");
+                    errores = true;
+
+                    // Si no existe mensaje de error, lo agregamos
+                    if (!campo.nextElementSibling || !campo.nextElementSibling.classList.contains("invalid-feedback")) {
+                        campo.insertAdjacentHTML(
+                            "afterend",
+                            `<div class="invalid-feedback">⚠ Este campo es obligatorio.</div>`
+                        );
+                    }
+                }
+            });
+
+            if (errores) {
+                e.preventDefault();
+                alert("⚠ Debes completar todos los campos obligatorios.");
+            }
+        });
+
+        // ✅ Validación visual en tiempo real (quita error mientras escriben)
+        document.querySelectorAll(".required").forEach(campo => {
+            campo.addEventListener("input", () => {
+                if (campo.value.trim() !== "") {
+                    campo.classList.remove("is-invalid");
+                }
+            });
+        });
+    });
+</script>
+
 {% endblock %}

@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Centro de Notificaciones</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+
+  <!-- Fuente y estilos -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/notificaciones.css') }}">
 </head>
+
 <body>
   <header>
     <h1>Centro de Notificaciones</h1>
@@ -33,12 +36,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 id="modalTitulo"></h2>
-        <button class="btn-cerrar" id="cerrarModal">Cerrar</button>
+        <button class="btn-cerrar" id="cerrarModal">✖</button>
       </div>
       <p><strong>Tipo:</strong> <span id="modalTipo"></span></p>
       <p id="modalContenido"></p>
       <p class="fecha" id="modalFecha"></p>
     </div>
   </div>
+
+  <!-- Script -->
+  <script src="{{ url_for('static', filename='js/notificaciones.js') }}"></script>
 </body>
 </html>

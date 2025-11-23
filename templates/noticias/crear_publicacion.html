@@ -1,48 +1,52 @@
-<div class="modal fade" id="crearPublicacionModal" tabindex="-1" role="dialog" aria-labelledby="crearPublicacionModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="crearPublicacionModal" tabindex="-1" aria-labelledby="crearPublicacionModalLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="crearPublicacionModalLabel">Crear Nueva Publicación</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="crearPublicacionModalLabel">Nueva Publicación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form id="formPublicacion" action="{{ url_for('procesar_publicacion') }}" method="POST"> 
+
+            <form id="formPublicacion" method="POST" action="{{ url_for('procesar_publicacion') }}">
+
+                <input type="hidden" name="IdNoticia" id="idPublicacionHidden">
+
                 <div class="modal-body">
-                    <input type="hidden" name="id_publicacion" id="idPublicacionHidden">
-                    
-                    <div class="form-group">
-                        <label for="titulo">Título:</label>
-                        <input type="text" class="form-control" id="titulo" name="titulo" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contenido">Contenido:</label>
-                        <textarea class="form-control" id="contenido" name="contenido" rows="5" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="fecha_publicacion">Fecha de Publicación:</label>
-                        <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion">
-                        <small class="form-text text-muted">Dejar vacío para publicar inmediatamente.</small>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Título</label>
+                        <input type="text" class="form-control" name="Titulo" id="titulo" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="fecha_vigencia">Fecha de Vigencia (Opcional):</label>
-                        <input type="date" class="form-control" id="fecha_vigencia" name="fecha_vigencia">
-                        <small class="form-text text-muted">La publicación se archivará automáticamente después de esta fecha.</small>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Contenido</label>
+                        <textarea class="form-control" name="Contenido" id="contenido" rows="5" required></textarea>
                     </div>
 
-                    <input type="hidden" name="estado" id="estado" value="Activa"> 
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Estado</label>
+                        <select class="form-select" id="estado" name="Estado" required>
+                            <option value="Activa">Activa</option>
+                            <option value="Borrador">Borrador</option>
+                        </select>
+                    </div>
 
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="btnGuardarPublicacion" onclick="forzarEnvioPublicacion()">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                    <button type="button" class="btn btn-primary" id="btnGuardarPublicacion"
+                        onclick="forzarEnvioPublicacion()">
                         Publicar
                     </button>
                 </div>
+
             </form>
+
         </div>
     </div>
+
 </div>
