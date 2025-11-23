@@ -2,14 +2,9 @@ from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 
 class User(UserMixin):
-<<<<<<< HEAD
     def __init__(self, IdUsuario, IdRol, Nombres, Apellidos, TipoDocumento, Documento, Correo, CorreoCorporativo, FechaContratacion, FechaNacimiento, Telefono, Contrasena, Estado, NombreRol):
         
         # Asignación de atributos
-=======
-    def __init__(self, IdUsuario, IdRol, Nombres, Apellidos, TipoDocumento, Documento, Correo,
-                 CorreoCorporativo, FechaContratacion, FechaNacimiento, Telefono, Contrasena, Estado):
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
         self.IdUsuario = IdUsuario
         self.IdRol = IdRol
         self.Nombres = Nombres
@@ -23,7 +18,6 @@ class User(UserMixin):
         self.Telefono = Telefono
         self.Contrasena = Contrasena
         self.Estado = Estado
-<<<<<<< HEAD
         self.NombreRol = NombreRol 
 
     # 🌟 CORRECCIÓN 1: La propiedad 'id' debe estar DECORADA e indentada DENTRO de la clase.
@@ -49,12 +43,3 @@ class User(UserMixin):
     def is_admin(self):
         """Método auxiliar para verificar si el usuario es administrador."""
         return self.IdRol == 9
-=======
-
-    def get_id(self):
-        return str(self.IdUsuario)
-
-    @classmethod
-    def check_password(self, hashed_password, password):
-        return check_password_hash(hashed_password, password)
->>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
