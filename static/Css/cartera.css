@@ -1,0 +1,183 @@
+/* ======== ESTILO GENERAL ======== */
+
+body {
+    background: #f4f6f9 !important;
+}
+
+/* ======== TARJETA DE LA TABLA ======== */
+
+.card {
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.table thead {
+    background: #f0f2f5 !important;
+}
+
+.table thead th {
+    font-weight: 600;
+    color: #333;
+}
+
+.table-hover tbody tr:hover {
+    background: #eef4ff !important;
+    cursor: pointer;
+}
+
+/* Alternar filas */
+.table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* ======== BOTONES ======== */
+
+.btn-primary {
+    background: #3459e6;
+    border: none;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: #2646c7;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    border-radius: 10px;
+}
+
+.btn-secondary {
+    border-radius: 10px;
+}
+
+/* Enlaces de acciones */
+td a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* ======== MODAL ======== */
+
+.modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+    border-radius: 10px !important;
+    border: 1px solid #d1d5db;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #3459e6;
+    box-shadow: 0 0 0 0.15rem rgba(52, 89, 230, 0.25);
+}
+
+/* Etiquetas */
+.form-label {
+    font-weight: 600;
+    color: #444;
+}
+
+/* ===== ESTILO DEL MODAL - FORMULARIO ===== */
+
+.modal-header {
+    background: linear-gradient(90deg, #0066ff, #0052d6);
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.modal-title i {
+    font-size: 1.1rem;
+}
+
+.modal-content {
+    border-radius: 18px !important;
+    border: none;
+}
+
+.modal-body {
+    padding: 1.8rem 2rem;
+}
+
+/* ===== LABELS ===== */
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+/* ===== INPUTS ===== */
+.form-control,
+.form-select {
+    border-radius: 12px !important;
+    background: #fff;
+    border: 1px solid #cfd4da;
+    padding: 10px 14px;
+    font-size: 15px;
+    transition: all .2s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #1976ff;
+    box-shadow: 0 0 0 0.15rem rgba(25, 118, 255, 0.25);
+}
+
+/* ===== FILAS DEL FORM ===== */
+.modal-body .row {
+    margin-bottom: 12px;
+}
+
+/* ===== BOTONES ===== */
+.modal-footer {
+    padding: 1rem 1.8rem;
+    background: #f4f6f9;
+    border-top: 1px solid #e1e1e1;
+}
+
+.modal-footer .btn {
+    border-radius: 10px;
+    padding: 10px 26px;
+    font-size: 15px;
+}
+
+.btn-success {
+    background-color: #198754;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background-color: #0f6c3c;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-secondary:hover {
+    background-color: #565e64;
+}

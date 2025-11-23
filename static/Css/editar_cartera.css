@@ -1,0 +1,14 @@
+/* Fondo del body (celeste claro) */
+body {
+    background-color: #e3f2fd !important;
+}
+
+/* Tarjeta del formulario */
+.form-card {
+    background-color: #ffffff !important;  /* blanco puro */
+    width: 900px;
+    border-radius: 22px;
+    padding: 40px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.6); /* para resaltar */
+}

@@ -1,0 +1,18 @@
+body {
+    background: #eef9ff !important;
+}
+
+/* tarjetas */
+.actividad-item {
+    background: #f8fbff;
+    border-left: 4px solid #0d6efd;
+}
+
+/* scrollbar bonito */
+.card-body::-webkit-scrollbar {
+    width: 6px;
+}
+.card-body::-webkit-scrollbar-thumb {
+    background: #bfc7d1;
+    border-radius: 4px;
+}
