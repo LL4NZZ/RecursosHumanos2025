@@ -1,0 +1,143 @@
+{% extends "base_contadora.html" %}
+
+{% block title %}Gestión de Carteras{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contadora/panel.css') }}">
+
+<main class="container py-4">
+
+    <!-- Filtros -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" action="{{ url_for('panel_contadora') }}" class="row g-3 align-items-end">
+
+                <div class="col-md-3">
+                    <label class="form-label">Desde</label>
+                    <input type="date" name="desde" value="{{ request.args.get('desde', '') }}" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Hasta</label>
+                    <input type="date" name="hasta" value="{{ request.args.get('hasta', '') }}" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Estado</label>
+                    <select name="estado" class="form-select">
+                        <option value="">Todos</option>
+                        {% for estado in ['Pendiente','En Gestión','Pago Parcial','Cancelado','Cobrado'] %}
+                        <option value="{{ estado }}" {% if request.args.get('estado')==estado %}selected{% endif %}>
+                            {{ estado }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Cliente</label>
+                    <input type="text" name="cliente" class="form-control" placeholder="Nombre cliente"
+                        value="{{ request.args.get('cliente', '') }}">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Vendedora</label>
+                    <input type="text" name="vendedora" class="form-control" placeholder="Nombre vendedora"
+                        value="{{ request.args.get('vendedora', '') }}">
+                </div>
+
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-1"></i> Filtrar
+                    </button>
+                    <a href="{{ url_for('panel_contadora') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo me-1"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de Pedidos -->
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th># Pedido</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Valor Pedido</th>
+                        <th>Pagado</th>
+                        <th>Pendiente</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if pedidos %}
+                    {% for p in pedidos %}
+                    <tr>
+                        <td>#{{ p.NumeroPedido }}</td>
+                        <td>{{ p.FechaVencimiento.strftime('%d/%m/%Y') if p.FechaVencimiento else '' }}</td>
+                        <td>${{ "{:,.2f}".format(p.ValorPedido) }}</td>
+                        <td>${{ "{:,.2f}".format(p.MontoPagado) }}</td>
+                        <td>${{ "{:,.2f}".format(p.MontoPendiente) }}</td>
+
+                        <td>
+                            {% if p.Estado == 'En Gestión' %}
+                            <span class="badge bg-warning text-dark">{{ p.Estado }}</span>
+                            {% elif p.Estado == 'Cobrado' %}
+                            <span class="badge bg-success">{{ p.Estado }}</span>
+                            {% elif p.Estado == 'Pago Parcial' %}
+                            <span class="badge bg-info text-dark">{{ p.Estado }}</span>
+                            {% elif p.Estado == 'Cancelado' %}
+                            <span class="badge bg-danger">{{ p.Estado }}</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ p.Estado }}</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if p.Estado == 'Cancelado' %}
+                            <!-- Botones deshabilitados si el pedido está Cancelado -->
+                            <button class="btn btn-sm btn-outline-primary" title="Actividad de Cobro" disabled>
+                                <i class="fas fa-comments"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-success" title="Registrar/Ver pagos" disabled>
+                                <i class="fas fa-money-bill"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-info" disabled>
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            {% else %}
+                            <!-- Botones activos para otros estados -->
+                            <a href="{{ url_for('actividad_cobro', id_pedido=p.IdPedido) }}"
+                                class="btn btn-sm btn-outline-primary" title="Actividad de Cobro">
+                                <i class="fas fa-comments"></i>
+                            </a>
+                            <a href="{{ url_for('cargar_comprobantes', id_pedido=p.IdPedido) }}"
+                                class="btn btn-sm btn-outline-success" title="Registrar/Ver pagos">
+                                <i class="fas fa-money-bill"></i>
+                            </a>
+                            <button class="btn btn-sm btn-outline-info" title="Notificación">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No hay resultados</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Gestión de Usuarios{% endblock %}
+{% block page_title %}Gestión de Usuarios{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="row justify-content-center">
+
+        <!-- Crear Usuario -->
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-lg border-0 p-4 text-center card-hover">
+                <i class="fa-solid fa-user-plus fa-4x text-primary mb-3"></i>
+                <h4 class="fw-bold">Crear Usuario</h4>
+                <p class="text-muted">Registrar un nuevo usuario en el sistema.</p>
+
+                <a href="{{ url_for('add_usuario') }}" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-plus me-2"></i> Iniciar Registro
+                </a>
+            </div>
+        </div>
+
+        <!-- Listado -->
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-lg border-0 p-4 text-center card-hover">
+                <i class="fa-solid fa-list fa-4x text-success mb-3"></i>
+                <h4 class="fw-bold">Listado de Usuarios</h4>
+                <p class="text-muted">Ver, editar o desactivar usuarios existentes.</p>
+
+                <a href="{{ url_for('usuarios') }}" class="btn btn-success w-100">
+                    <i class="fa-solid fa-table me-2"></i> Ver Usuarios
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

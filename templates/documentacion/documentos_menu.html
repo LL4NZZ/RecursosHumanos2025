@@ -1,0 +1,34 @@
+{% extends base_template %}
+
+{% block page_title %}Gestión de Documentos{% endblock %}
+{% block page_subtitle %}Sube, consulta o gestiona los documentos de tu expediente digital.{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+
+    <!-- Subir documento -->
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0 p-4 text-center">
+            <i class="fa-solid fa-cloud-arrow-up fa-3x text-primary mb-3"></i>
+            <h4 class="fw-bold">Subir Documento</h4>
+            <p>Adjunta un documento en formatos PDF, DOCX, XLSX, JPG o PNG.</p>
+            <a href="{{ url_for('subir_documento') }}" class="btn btn-primary w-100 mt-3">
+                <i class="fa-solid fa-upload me-2"></i>Nuevo Documento
+            </a>
+        </div>
+    </div>
+
+    <!-- Historial -->
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0 p-4 text-center">
+            <i class="fa-solid fa-folder-open fa-3x text-success mb-3"></i>
+            <h4 class="fw-bold">Historial</h4>
+            <p>Consulta, edita y gestiona tus documentos anteriores.</p>
+            <a href="{{ url_for('historial_documentos') }}" class="btn btn-success w-100 mt-3">
+                <i class="fa-solid fa-clock-rotate-left me-2"></i>Ver Historial
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

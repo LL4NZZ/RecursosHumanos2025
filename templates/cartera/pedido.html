@@ -1,0 +1,268 @@
+{% extends "base_vendedora.html" %}
+{% block title %}Gestión de Pedidos{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pedido.css') }}">
+
+<div class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Gestión de Pedidos</h2>
+
+        <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#modalCrearPedido">
+            <i class="fa-solid fa-plus me-2"></i>Crear Nuevo Pedido
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-0">
+
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Número Pedido</th>
+                        <th>Fecha de Creación</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Valor Pedido</th>
+                        <th>Monto Pagado</th>
+                        <th>Monto Pendiente</th>
+                        <th>Estado</th>
+                        <th>Documento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for p in pedidos %}
+                    <tr>
+                        <td>{{ p.NumeroPedido }}</td>
+                        <td>{{ p.FechaCreacion }}</td>
+                        <td>{{ p.FechaVencimiento }}</td>
+                        <td>${{ "{:,.2f}".format(p.ValorPedido) }}</td>
+                        <td>${{ "{:,.2f}".format(p.MontoPagado) }}</td>
+                        <td>${{ "{:,.2f}".format(p.MontoPendiente) }}</td>
+
+                        <td>
+                            {% if p.Estado == 'Pendiente' %}
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                            {% elif p.Estado == 'En Gestión' %}
+                            <span class="badge bg-info">En Gestión</span>
+                            {% elif p.Estado == 'Pago Parcial' %}
+                            <span class="badge bg-primary">Pago Parcial</span>
+                            {% elif p.Estado == 'Cancelado' %}
+                            <span class="badge bg-danger">Cancelado</span>
+                            {% elif p.Estado == 'Cobrado' %}
+                            <span class="badge bg-success">Cobrado</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if p.DocumentoAdjunto %}
+                            <a href="{{ url_for('static', filename='uploads/' ~ p.DocumentoAdjunto) }}" target="_blank">
+                                Ver documento
+                            </a>
+                            {% else %}
+                            <span class="text-muted">Sin archivo</span>
+                            {% endif %}
+                        </td>
+
+
+
+                        <td class="text-nowrap">
+
+                            {% if p.Estado == 'Cancelado' %}
+                            <!-- Botones deshabilitados SOLO si está cancelado -->
+                            <button class="btn btn-info btn-sm me-2" disabled>
+                                <i class="fa-solid fa-comment"></i>
+                            </button>
+
+                            <button class="btn btn-secondary btn-sm me-2" disabled>
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </button>
+
+                            <button class="btn btn-warning btn-sm me-2" disabled>
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+                            <button class="btn btn-danger btn-sm" disabled>
+                                Eliminar
+                            </button>
+
+                            {% else %}
+                            <!-- Botones activos para todos los demás estados -->
+                            <a href="{{ url_for('actividad_cobro', id_pedido=p.IdPedido) }}"
+                                class="btn btn-info btn-sm me-2">
+                                <i class="fa-solid fa-comment"></i>
+                            </a>
+
+                            <a href="{{ url_for('historial_pedidos', id_pedido=p.IdPedido) }}"
+                                class="btn btn-secondary btn-sm me-2">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </a>
+
+                            <a href="{{ url_for('editar_pedido', id_pedido=p.IdPedido, id_cartera=id_cartera) }}"
+                                class="btn btn-sm btn-warning me-2">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="{{ url_for('eliminar_pedido', id_pedido=p.IdPedido, id_cartera=id_cartera) }}"
+                                onclick="return confirm('¿Estás seguro de eliminar este pedido?')"
+                                class="btn btn-danger btn-sm">
+                                Eliminar
+                            </a>
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<!-- ===========================
+       MODAL CREAR PEDIDO
+=========================== -->
+<!-- ===========================
+       MODAL CREAR PEDIDO
+=========================== -->
+<div class="modal fade" id="modalCrearPedido" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-4">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="fa-solid fa-plus me-2"></i>Crear Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="{{ url_for('crear_pedido', id_cartera=id_cartera) }}" method="POST"
+                enctype="multipart/form-data">
+
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Número de Pedido</label>
+                        <input type="text" name="NumeroPedido" class="form-control" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha de Creación</label>
+                            <input type="datetime-local" id="fechaCreacion" name="FechaCreacion" class="form-control"
+                                required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha de Vencimiento</label>
+                            <input type="datetime-local" id="fechaVencimiento" name="FechaVencimiento"
+                                class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Valor Pedido</label>
+                            <input type="text" class="form-control money" id="ValorPedidoMask">
+                            <input type="hidden" name="ValorPedido" id="ValorPedido">
+                        </div>
+
+                        <!-- Monto Pagado -->
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Monto Pagado</label>
+                            <input type="text" class="form-control money" id="MontoPagadoMask">
+                            <input type="hidden" name="MontoPagado" id="MontoPagado">
+                        </div>
+
+                        <!-- Monto Pendiente -->
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Monto Pendiente</label>
+                            <input type="text" class="form-control" id="MontoPendienteMask" readonly>
+                            <input type="hidden" name="MontoPendiente" id="MontoPendiente">
+                        </div>
+                    </div>
+
+                    <select name="Estado" class="form-select" required>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Gestión">En Gestión</option>
+                        <option value="Pago Parcial">Pago Parcial</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Cobrado">Cobrado</option>
+                    </select>
+
+                    <div class="mb-3">
+                        <label class="form-label">Documento Adjunto (PDF, JPG, PNG)</label>
+                        <input type="file" name="DocumentoAdjunto" accept=".pdf,.jpg,.jpeg,.png" class="form-control">
+                        <small class="text-muted">Máx. 2MB</small>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success px-4">Guardar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Obtener fecha actual formateada para datetime-local
+        function fechaActual() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            return now.toISOString().slice(0, 16);
+        }
+
+        const minFecha = fechaActual();
+
+        document.getElementById("fechaCreacion").setAttribute("min", minFecha);
+        document.getElementById("fechaVencimiento").setAttribute("min", minFecha);
+    });
+
+    function formatCOP(value) {
+        if (!value) return "$ 0";
+        return "$ " + Number(value).toLocaleString("es-CO");
+    }
+
+    function cleanNumber(value) {
+        return value.replace(/\D/g, "");  // deja solo números
+    }
+
+    function calcularPendiente() {
+        const valor = Number(document.getElementById("ValorPedido").value || 0);
+        const pagado = Number(document.getElementById("MontoPagado").value || 0);
+
+        let pendiente = valor - pagado;
+        if (pendiente < 0) pendiente = 0; // evita negativos
+
+        document.getElementById("MontoPendiente").value = pendiente;
+        document.getElementById("MontoPendienteMask").value = formatCOP(pendiente);
+    }
+
+    document.querySelectorAll(".money").forEach(input => {
+        input.addEventListener("input", function () {
+            const cleaned = cleanNumber(this.value);
+            this.value = formatCOP(cleaned);
+
+            const target = this.id.replace("Mask", "");
+            document.getElementById(target).value = cleaned || 0;
+
+            calcularPendiente(); // recalcula en tiempo real
+        });
+    });
+</script>
+
+
+{% endblock %}

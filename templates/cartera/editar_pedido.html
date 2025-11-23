@@ -1,0 +1,153 @@
+{% extends "base_vendedora.html" %}
+
+{% block title %}Editar Pedido{% endblock %}
+
+{% block content %}
+
+<div class="card shadow rounded-4">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">
+            <i class="fa-solid fa-pen-to-square me-2"></i>Editar Pedido
+        </h4>
+    </div>
+
+    <div class="card-body">
+
+        <form action="{{ url_for('editar_pedido', id_pedido=pedido.IdPedido, id_cartera=id_cartera) }}" method="POST"
+            enctype="multipart/form-data">
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <!-- Número de Pedido -->
+            <div class="mb-3">
+                <label class="form-label">Número de Pedido</label>
+                <input type="text" name="NumeroPedido" value="{{ pedido.NumeroPedido }}" class="form-control" required>
+            </div>
+
+            <!-- Fechas -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Fecha de Creación</label>
+                    <input type="datetime-local" name="FechaCreacion"
+                        value="{{ pedido.FechaCreacion.strftime('%Y-%m-%dT%H:%M') }}" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Fecha de Vencimiento</label>
+                    <input type="datetime-local" name="FechaVencimiento"
+                        value="{{ pedido.FechaVencimiento.strftime('%Y-%m-%dT%H:%M') }}" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Valores -->
+            <div class="row">
+                <!-- Valor Pedido -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Valor Pedido</label>
+                    <input type="text" id="ValorPedidoMask" class="form-control money"
+                        value="{{ '{:,.0f}'.format(pedido.ValorPedido) }}">
+                    <input type="hidden" name="ValorPedido" id="ValorPedido" value="{{ pedido.ValorPedido }}">
+                </div>
+
+                <!-- Monto Pagado -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Monto Pagado</label>
+                    <input type="text" id="MontoPagadoMask" class="form-control money"
+                        value="{{ '{:,.0f}'.format(pedido.MontoPagado) }}">
+                    <input type="hidden" name="MontoPagado" id="MontoPagado" value="{{ pedido.MontoPagado }}">
+                </div>
+
+                <!-- Monto Pendiente -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Monto Pendiente</label>
+                    <input type="text" id="MontoPendienteMask" class="form-control" readonly
+                        value="{{ '{:,.0f}'.format(pedido.MontoPendiente) }}">
+                    <input type="hidden" name="MontoPendiente" id="MontoPendiente" value="{{ pedido.MontoPendiente }}">
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <select name="Estado" class="form-select" required>
+                    <option value="Pendiente" {% if pedido.Estado=="Pendiente" %}selected{% endif %}>Pendiente</option>
+                    <option value="En Gestión" {% if pedido.Estado=="En Gestión" %}selected{% endif %}>En Gestión
+                    </option>
+                    <option value="Pago Parcial" {% if pedido.Estado=="Pago Parcial" %}selected{% endif %}>Pago Parcial
+                    </option>
+                    <option value="Cancelado" {% if pedido.Estado=="Cancelado" %}selected{% endif %}>Cancelado</option>
+                    <option value="Cobrado" {% if pedido.Estado=="Cobrado" %}selected{% endif %}>Cobrado</option>
+                </select>
+            </div>
+
+            <!-- Documento -->
+            <div class="mb-3">
+                <label class="form-label">Documento adjunto</label>
+
+                {% if pedido.DocumentoAdjunto %}
+                <div class="mb-2">
+                    <!-- Ajustamos la ruta para acceder a los archivos en la carpeta 'uploads' dentro de 'static' -->
+                    <a href="{{ url_for('static', filename='uploads/' ~ pedido.DocumentoAdjunto) }}" target="_blank"
+                        class="btn btn-outline-primary btn-sm">
+                        <i class="fa-solid fa-file me-1"></i> Ver archivo actual
+                    </a>
+                </div>
+                {% endif %}
+
+                <input type="file" name="DocumentoAdjunto" accept=".pdf,.jpg,.jpeg,.png" class="form-control">
+                <small class="text-muted">Máx. 2 MB</small>
+            </div>
+
+            <!-- BOTONES -->
+            <div class="text-end mt-4">
+                <a href="{{ url_for('ver_pedidos', id_cartera=id_cartera) }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary text-white px-4">Actualizar Pedido</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function formatMoney(number) {
+        return new Intl.NumberFormat('es-CO').format(number);
+    }
+
+    function cleanNumber(value) {
+        return Number(value.replace(/\./g, '').replace(/,/g, '')) || 0;
+    }
+
+    document.addEventListener('input', function (e) {
+        if (e.target.classList.contains('money')) {
+
+            let id = e.target.id.split('_')[1];  // obtiene el ID del pedido
+
+            let maskValor = document.getElementById("ValorPedidoMask_" + id);
+            let maskPagado = document.getElementById("MontoPagadoMask_" + id);
+            let maskPend = document.getElementById("MontoPendienteMask_" + id);
+
+            let realValor = document.getElementById("ValorPedido_" + id);
+            let realPagado = document.getElementById("MontoPagado_" + id);
+            let realPend = document.getElementById("MontoPendiente_" + id);
+
+            let valor = cleanNumber(maskValor.value);
+            let pagado = cleanNumber(maskPagado.value);
+
+            realValor.value = valor;
+            realPagado.value = pagado;
+
+            let pendiente = valor - pagado;
+            pendiente = pendiente < 0 ? 0 : pendiente;
+
+            maskValor.value = formatMoney(valor);
+            maskPagado.value = formatMoney(pagado);
+
+            maskPend.value = formatMoney(pendiente);
+            realPend.value = pendiente;
+        }
+    });
+</script>
+
+
+{% endblock %}

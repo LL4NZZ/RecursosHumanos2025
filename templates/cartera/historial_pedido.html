@@ -1,0 +1,55 @@
+{% extends "base_vendedora.html" %}
+
+{% block title %}Historial del Pedido {{ id_pedido }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <a href="{{ url_for('ver_pedidos', id_cartera=id_cartera) }}" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left me-1"></i> Volver
+    </a>
+
+    <h3 class="mb-4">Historial del Pedido #{{ id_pedido }}</h3>
+
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID Historial</th>
+                        <th>ID Pedido</th>
+                        <th>ID Usuario</th>
+                        <th>Estado Anterior</th>
+                        <th>Estado Nuevo</th>
+                        <th>Fecha del Cambio</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if historial %}
+                    {% for h in historial %}
+                    <tr>
+                        <td>{{ h.IdHistorial }}</td>
+                        <td>#{{ h.NumeroPedido }}</td>
+                        <td>{{ h.Usuario }}</td>
+                        <td>{{ h.EstadoAnterior }}</td>
+                        <td>{{ h.EstadoNuevo }}</td>
+                        <td>{{ h.FechaCambio }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-3">
+                            No hay historial registrado para este pedido.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

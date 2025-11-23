@@ -1,0 +1,76 @@
+{% extends base_template %}
+
+{% block page_title %}Historial de Documentos{% endblock %}
+{% block page_subtitle %}Administra tus archivos cargados.{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-lg p-4">
+
+    <table class="table table-hover align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Fecha</th>
+                <th style="width: 180px;">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for doc in documentos %}
+            <tr>
+                <td>{{ doc.NombreArchivo }}</td>
+                <td>{{ doc.TipoArchivo }}</td>
+                <td>{{ doc.FechaSubida.strftime('%d/%m/%Y %H:%M') }}</td>
+
+                <td>
+                    <a href="{{ url_for('descargar_documento', id=doc.IdDocumento) }}"
+                       class="btn btn-sm btn-success">
+                       <i class="fa-solid fa-download"></i>
+                    </a>
+
+                    <!-- Editar -->
+                    <a href="{{ url_for('documentos_editar', id=doc.IdDocumento) }}"
+                       class="btn btn-sm btn-warning">
+                       <i class="fa-solid fa-pen"></i>
+                    </a>
+
+                    <!-- Eliminar (confirmación modal) -->
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#modalEliminar{{ doc.IdDocumento }}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+
+                    <!-- MODAL -->
+                    <div class="modal fade" id="modalEliminar{{ doc.IdDocumento }}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">Eliminar Documento</h5>
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    ¿Estás seguro de eliminar este documento?
+                                    <br><strong>{{ doc.NombreArchivo }}</strong>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a href="{{ url_for('eliminar_documento', id=doc.IdDocumento) }}"
+                                       class="btn btn-danger">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}
