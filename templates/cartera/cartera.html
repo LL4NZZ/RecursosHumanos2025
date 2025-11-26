@@ -2,6 +2,15 @@
 {% block title %}Gestión de Carteras{% endblock %}
 {% block content %}
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-danger text-white">
+            <h6 class="m-0 font-weight-bold">Cuentas por Cobrar Pendientes</h6>
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 <div class="container my-5">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cartera.css') }}">
@@ -56,6 +65,16 @@
                 </tbody>
 
             </table>
+<<<<<<< Updated upstream
+=======
+=======
+<<<<<<< Updated upstream
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-danger text-white">
+            <h6 class="m-0 font-weight-bold">Cuentas por Cobrar Pendientes</h6>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         </div>
     </div>
 </div>
@@ -119,12 +138,209 @@
 
             </form>
 
+=======
+<div class="container my-5">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cartera.css') }}">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Gestión de Carteras de Clientes</h3>
+
+        <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#modalCrearCartera">
+            <i class="fa-solid fa-folder-plus me-2"></i>Crear Nueva Cartera
+        </button>
+    </div>
+
+    <!-- Vista de escritorio (tabla) -->
+    <div class="d-none d-lg-block card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Vendedor</th>
+                        <th>Nombre Contacto</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Fecha Asignación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for c in carteras %}
+                    <tr>
+                        <td>{{ c.nombres }} {{ c.apellidos }}</td>
+                        <td>{{ c.NombreContacto }}</td>
+                        <td>{{ c.TelefonoContacto }}</td>
+                        <td>{{ c.CorreoContacto }}</td>
+                        <td>{{ c.FechaAsignacion }}</td>
+
+                        <td class="text-nowrap">
+                            <a href="{{ url_for('ver_pedidos', id_cartera=c.IdCartera) }}" class="text-primary me-2">
+                                Ver Pedidos
+                            </a>
+
+                            <a href="{{ url_for('editar_cartera', id_cartera=c.IdCartera) }}" class="text-warning me-2">
+                                Editar
+                            </a>
+
+                            <a href="{{ url_for('eliminar_cartera', id_cartera=c.IdCartera) }}"
+                                onclick="return confirm('¿Desea eliminar esta cartera?')" class="text-danger">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Vista móvil (cards) -->
+    <div class="d-lg-none">
+        {% for c in carteras %}
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <strong>Vendedor:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ c.nombres }} {{ c.apellidos }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Contacto:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ c.NombreContacto }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Teléfono:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ c.TelefonoContacto }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Correo:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ c.CorreoContacto }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Fecha:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ c.FechaAsignacion }}
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <div class="d-flex flex-column gap-2">
+                            <a href="{{ url_for('ver_pedidos', id_cartera=c.IdCartera) }}" 
+                               class="btn btn-outline-primary btn-sm">
+                                Ver Pedidos
+                            </a>
+                            <a href="{{ url_for('editar_cartera', id_cartera=c.IdCartera) }}" 
+                               class="btn btn-outline-warning btn-sm">
+                                Editar
+                            </a>
+                            <a href="{{ url_for('eliminar_cartera', id_cartera=c.IdCartera) }}"
+                               onclick="return confirm('¿Desea eliminar esta cartera?')" 
+                               class="btn btn-outline-danger btn-sm">
+                                Eliminar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        {% if not carteras %}
+        <div class="alert alert-info text-center">
+            No hay carteras de clientes registradas.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal (se mantiene igual) -->
+<div class="modal fade" id="modalCrearCartera" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="fa-solid fa-folder-plus me-2"></i>Nueva Cartera</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="{{ url_for('crear_cartera') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Usuario asignado</label>
+                        <select name="IdUsuario" class="form-select shadow-sm" required>
+                            <option value="">Seleccione un vendedor…</option>
+                            {% for u in usuarios %}
+                            <option value="{{ u.IdUsuario }}">{{ u.Nombres }} {{ u.Apellidos }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Nombre del Contacto</label>
+                            <input type="text" name="NombreContacto" class="form-control shadow-sm" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Teléfono</label>
+                            <input type="text" name="TelefonoContacto" class="form-control shadow-sm" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Correo</label>
+                            <input type="email" name="CorreoContacto" class="form-control shadow-sm" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Fecha de Asignación</label>
+                            <input type="datetime-local" name="FechaAsignacion" class="form-control shadow-sm" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success px-4">Guardar</button>
+                </div>
+            </form>
+>>>>>>> Stashed changes
         </div>
     </div>
 </div>
 
+<<<<<<< Updated upstream
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+=======
+<<<<<<< Updated upstream
+{% include "modals/registrar_pago.html" %}
+=======
+<<<<<<< Updated upstream
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+=======
+<<<<<<< Updated upstream
+{% include "modals/registrar_pago.html" %}
+=======
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 <script>
 function confirmarEliminar(url) {
     Swal.fire({
@@ -143,6 +359,15 @@ function confirmarEliminar(url) {
     });
 }
 </script>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 {% endblock %}

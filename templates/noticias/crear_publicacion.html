@@ -1,7 +1,24 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+<div class="modal fade" id="crearPublicacionModal" tabindex="-1" role="dialog" aria-labelledby="crearPublicacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 <div class="modal fade" id="crearPublicacionModal" tabindex="-1" aria-labelledby="crearPublicacionModalLabel"
     aria-hidden="true">
 
     <div class="modal-dialog modal-lg modal-dialog-centered">
+<<<<<<< Updated upstream
+=======
+=======
+<<<<<<< Updated upstream
+<div class="modal fade" id="crearPublicacionModal" tabindex="-1" role="dialog" aria-labelledby="crearPublicacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         <div class="modal-content">
 
             <div class="modal-header bg-primary text-white">
@@ -48,5 +65,82 @@
 
         </div>
     </div>
+<<<<<<< Updated upstream
 
 </div>
+=======
+<<<<<<< Updated upstream
+</div>
+=======
+<<<<<<< Updated upstream
+
+</div>
+=======
+</div>
+=======
+{% extends "base_admin.html" %}
+
+{% block title %}Nueva Publicación{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h2 class="mb-4">
+        <i class="fa-solid fa-circle-plus"></i> Nueva Publicación
+    </h2>
+
+    <form method="POST" action="{{ url_for('crear_publicacion') }}" 
+          class="p-4 bg-white shadow-sm rounded-4 border-0">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <!-- Título -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Título</label>
+            <input 
+                type="text" 
+                name="Titulo" 
+                class="form-control rounded-pill px-3"
+                placeholder="Escribe el título..."
+                required
+            >
+        </div>
+
+        <!-- Contenido -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Contenido</label>
+            <textarea 
+                name="Contenido" 
+                class="form-control p-3"
+                style="border-radius: 2rem;"
+                rows="6"
+                placeholder="Escribe la noticia aquí..."
+                required
+            ></textarea>
+        </div>
+
+        <!-- Estado -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Estado</label>
+            <select 
+                name="Estado" 
+                class="form-select rounded-pill px-3"
+                required
+            >
+                <option value="Publicada">Publicada</option>
+                <option value="Oculta">Oculta</option>
+            </select>
+        </div>
+
+        <!-- Botones -->
+        <button class="btn btn-primary rounded-pill px-4">Guardar</button>
+        <a href="{{ url_for('canal_admin') }}" class="btn btn-secondary rounded-pill px-4">Cancelar</a>
+
+    </form>
+
+</div>
+{% endblock %}
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

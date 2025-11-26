@@ -36,14 +36,155 @@
 
                 <!-- Gestión de Usuarios -->
                 <li class="nav-item mb-2">
+<<<<<<< Updated upstream
                     <a href="{{ url_for('modulo_usuarios') }}"
                         class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
 
+=======
+<<<<<<< Updated upstream
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#usuarios-submenu" aria-expanded="false"
+                        aria-controls="usuarios-submenu">
+=======
+<<<<<<< Updated upstream
+                    <a href="{{ url_for('modulo_usuarios') }}"
+                        class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
+
+=======
+<<<<<<< Updated upstream
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#usuarios-submenu" aria-expanded="false"
+                        aria-controls="usuarios-submenu">
+=======
+                    <a href="{{ url_for('modulo_usuarios') }}"
+                        class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                         <div class="d-flex align-items-center">
                             <i class="fa-solid fa-users me-3"></i>
                             Administración Usuarios
                         </div>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+=======
+<<<<<<< Updated upstream
+
+=======
+<<<<<<< Updated upstream
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="usuarios-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('usuarios') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Ver y Editar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('add_usuario') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Crear Nuevo</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#horarios-submenu" aria-expanded="false"
+                        aria-controls="horarios-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-clock me-3"></i>
+                            <span>Control Horario/Asistencia</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="horarios-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('lista_horarios') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Horarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('lista_asistencia') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Asistencias</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('monitoreo') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-chart-line me-3"></i>
+                        <span>Monitoreo T. Real</span>
+>>>>>>> Stashed changes
+                    </a>
+                </li>
+
+                <!-- Programación horarios -->
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('menu_horarios') }}"
+                        class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
+
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-calendar-check me-3"></i> Programación de horarios
+                        </div>
+                    </a>
+                </li>
+                <!-- Comunicaciones -->
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3 collapsed"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#comunicados-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-bullhorn me-3"></i> Comunicaciones
+                        </div>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+>>>>>>> Stashed changes
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="usuarios-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('usuarios') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Ver y Editar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('add_usuario') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Crear Nuevo</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#horarios-submenu" aria-expanded="false"
+                        aria-controls="horarios-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-clock me-3"></i>
+                            <span>Control Horario/Asistencia</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="horarios-submenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ url_for('lista_horarios') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Horarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for('lista_asistencia') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Gestión de Asistencias</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('monitoreo') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-chart-line me-3"></i>
+                        <span>Monitoreo T. Real</span>
+>>>>>>> Stashed changes
                     </a>
                 </li>
 
@@ -118,7 +259,150 @@
                         <i class="fa-solid fa-user me-3"></i> Mi Perfil
                     </a>
                 </li>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+=======
+
+
+
+                <!-- Panel aprobación -->
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('aprobar_solicitudes_proceso') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-square-check me-3"></i> Panel Solicitudes
+                    </a>
+                </li>
+<<<<<<< Updated upstream
+=======
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('documentacion_admin') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-folder-open me-3"></i>
+                        <span>Admin. Documentos</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('denuncias') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-shield-halved me-3"></i>
+                        <span>Gestión de Denuncias</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item mb-2">
+                    <button class="btn btn-outline-light d-flex align-items-center justify-content-between w-100 collapsed text-start p-3 rounded-3"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#encuestas-submenu" aria-expanded="false"
+                        aria-controls="encuestas-submenu">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-square-poll-vertical me-3"></i>
+                            <span>Gestión de Encuestas</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-auto dropdown-arrow"></i>
+                    </button>
+                    <div class="collapse submenu ps-4 pt-2" id="encuestas-submenu">
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item">
+                                <a href="{{ url_for('crear_encuesta') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Crear y Configurar Tipos</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ url_for('asignar_encuesta') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Asignar y Notificar</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="{{ url_for('revision_encuestas') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Revisión y Comentarios</a>
+                            </li>
+                            
+                            {% if current_user.rol != 'Administrador' %}
+                            <li class="nav-item">
+                                <a href="{{ url_for('mis_encuestas') }}"
+                                    class="nav-link text-white-50 p-2 rounded-3 hover-bg-light hover-text-blue-dark">Mis Encuestas Asignadas</a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+=======
+
+                    </a>
+                </li>
+
+                <!-- Programación horarios -->
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('menu_horarios') }}"
+                        class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
+
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-calendar-check me-3"></i> Programación de horarios
+                        </div>
+                    </a>
+                </li>
+                <!-- Comunicaciones -->
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('canal_admin') }}"
+                        class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-newspaper me-3"></i>
+                            Noticias
+                        </div>
+
+                    </a>
+>>>>>>> Stashed changes
+                </li>
+>>>>>>> Stashed changes
+
+                <!-- Cerrar sesión -->
+                <li class="nav-item mt-auto">
+                    <a href="{{ url_for('perfil') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-user me-3"></i> Mi Perfil
+                    </a>
+                </li>
+<<<<<<< Updated upstream
+
+=======
+<<<<<<< Updated upstream
+=======
+
+
+
+                <!-- Panel aprobación -->
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('aprobar_solicitudes_proceso') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-square-check me-3"></i> Panel Solicitudes
+                    </a>
+                </li>
+
+                <!-- Modulo denuncias -->
+                <li class="nav-item mb-2">
+                    <a href="{{ url_for('modulo_denuncias') }}"
+                        class="btn btn-outline-light w-100 d-flex justify-content-between p-3 rounded-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-triangle-exclamation me-3"></i>
+                            Administración Denuncias
+                        </div>
+                    </a>
+                </li>
+
+                <!-- Cerrar sesión -->
+                <li class="nav-item mt-auto">
+                    <a href="{{ url_for('perfil') }}"
+                        class="nav-link text-white rounded-3 hover-bg-light hover-text-blue-dark d-flex align-items-center">
+                        <i class="fa-solid fa-user me-3"></i> Mi Perfil
+                    </a>
+                </li>
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             </ul>
         </nav>
 

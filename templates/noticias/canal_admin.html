@@ -1,5 +1,6 @@
 {% extends "base_admin.html" %}
 
+<<<<<<< Updated upstream
 {% block title %}Gestión de Canal de Noticias{% endblock %}
 
 {% block content %}
@@ -56,10 +57,35 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 {% include "noticias/crear_publicacion.html" %}
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+{% include "noticias/crear_publicacion.html" %}
+=======
+>>>>>>> Stashed changes
+<<<<<<< HEAD
+{% include "noticias/crear_publicacion.html" %} 
+=======
+{% include "modals/crear_publicacion.html" %} 
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+<<<<<<< Updated upstream
+=======
+=======
+{% block title %}Canal de Noticias{% endblock %}
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='Css/canal_noticias.css') }}">
 {% endblock %}
 
+<<<<<<< Updated upstream
 {% block scripts %}
 {{ super() }}
 
@@ -118,4 +144,101 @@
 
 </script>
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+            } else {
+                // Configuración para nuevo
+                $('#crearPublicacionModalLabel').text('Crear Nueva Publicación');
+                $('#btnGuardarPublicacion').text('Publicar');
+                // Asegurar que el formulario esté limpio
+                $('#formPublicacion')[0].reset();
+            }
+        });
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+    </script>
+<<<<<<< Updated upstream
+=======
+=======
+{% block content %}
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-newspaper"></i> Canal de Noticias</h2>
+
+        <!-- Botón crear (ya NO usa modal) --> 
+        <a href="{{ url_for('crear_publicacion') }}" class="btn btn-primary rounded-pill px-4">
+            <i class="fa-solid fa-plus"></i> Nueva Publicación
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            {% if publicaciones %}
+            <div class="table-responsive"> <!-- Asegúrate de que esta línea esté aquí -->
+                <table class="table table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Fecha Publicación</th>
+                            <th>Modificación</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for p in publicaciones %}
+                        <tr>
+                            <td>{{ p.Titulo }}</td>
+                            <td>{{ p.Autor }}</td>
+                            <td>{{ p.FechaPublicacion }}</td>
+                            <td>{{ p.FechaModificacion or "—" }}</td>
+
+                            <td>
+                                <span class="badge {{ 'bg-success' if p.Estado=='Publicada' else 'bg-secondary' }} text-white">
+                                    {{ p.Estado }}
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+
+                                <!-- Editar - abre página -->
+                                <a href="{{ url_for('editar_publicacion', id=p.IdNoticia) }}" class="btn btn-warning btn-sm me-1">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <!-- Eliminar -->
+                                <a href="{{ url_for('eliminar_publicacion') }}?id={{ p.IdNoticia }}"
+                                    class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta publicación?');">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
+            <div class="alert alert-info text-center mb-0">
+                No hay publicaciones.
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 {% endblock %}

@@ -3,6 +3,9 @@
 {% block title %}Gestión de Usuarios{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/usuarios.css') }}">
+
 <div class="container-fluid py-4">
 
     <div class="card p-4 custom-card">
@@ -115,20 +118,63 @@
 
     </div>
 </div>
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+{% endblock %}
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+{% endblock %}
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 {% endblock %}
 
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     const inputNombre = document.getElementById("filtroNombre");
     const selectRol = document.getElementById("filtroRol");
     const btnBuscar = document.getElementById("btnBuscar");
     const btnLimpiar = document.getElementById("btnLimpiar");
+<<<<<<< Updated upstream
 
     const filas = document.querySelectorAll("#tablaUsuarios tbody tr");
 
+=======
+<<<<<<< Updated upstream
+
+    const filas = document.querySelectorAll("#tablaUsuarios tbody tr");
+
+=======
+    const filas = document.querySelectorAll("#tablaUsuarios tbody tr");
+
+    // Añadir etiquetas para la tabla responsiva
+    if (window.innerWidth <= 768) {
+        const headers = document.querySelectorAll("#tablaUsuarios thead th");
+        filas.forEach(fila => {
+            const celdas = fila.querySelectorAll("td");
+            headers.forEach((header, index) => {
+                if (celdas[index]) {
+                    celdas[index].setAttribute("data-label", header.textContent.trim());
+                }
+            });
+        });
+    }
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     function normalizar(txt) {
         return (txt || "").toLowerCase().trim();
     }
@@ -136,6 +182,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function filtrar() {
         const filtroNombre = normalizar(inputNombre.value);
         const filtroRol = selectRol.value;
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+        let resultados = 0;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
         filas.forEach(f => {
             const nombre = normalizar(f.querySelector(".col-nombre").textContent);
@@ -149,8 +202,36 @@ document.addEventListener("DOMContentLoaded", () => {
             const coincideRol =
                 filtroRol === "" || filtroRol === rolFila;
 
+<<<<<<< Updated upstream
             f.style.display = (coincideNombre && coincideRol) ? "" : "none";
         });
+=======
+<<<<<<< Updated upstream
+            f.style.display = (coincideNombre && coincideRol) ? "" : "none";
+        });
+=======
+            if (coincideNombre && coincideRol) {
+                f.style.display = "";
+                resultados++;
+            } else {
+                f.style.display = "none";
+            }
+        });
+
+        // Mostrar mensaje si no hay resultados
+        let mensajeNoResultados = document.querySelector(".no-results");
+        if (resultados === 0) {
+            if (!mensajeNoResultados) {
+                mensajeNoResultados = document.createElement("tr");
+                mensajeNoResultados.className = "no-results";
+                mensajeNoResultados.innerHTML = `<td colspan="6" class="text-center py-4">No se encontraron usuarios que coincidan con los criterios de búsqueda</td>`;
+                document.querySelector("#tablaUsuarios tbody").appendChild(mensajeNoResultados);
+            }
+        } else if (mensajeNoResultados) {
+            mensajeNoResultados.remove();
+        }
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     }
 
     btnBuscar.addEventListener("click", filtrar);
@@ -163,6 +244,34 @@ document.addEventListener("DOMContentLoaded", () => {
         filtrar();
     });
 
+<<<<<<< Updated upstream
 });
 </script>
 {% endblock %}
+=======
+<<<<<<< Updated upstream
+});
+</script>
+{% endblock %}
+=======
+    // Reaplicar etiquetas cuando cambia el tamaño de la ventana
+    window.addEventListener("resize", () => {
+        if (window.innerWidth <= 768) {
+            const headers = document.querySelectorAll("#tablaUsuarios thead th");
+            filas.forEach(fila => {
+                const celdas = fila.querySelectorAll("td");
+                headers.forEach((header, index) => {
+                    if (celdas[index]) {
+                        celdas[index].setAttribute("data-label", header.textContent.trim());
+                    }
+                });
+            });
+        }
+    });
+});
+</script>
+{% endblock %}
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
