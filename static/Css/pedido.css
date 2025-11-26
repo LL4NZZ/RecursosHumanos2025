@@ -38,3 +38,103 @@
     padding: 6px 10px;
     font-size: 0.8rem;
 }
+<<<<<<< Updated upstream
+=======
+
+/* ======== CARDS PARA MÓVIL ======== */
+.d-lg-none .card {
+    border: 1px solid #dee2e6;
+    border-radius: 18px;
+    transition: all 0.3s ease;
+}
+
+.d-lg-none .card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.d-lg-none .card-body {
+    padding: 1.5rem;
+}
+
+.d-lg-none .row.g-2 > div {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.d-lg-none .row.g-2 > div:nth-child(odd) {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.d-lg-none .row.g-2 > div:nth-child(even) {
+    background: white;
+    color: #6c757d;
+}
+
+.d-lg-none .btn-sm {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+}
+
+/* ======== RESPONSIVE PARA MÓVIL ======== */
+@media (max-width: 768px) {
+    .container.my-5 {
+        padding: 10px;
+    }
+    
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    /* Tabla solo se muestra en desktop */
+    .table-responsive {
+        border: 1px solid #dee2e6;
+        border-radius: 12px;
+    }
+    
+    /* Cards para móvil */
+    .d-lg-none .col-12.mt-3 {
+        margin-top: 1rem !important;
+    }
+    
+    .d-lg-none .d-flex.flex-wrap.gap-2 {
+        gap: 0.5rem !important;
+    }
+    
+    .d-lg-none .badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+    
+    /* Modal en móviles */
+    .modal-dialog.modal-lg {
+        margin: 10px;
+    }
+    
+    .modal-body {
+        padding: 1.2rem;
+    }
+    
+    .modal-body .row {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-body .col-md-6,
+    .modal-body .col-md-4 {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Estados de los badges */
+.bg-warning { background-color: #ffc107 !important; }
+.bg-info { background-color: #17a2b8 !important; }
+.bg-primary { background-color: #007bff !important; }
+.bg-danger { background-color: #dc3545 !important; }
+.bg-success { background-color: #28a745 !important; }
+>>>>>>> Stashed changes
