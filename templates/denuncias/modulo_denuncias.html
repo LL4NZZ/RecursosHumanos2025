@@ -1,0 +1,46 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Gestión de Denuncias{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h1 class="text-center fw-bold mb-5">Gestión de Denuncias</h1>
+
+    <!-- Menú de opciones -->
+    <div class="row g-4">
+
+        <!-- Listado de Denuncias -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+                <div class="mb-3">
+                    <i class="fa-solid fa-folder-open fa-4x text-success"></i>
+                </div>
+                <h4 class="fw-bold">Listado de Denuncias</h4>
+                <p class="text-muted">Consultar, filtrar y gestionar denuncias.</p>
+
+                <a href="{{ url_for('admin_lista_denuncias') }}" class="btn btn-success w-100 py-2 mt-3">
+                    <i class="fa-solid fa-list"></i> Ver denuncias
+                </a>
+            </div>
+        </div>
+
+        <!-- Descargar Reportes PDF -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+                <div class="mb-3">
+                    <i class="fa-solid fa-download fa-4x text-primary"></i>
+                </div>
+                <h4 class="fw-bold">Descargar Reporte PDF</h4>
+                <p class="text-muted">Generar y descargar un reporte en formato PDF de todas las denuncias.</p>
+
+                <a href="{{ url_for('admin_descargar_pdf') }}" class="btn btn-danger w-100 py-2 mt-3">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar Reporte PDF
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

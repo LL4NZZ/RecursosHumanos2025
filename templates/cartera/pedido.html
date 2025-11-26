@@ -15,9 +15,21 @@
         </button>
     </div>
 
+<<<<<<< Updated upstream
     <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body p-0">
 
+=======
+<<<<<<< Updated upstream
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-0">
+
+=======
+    <!-- Vista de escritorio (tabla) -->
+    <div class="d-none d-lg-block card shadow-sm border-0 rounded-4">
+        <div class="card-body p-0">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
@@ -67,15 +79,29 @@
                             {% endif %}
                         </td>
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 
 
                         <td class="text-nowrap">
 
+<<<<<<< Updated upstream
+=======
+=======
+                        <td class="text-nowrap">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                             {% if p.Estado == 'Cancelado' %}
                             <!-- Botones deshabilitados SOLO si está cancelado -->
                             <button class="btn btn-info btn-sm me-2" disabled>
                                 <i class="fa-solid fa-comment"></i>
                             </button>
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 
                             <button class="btn btn-secondary btn-sm me-2" disabled>
                                 <i class="fa-solid fa-clock-rotate-left"></i>
@@ -89,29 +115,68 @@
                                 Eliminar
                             </button>
 
+<<<<<<< Updated upstream
+=======
+=======
+                            <button class="btn btn-secondary btn-sm me-2" disabled>
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm me-2" disabled>
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" disabled>
+                                Eliminar
+                            </button>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                             {% else %}
                             <!-- Botones activos para todos los demás estados -->
                             <a href="{{ url_for('actividad_cobro', id_pedido=p.IdPedido) }}"
                                 class="btn btn-info btn-sm me-2">
                                 <i class="fa-solid fa-comment"></i>
                             </a>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                             <a href="{{ url_for('historial_pedidos', id_pedido=p.IdPedido) }}"
                                 class="btn btn-secondary btn-sm me-2">
                                 <i class="fa-solid fa-clock-rotate-left"></i>
                             </a>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                             <a href="{{ url_for('editar_pedido', id_pedido=p.IdPedido, id_cartera=id_cartera) }}"
                                 class="btn btn-sm btn-warning me-2">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                             <a href="{{ url_for('eliminar_pedido', id_pedido=p.IdPedido, id_cartera=id_cartera) }}"
                                 onclick="return confirm('¿Estás seguro de eliminar este pedido?')"
                                 class="btn btn-danger btn-sm">
                                 Eliminar
                             </a>
                             {% endif %}
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 
                         </td>
 
@@ -135,6 +200,156 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content rounded-4">
 
+<<<<<<< Updated upstream
+=======
+=======
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Vista móvil (cards) -->
+    <div class="d-lg-none">
+        {% for p in pedidos %}
+        <div class="card shadow-sm mb-3 border-0 rounded-4">
+            <div class="card-body">
+                <div class="row g-2">
+                    <!-- Número Pedido -->
+                    <div class="col-6">
+                        <strong>Número:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ p.NumeroPedido }}
+                    </div>
+
+                    <!-- Fechas -->
+                    <div class="col-6">
+                        <strong>Creación:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ p.FechaCreacion }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Vencimiento:</strong>
+                    </div>
+                    <div class="col-6">
+                        {{ p.FechaVencimiento }}
+                    </div>
+
+                    <!-- Montos -->
+                    <div class="col-6">
+                        <strong>Valor:</strong>
+                    </div>
+                    <div class="col-6">
+                        ${{ "{:,.2f}".format(p.ValorPedido) }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Pagado:</strong>
+                    </div>
+                    <div class="col-6">
+                        ${{ "{:,.2f}".format(p.MontoPagado) }}
+                    </div>
+
+                    <div class="col-6">
+                        <strong>Pendiente:</strong>
+                    </div>
+                    <div class="col-6">
+                        ${{ "{:,.2f}".format(p.MontoPendiente) }}
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="col-6">
+                        <strong>Estado:</strong>
+                    </div>
+                    <div class="col-6">
+                        {% if p.Estado == 'Pendiente' %}
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                        {% elif p.Estado == 'En Gestión' %}
+                        <span class="badge bg-info">En Gestión</span>
+                        {% elif p.Estado == 'Pago Parcial' %}
+                        <span class="badge bg-primary">Pago Parcial</span>
+                        {% elif p.Estado == 'Cancelado' %}
+                        <span class="badge bg-danger">Cancelado</span>
+                        {% elif p.Estado == 'Cobrado' %}
+                        <span class="badge bg-success">Cobrado</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Documento -->
+                    <div class="col-6">
+                        <strong>Documento:</strong>
+                    </div>
+                    <div class="col-6">
+                        {% if p.DocumentoAdjunto %}
+                        <a href="{{ url_for('static', filename='uploads/' ~ p.DocumentoAdjunto) }}" target="_blank" class="text-primary">
+                            Ver documento
+                        </a>
+                        {% else %}
+                        <span class="text-muted">Sin archivo</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Acciones -->
+                    <div class="col-12 mt-3">
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            {% if p.Estado == 'Cancelado' %}
+                            <button class="btn btn-info btn-sm" disabled>
+                                <i class="fa-solid fa-comment"></i>
+                            </button>
+                            <button class="btn btn-secondary btn-sm" disabled>
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm" disabled>
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" disabled>
+                                Eliminar
+                            </button>
+                            {% else %}
+                            <a href="{{ url_for('actividad_cobro', id_pedido=p.IdPedido) }}"
+                                class="btn btn-info btn-sm">
+                                <i class="fa-solid fa-comment"></i>
+                            </a>
+                            <a href="{{ url_for('historial_pedidos', id_pedido=p.IdPedido) }}"
+                                class="btn btn-secondary btn-sm">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </a>
+                            <a href="{{ url_for('editar_pedido', id_pedido=p.IdPedido, id_cartera=id_cartera) }}"
+                                class="btn btn-warning btn-sm">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a href="{{ url_for('eliminar_pedido', id_pedido=p.IdPedido, id_cartera=id_cartera) }}"
+                                onclick="return confirm('¿Estás seguro de eliminar este pedido?')"
+                                class="btn btn-danger btn-sm">
+                                Eliminar
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        {% if not pedidos %}
+        <div class="alert alert-info text-center">
+            No hay pedidos registrados.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal (se mantiene igual) -->
+<div class="modal fade" id="modalCrearPedido" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-4">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title"><i class="fa-solid fa-plus me-2"></i>Crear Pedido</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -142,11 +357,23 @@
 
             <form action="{{ url_for('crear_pedido', id_cartera=id_cartera) }}" method="POST"
                 enctype="multipart/form-data">
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
                 <div class="modal-body">
 
+<<<<<<< Updated upstream
+=======
+=======
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="modal-body">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                     <div class="mb-3">
                         <label class="form-label">Número de Pedido</label>
                         <input type="text" name="NumeroPedido" class="form-control" required>
@@ -158,7 +385,14 @@
                             <input type="datetime-local" id="fechaCreacion" name="FechaCreacion" class="form-control"
                                 required>
                         </div>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Fecha de Vencimiento</label>
                             <input type="datetime-local" id="fechaVencimiento" name="FechaVencimiento"
@@ -172,15 +406,31 @@
                             <input type="text" class="form-control money" id="ValorPedidoMask">
                             <input type="hidden" name="ValorPedido" id="ValorPedido">
                         </div>
+<<<<<<< Updated upstream
 
                         <!-- Monto Pagado -->
+=======
+<<<<<<< Updated upstream
+
+                        <!-- Monto Pagado -->
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Monto Pagado</label>
                             <input type="text" class="form-control money" id="MontoPagadoMask">
                             <input type="hidden" name="MontoPagado" id="MontoPagado">
                         </div>
+<<<<<<< Updated upstream
 
                         <!-- Monto Pendiente -->
+=======
+<<<<<<< Updated upstream
+
+                        <!-- Monto Pendiente -->
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Monto Pendiente</label>
                             <input type="text" class="form-control" id="MontoPendienteMask" readonly>
@@ -188,6 +438,10 @@
                         </div>
                     </div>
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
                     <select name="Estado" class="form-select" required>
                         <option value="Pendiente">Pendiente</option>
                         <option value="En Gestión">En Gestión</option>
@@ -195,30 +449,70 @@
                         <option value="Cancelado">Cancelado</option>
                         <option value="Cobrado">Cobrado</option>
                     </select>
+<<<<<<< Updated upstream
+=======
+=======
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="Estado" class="form-select" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Gestión">En Gestión</option>
+                            <option value="Pago Parcial">Pago Parcial</option>
+                            <option value="Cancelado">Cancelado</option>
+                            <option value="Cobrado">Cobrado</option>
+                        </select>
+                    </div>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
                     <div class="mb-3">
                         <label class="form-label">Documento Adjunto (PDF, JPG, PNG)</label>
                         <input type="file" name="DocumentoAdjunto" accept=".pdf,.jpg,.jpeg,.png" class="form-control">
                         <small class="text-muted">Máx. 2MB</small>
                     </div>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 </div>
 
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-success px-4">Guardar</button>
                 </div>
+<<<<<<< Updated upstream
 
             </form>
 
+=======
+<<<<<<< Updated upstream
+
+            </form>
+
+=======
+            </form>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         </div>
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+<<<<<<< Updated upstream
 
         // Obtener fecha actual formateada para datetime-local
+=======
+<<<<<<< Updated upstream
+
+        // Obtener fecha actual formateada para datetime-local
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         function fechaActual() {
             const now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -226,7 +520,14 @@
         }
 
         const minFecha = fechaActual();
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         document.getElementById("fechaCreacion").setAttribute("min", minFecha);
         document.getElementById("fechaVencimiento").setAttribute("min", minFecha);
     });
@@ -237,15 +538,34 @@
     }
 
     function cleanNumber(value) {
+<<<<<<< Updated upstream
         return value.replace(/\D/g, "");  // deja solo números
+=======
+<<<<<<< Updated upstream
+        return value.replace(/\D/g, "");  // deja solo números
+=======
+        return value.replace(/\D/g, "");
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     }
 
     function calcularPendiente() {
         const valor = Number(document.getElementById("ValorPedido").value || 0);
         const pagado = Number(document.getElementById("MontoPagado").value || 0);
+<<<<<<< Updated upstream
 
         let pendiente = valor - pagado;
         if (pendiente < 0) pendiente = 0; // evita negativos
+=======
+<<<<<<< Updated upstream
+
+        let pendiente = valor - pagado;
+        if (pendiente < 0) pendiente = 0; // evita negativos
+=======
+        let pendiente = valor - pagado;
+        if (pendiente < 0) pendiente = 0;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
         document.getElementById("MontoPendiente").value = pendiente;
         document.getElementById("MontoPendienteMask").value = formatCOP(pendiente);
@@ -259,10 +579,25 @@
             const target = this.id.replace("Mask", "");
             document.getElementById(target).value = cleaned || 0;
 
+<<<<<<< Updated upstream
             calcularPendiente(); // recalcula en tiempo real
+=======
+<<<<<<< Updated upstream
+            calcularPendiente(); // recalcula en tiempo real
+=======
+            calcularPendiente();
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         });
     });
 </script>
 
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 {% endblock %}

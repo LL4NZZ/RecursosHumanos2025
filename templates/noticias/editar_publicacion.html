@@ -1,0 +1,69 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Editar Publicación{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Título -->
+    <h2 class="mb-4 d-flex align-items-center">
+        <i class="fa-solid fa-pen-to-square me-2"></i> Editar Publicación
+    </h2>
+
+    <!-- Formulario -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <form method="POST" action="{{ url_for('editar_publicacion', id=publicacion.IdNoticia) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <!-- TITULO -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Título</label>
+                    <input type="text" name="Titulo" value="{{ publicacion.Titulo }}"
+                        class="form-control rounded-pill px-3" required>
+                </div>
+
+                <!-- CONTENIDO -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Contenido</label>
+                    <textarea name="Contenido" class="form-control p-3" rows="6" style="border-radius: 1.5rem;"
+                        required>{{ publicacion.Contenido }}</textarea>
+                </div>
+
+                <!-- ESTADO -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Estado</label>
+                    <select name="Estado" class="form-select rounded-pill px-3">
+                        <option value="Publicada" {{ "selected" if publicacion.Estado=="Publicada" else "" }}>
+                            Publicada
+                        </option>
+
+                        <option value="Oculta" {{ "selected" if publicacion.Estado=="Oculta" else "" }}>
+                            Oculta
+                        </option>
+                    </select>
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex gap-2 mt-4">
+
+                    <button class="btn btn-warning px-4 rounded-pill fw-semibold">
+                        Actualizar
+                    </button>
+
+                    <a href="{{ url_for('canal_admin') }}" class="btn btn-secondary px-4 rounded-pill">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

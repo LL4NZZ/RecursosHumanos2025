@@ -1,0 +1,60 @@
+{% extends base_template %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="m-0"><i class="fa-solid fa-bullhorn me-2"></i>Crear Nueva Denuncia</h3>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <!-- CSRF Token Real -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                        <!-- TÍTULO -->
+                        <label class="form-label fw-bold">Título de la denuncia</label>
+                        <input type="text" name="titulo" class="form-control mb-3 rounded-3"
+                            placeholder="Ej: Mal comportamiento laboral" required>
+
+                        <!-- DESCRIPCIÓN -->
+                        <label class="form-label fw-bold">Descripción detallada</label>
+                        <textarea name="descripcion" rows="6" class="form-control mb-4 rounded-3"
+                            placeholder="Explique los hechos con claridad, indicando fechas, lugares y personas involucradas si corresponde."
+                            required></textarea>
+
+                        <!-- ANÓNIMO -->
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" name="anonimo" value="1" id="anonimoCheck">
+                            <label class="form-check-label fw-bold" for="anonimoCheck">
+                                Enviar de forma anónima
+                            </label>
+                        </div>
+
+                        <!-- ADJUNTO -->
+                        <label class="form-label fw-bold">Adjuntar evidencia (opcional)</label>
+                        <input type="file" name="adjunto" class="form-control mb-4">
+
+                        <!-- BOTÓN ENVIAR -->
+                        <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 mb-3">
+                            <i class="fa-solid fa-paper-plane me-2"></i>Enviar Denuncia
+                        </button>
+                    </form>
+
+                    <!-- BOTÓN VOLVER -->
+                    <div class="text-center">
+                        <a href="{{ url_for('modulo_denuncias_user') }}" class="btn btn-secondary w-100 py-2 rounded-3">
+                            <i class="fa-solid fa-arrow-left me-2"></i>Volver
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

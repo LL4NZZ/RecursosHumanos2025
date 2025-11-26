@@ -1,0 +1,112 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Listado de Denuncias{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- TÍTULO + BOTÓN VOLVER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+            <a href="{{ url_for('modulo_denuncias') }}" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Volver
+            </a>
+            <h2 class="m-0">
+                <i class="fa-solid fa-clipboard-list"></i> Gestión de Denuncias
+            </h2>
+        </div>
+    </div>
+
+    <!-- SEPARADOR ENTRE TÍTULO Y FILTROS -->
+    <div class="mb-4"></div> <!-- Esto añade espacio entre el título y los filtros -->
+
+    <!-- FORMULARIO DE FILTRO -->
+    <form method="GET" action="{{ url_for('admin_lista_denuncias') }}"
+        class="row g-3 bg-white p-3 rounded shadow-sm mb-4">
+        <div class="col-md-4">
+            <label class="form-label fw-semibold">Estado</label>
+            <select name="estado" class="form-select">
+                <option value="">Todos</option>
+                <option value="Recibida">Recibidas</option>
+                <option value="En Proceso">En Proceso</option>
+                <option value="Cerrada">Cerradas</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label fw-semibold">Tipo</label>
+            <select name="anonimo" class="form-select">
+                <option value="">Todas</option>
+                <option value="1">Anónimas</option>
+                <option value="0">Con usuario</option>
+            </select>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fa-solid fa-filter"></i> Filtrar
+            </button>
+        </div>
+    </form>
+
+    <!-- TABLA -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover shadow-sm align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Estado</th>
+                    <th>Anónima</th>
+                    <th>Fecha</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% if denuncias %}
+                {% for d in denuncias %}
+                <tr>
+                    <td>{{ d.IdDenuncia }}</td>
+                    <td>{{ d.Titulo }}</td>
+
+                    <td>
+                        <span class="badge
+                            {% if d.Estado == 'Recibida' %} bg-info
+                            {% elif d.Estado == 'En Proceso' %} bg-warning text-dark
+                            {% else %} bg-success {% endif %}
+                        ">
+                            {{ d.Estado }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {% if d.Anonimo %}
+                        <span class="badge bg-secondary">Anónima</span>
+                        {% else %}
+                        <span class="badge bg-primary">Identificada</span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ d.FechaCreacion.strftime('%d/%m/%Y %H:%M') }}</td>
+
+                    <td>
+                        <a href="{{ url_for('admin_responder_denuncia', id=d.IdDenuncia) }}"
+                            class="btn btn-sm btn-outline-primary">
+                            <i class="fa-solid fa-eye"></i> Ver
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-3">
+                        No se encontraron denuncias con los filtros seleccionados.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

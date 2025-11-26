@@ -1,16 +1,36 @@
 /* ======== ESTILO GENERAL ======== */
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 body {
     background: #f4f6f9 !important;
 }
 
 /* ======== TARJETA DE LA TABLA ======== */
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 .card {
     border-radius: 12px !important;
     overflow: hidden;
 }
 
+<<<<<<< Updated upstream
+=======
+/* ======== TABLA MEJORADA ======== */
+.table-responsive {
+    overflow-x: auto;
+    min-height: 300px;
+}
+
+.table {
+    width: 100%;
+    min-width: 800px; /* Evita que se comprima demasiado */
+}
+
+>>>>>>> Stashed changes
 .table thead {
     background: #f0f2f5 !important;
 }
@@ -18,11 +38,19 @@ body {
 .table thead th {
     font-weight: 600;
     color: #333;
+<<<<<<< Updated upstream
+=======
+    white-space: nowrap;
+    padding: 15px 12px;
+>>>>>>> Stashed changes
 }
 
 .table-hover tbody tr:hover {
     background: #eef4ff !important;
+<<<<<<< Updated upstream
     cursor: pointer;
+=======
+>>>>>>> Stashed changes
 }
 
 /* Alternar filas */
@@ -30,8 +58,18 @@ body {
     background: #fafafa;
 }
 
+<<<<<<< Updated upstream
 /* ======== BOTONES ======== */
 
+=======
+.table tbody td {
+    padding: 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* ======== BOTONES ======== */
+>>>>>>> Stashed changes
 .btn-primary {
     background: #3459e6;
     border: none;
@@ -54,6 +92,7 @@ body {
 }
 
 /* Enlaces de acciones */
+<<<<<<< Updated upstream
 td a {
     font-weight: 600;
     text-decoration: none;
@@ -65,6 +104,78 @@ td a:hover {
 
 /* ======== MODAL ======== */
 
+=======
+.text-nowrap {
+    white-space: nowrap;
+}
+
+td a {
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    margin: 0 2px;
+}
+
+td a:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.text-primary.me-2:hover {
+    background: rgba(52, 89, 230, 0.1);
+}
+
+.text-warning.me-2:hover {
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.text-danger:hover {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+/* ======== CARDS PARA MÓVIL ======== */
+.d-lg-none .card {
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.d-lg-none .card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.d-lg-none .card-body {
+    padding: 1.5rem;
+}
+
+.d-lg-none .row.g-2 > div {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.d-lg-none .row.g-2 > div:nth-child(odd) {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.d-lg-none .row.g-2 > div:nth-child(even) {
+    background: white;
+    color: #6c757d;
+}
+
+.d-lg-none .btn-sm {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 8px 16px;
+}
+
+/* ======== MODAL ======== */
+>>>>>>> Stashed changes
 .modal-content {
     border-radius: 15px;
     overflow: hidden;
@@ -100,7 +211,10 @@ td a:hover {
 }
 
 /* ===== ESTILO DEL MODAL - FORMULARIO ===== */
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 .modal-header {
     background: linear-gradient(90deg, #0066ff, #0052d6);
     color: white;
@@ -181,3 +295,92 @@ td a:hover {
 .btn-secondary:hover {
     background-color: #565e64;
 }
+<<<<<<< Updated upstream
+=======
+
+/* ======== RESPONSIVE PARA MÓVIL ======== */
+@media (max-width: 768px) {
+    .container.my-5 {
+        padding: 10px;
+    }
+    
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    /* Tabla solo se muestra en desktop */
+    .table-responsive {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+    }
+    
+    .table {
+        min-width: 600px;
+        font-size: 0.9rem;
+    }
+    
+    .table thead th {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+    
+    .table tbody td {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+    
+    /* Botones de acción en columna para móviles */
+    .text-nowrap {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    td a {
+        text-align: center;
+        margin: 0;
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        background: #f8f9fa;
+    }
+    
+    .text-primary.me-2 {
+        color: #007bff !important;
+        border-color: #007bff;
+    }
+    
+    .text-warning.me-2 {
+        color: #ffc107 !important;
+        border-color: #ffc107;
+    }
+    
+    .text-danger {
+        color: #dc3545 !important;
+        border-color: #dc3545;
+    }
+    
+    /* Modal en móviles */
+    .modal-dialog.modal-lg {
+        margin: 10px;
+    }
+    
+    .modal-body {
+        padding: 1.2rem;
+    }
+    
+    .modal-body .row {
+        margin-bottom: 1rem;
+    }
+    
+    /* Cards para móvil */
+    .d-lg-none .col-12.mt-3 {
+        margin-top: 1rem !important;
+    }
+    
+    .d-lg-none .d-flex.flex-column.gap-2 {
+        gap: 0.5rem !important;
+    }
+}
+>>>>>>> Stashed changes

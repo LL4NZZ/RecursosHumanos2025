@@ -1,24 +1,81 @@
 {% extends 'base_admin.html' %}
+
 {% block title %}Aprobar Solicitudes{% endblock %}
+
 {% block page_title %}Aprobar Solicitudes{% endblock %}
 
+<<<<<<< Updated upstream
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/solicitudes.css') }}">
 {% endblock %}
 
 {% block content %}
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 <!-- Flash Messages -->
 
 
 <!-- Main Content -->
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+<<<<<<< HEAD
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+=======
+>>>>>>> 851cf041461ac8b5ee8a6c766ed25477410b4757
+<<<<<<< Updated upstream
+=======
+=======
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/aprobacion.css') }}">
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 <div class="card shadow p-4">
     <h3 class="fw-bold mb-4 text-primary">✅ Aprobar / Rechazar Solicitudes</h3>
 
     {% if pendientes %}
     <div class="table-responsive">
+<<<<<<< Updated upstream
         <table class="table table-hover align-middle">
             <thead class="table-light">
+=======
+<<<<<<< Updated upstream
+        <table class="table table-striped table-hover">
+            <thead>
+=======
+<<<<<<< Updated upstream
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+=======
+<<<<<<< Updated upstream
+        <table class="table table-striped table-hover">
+            <thead>
+=======
+        <table class="table table-hover table-striped align-middle">
+            <thead class="table-light">
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 <tr>
                     <th>Empleado</th>
                     <th>Tipo</th>

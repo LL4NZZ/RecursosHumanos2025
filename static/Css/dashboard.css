@@ -16,7 +16,7 @@
     Estilos Generales y del Body
     =========================================== */
 body {
-    font-family: var(--font-inter);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     min-height: 100vh;
 }

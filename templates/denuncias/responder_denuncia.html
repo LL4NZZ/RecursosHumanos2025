@@ -1,0 +1,84 @@
+{% extends "base_admin.html" %}
+{% block content %}
+
+<div class="container py-4" style="max-width: 900px;">
+
+    <!-- CABECERA DETALLE -->
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Detalle de Denuncia #{{ denuncia.IdDenuncia }}</h4>
+
+            <span class="badge
+                {% if denuncia.Estado == 'Recibida' %} bg-info text-dark
+                {% elif denuncia.Estado == 'En Proceso' %} bg-warning text-dark
+                {% else %} bg-success
+                {% endif %}
+                fw-bold px-3 py-2">
+                {{ denuncia.Estado }}
+            </span>
+        </div>
+
+        <div class="card-body">
+            <p><strong>Título:</strong> {{ denuncia.Titulo }}</p>
+            <p><strong>Descripción:</strong> {{ denuncia.Descripcion }}</p>
+
+            {% if denuncia.Adjunto %}
+            <p><strong>Archivo adjunto:</strong></p>
+            <a href="{{ url_for('static', filename='uploads/' ~ denuncia.Adjunto) }}" target="_blank"
+                class="btn btn-outline-secondary">
+                📎 Ver archivo adjunto
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- RESPUESTA PREVIA (SI EXISTE) -->
+    {% if denuncia.Respuesta %}
+    <div class="alert alert-info mt-3 shadow-sm">
+        <strong>Respuesta previa:</strong>
+        <p class="mb-0">{{ denuncia.Respuesta }}</p>
+    </div>
+    {% endif %}
+
+    <!-- FORMULARIO DE RESPUESTA -->
+    <div class="card mt-4 shadow border-0">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Responder Denuncia</h5>
+        </div>
+
+        <div class="card-body">
+            <form action="{{ url_for('guardar_respuesta_denuncia', id=denuncia.IdDenuncia) }}" method="POST">
+
+                <!-- TOKEN CSRF -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Respuesta del Administrador:</label>
+                    <textarea name="respuesta" class="form-control" rows="4" required
+                        placeholder="Escribe una respuesta clara y formal..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Cambiar Estado:</label>
+                    <select class="form-select" name="estado" required>
+                        <option value="Recibida" {% if denuncia.Estado=="Recibida" %}selected{% endif %}>Recibida
+                        </option>
+                        <option value="En Proceso" {% if denuncia.Estado=="En Proceso" %}selected{% endif %}>En Proceso
+                        </option>
+                        <option value="Cerrada" {% if denuncia.Estado=="Cerrada" %}selected{% endif %}>Cerrada</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a class="btn btn-secondary" href="{{ url_for('admin_lista_denuncias') }}">Volver</a>
+                    <button class="btn btn-primary" type="submit">
+                        💾 Guardar Respuesta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

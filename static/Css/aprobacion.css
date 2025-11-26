@@ -1,0 +1,324 @@
+/* Estilos mejorados para Aprobar Solicitudes */
+
+/* General Layout */
+.container {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    border-radius: 12px;
+    border: 1px solid #e3e6f0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.card.shadow.p-4 {
+    padding: 2rem !important;
+}
+
+/* Títulos */
+h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.text-primary {
+    color: #2c3e50 !important;
+}
+
+/* Table Styles */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+}
+
+.table th, .table td {
+    padding: 16px 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 0.95rem;
+}
+
+.table th {
+    background-color: #2c3e50;
+    color: #ffffff;
+    font-weight: 600;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 18px 12px;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: rgba(52, 152, 219, 0.03);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.08);
+    transition: background-color 0.2s ease;
+}
+
+/* Botones de acción en tabla */
+.d-flex.flex-column.gap-2 {
+    gap: 8px !important;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    border: none;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-success {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.btn-success:hover {
+    background-color: #219653;
+    border-color: #219653;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+.btn-outline-info {
+    color: #3498db;
+    border-color: #3498db;
+    background-color: transparent;
+}
+
+.btn-outline-info:hover {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Alertas */
+.alert {
+    border-radius: 10px;
+    border: none;
+    padding: 1.5rem;
+    font-weight: 500;
+}
+
+.alert-info {
+    background-color: #d6eaf8;
+    color: #2c3e50;
+    border-left: 4px solid #3498db;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #007dfa;
+    color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
+    border-bottom: 1px solid #34495e;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #eaeaea;
+    padding: 1.25rem 1.5rem;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+/* Texto muted */
+.text-muted {
+    color: #6c757d !important;
+    font-style: italic;
+}
+
+/* Responsiveness for Mobile Devices */
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
+    .card.shadow.p-4 {
+        padding: 1.5rem !important;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    /* Tabla responsiva */
+    .table-responsive {
+        font-size: 0.9rem;
+        border: 1px solid #eaeaea;
+    }
+    
+    .table th, .table td {
+        padding: 12px 8px;
+        font-size: 0.9rem;
+    }
+    
+    /* Ocultar thead en móviles y convertir tabla en tarjetas */
+    .table thead {
+        display: none;
+    }
+    
+    .table, .table tbody, .table tr, .table td {
+        width: 100%;
+    }
+    
+    .table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #eaeaea;
+        border-radius: 8px;
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 12px 15px;
+    }
+    
+    .table td:last-child {
+        border-bottom: none;
+        text-align: center;
+        padding-left: 15px;
+    }
+    
+    .table td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    
+    /* Añadir etiquetas para las celdas */
+    .table td[data-label]:before {
+        content: attr(data-label);
+    }
+    
+    /* Botones en móviles */
+    .btn {
+        margin-bottom: 5px;
+    }
+    
+    .d-flex.flex-column.gap-2 {
+        gap: 10px !important;
+    }
+    
+    /* Modal en móviles */
+    .modal-dialog {
+        margin: 1rem;
+    }
+    
+    .modal-content {
+        margin: 0;
+    }
+}
+
+/* Estilos para cuando no hay solicitudes */
+.text-center {
+    text-align: center;
+}
+
+/* Mejoras visuales adicionales */
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Iconos */
+.fa-solid {
+    margin-right: 5px;
+}
+
+/* Efectos de transición suaves */
+.card, .btn, .table tr, .modal-content {
+    transition: all 0.3s ease;
+}
