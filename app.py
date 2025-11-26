@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, Response
+from flask import render_template, session, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_login import current_user, logout_user, login_required
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -8,6 +9,7 @@ from flask import request, redirect, url_for, render_template, flash, Response
 from flask import Flask, render_template, redirect, url_for, request, flash, get_flashed_messages
 import csv
 from datetime import datetime, timedelta 
+from fpdf import FPDF
 import uuid
 import datetime
 from flask_mail import Mail, Message
@@ -484,10 +486,10 @@ def dashboard_admin():
     cur.close()
     
     return render_template('dashboard_admin.html',
-                           nuevos_usuarios=nuevos_usuarios,
-                           asistencias_dia=asistencias_dia,
-                           solicitudes_pendientes=solicitudes_pendientes,
-                           reportes_generados=reportes_generados)
+                        nuevos_usuarios=nuevos_usuarios,
+                        asistencias_dia=asistencias_dia,
+                        solicitudes_pendientes=solicitudes_pendientes,
+                        reportes_generados=reportes_generados)
 
 @app.route('/dashboard/vendedora')
 @login_required
@@ -778,10 +780,10 @@ def edit_usuario(id):
         return redirect(url_for('usuarios'))
 
     return render_template('usuarios/editar_usuario.html',
-                           usuario=usuario,
-                           horarios=horarios,
-                           roles=roles, 
-                         )
+                        usuario=usuario,
+                        horarios=horarios,
+                        roles=roles, 
+                    )
 
 @app.route('/usuarios/desactivar/<int:id>')
 @login_required
@@ -1074,8 +1076,7 @@ def delete_horario(id):
 @login_required
 def horarios_empleado():
     if current_user.IdRol == 9:
-         return redirect(url_for('horarios_admin'))
-         
+            return redirect(url_for('horarios_admin'))
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
     cur.execute("SELECT * FROM horario WHERE IdUsuario=%s", (current_user.IdUsuario,))
     data = cur.fetchall()
@@ -1300,15 +1301,15 @@ def reportes_asistencia():
     cur.close()
 
     return render_template('reportes/reportes_asistencia.html', 
-                           asistencias=asistencias,
-                           all_users=all_users,
-                           current_user_id=usuario_id,
-                           fecha_inicio=fecha_inicio_html,
-                           fecha_fin=fecha_fin_html,
-                           estados=estados,
-                           horas=horas,
-                           por_dia=por_dia
-                          )
+                        asistencias=asistencias,
+                        all_users=all_users,
+                        current_user_id=usuario_id,
+                        fecha_inicio=fecha_inicio_html,
+                        fecha_fin=fecha_fin_html,
+                        estados=estados,
+                        horas=horas,
+                        por_dia=por_dia
+                    )
     
 @app.route('/asistencia/entrada', methods=['POST'])
 @login_required
@@ -1470,7 +1471,7 @@ def modulo_asistencia():
     base_template = role_templates.get(current_user.IdRol, 'base.html')
 
     return render_template('asistencia/modulo_asistencia.html',
-                           base_template=base_template)
+                        base_template=base_template)
 
 @app.route('/reportes/asistencia/csv')
 @login_required
@@ -1675,7 +1676,6 @@ def enviar_solicitudes_proceso():
 
     # 👇 Aquí pasamos la base_template para que Jinja no dé error
     return render_template('solicitudes/solicitud_permisos.html', base_template=base_template)
-
 
 
 @app.route('/solicitudes/historial', methods=['GET'])
@@ -2471,33 +2471,6 @@ def documentos_editar(id):
 def modulo_encuestas():
     return render_template('encuestas/modulo_encuestas.html', base_template=get_base_template())
 
-
-@app.route('/denuncias')
-@login_required
-def denuncias():
-    if current_user.IdRol != 9:
-        flash("Acceso denegado. No tienes permisos de administrador.", "danger")
-        return redirigir_error_rol() 
-        
-    cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
-    try:
-        cur.execute("""
-            SELECT d.*, u.Nombres, u.Apellidos 
-            FROM denuncia d
-            JOIN usuario u ON d.IdUsuario = u.IdUsuarioReportado
-            ORDER BY d.FechaDenuncia DESC
-        """)
-        lista_denuncias = cur.fetchall()
-    except Exception as e:
-        flash("Error al cargar la lista de denuncias.", "danger")
-        print(f"Error al cargar denuncias: {e}")
-        lista_denuncias = []
-
-    cur.close()
-
-    return render_template('denuncias/denuncias.html', 
-                           denuncias=lista_denuncias)
-
 @app.route('/admin/documentos/gestion') 
 @login_required
 def documentacion_admin():
@@ -2525,224 +2498,335 @@ def documentacion_admin():
                             documentos_pendientes=documentos_pendientes,
                             conteo_pendientes=conteo_pendientes)
 
-@app.route('/documentos/aprobar_proceso', methods=['GET', 'POST'])
-@login_required
-def aprobar_documento_proceso():
-    if current_user.IdRol != 9:
-        flash("Acceso denegado. No tienes permisos de gestión de documentos.", "danger")
-        return redirigir_error_rol()
-
-    cur = db.connection.cursor()
-    documento_id = request.form.get('id')
-    accion = request.form.get('accion')
-    justificacion = request.form.get('justificacion')
-
-    if documento_id and accion:
-        try:
-            estado = 'Aprobado' if accion == 'aprobar' else 'Rechazado'
-
-            cur.execute("""
-                UPDATE documento 
-                SET EstadoAprobacion = %s, JustificacionAdmin = %s
-                WHERE IdDocumento = %s
-            """, (estado, justificacion, documento_id))
-            
-            db.connection.commit()
-            flash(f"Documento procesado: {estado}.", "success")
-            
-        except Exception as e:
-            db.connection.rollback()
-            flash(f"Error al procesar el documento: {e}", "danger")
-            
-        return redirect(url_for('documentacion_admin')) 
-
-    flash("Acción inválida o incompleta.", "warning")
-    return redirect(url_for('documentacion_admin'))
-
-@app.route('/canal/procesar', methods=['POST'])
-@login_required
-def procesar_publicacion():
-    if current_user.IdRol != 9:
-        flash("Acceso denegado. No tienes permisos para gestionar publicaciones.", "danger")
-        return redirect(url_for('canal_admin'))
-
-    id_publicacion = request.form.get('id_publicacion') 
-    titulo = request.form.get('titulo')
-    contenido = request.form.get('contenido')
-    fecha_publicacion = request.form.get('fecha_publicacion')
-    fecha_vigencia = request.form.get('fecha_vigencia')
-    estado = request.form.get('estado')
-    
-    id_usuario_autor = current_user.IdUsuario
-
-    if not titulo or not contenido or not estado:
-        flash("Faltan datos obligatorios (Título, Contenido, Estado).", "danger")
-        return redirect(url_for('canal_admin'))
-
-    cur = db.connection.cursor()
-    
-    try:
-        if id_publicacion:
-            cur.execute("""
-                UPDATE noticia  
-                SET 
-                    Titulo = %s, 
-                    Contenido = %s, 
-                    FechaPublicacion = %s,
-                    FechaVigencia = %s,
-                    Estado = %s,
-                    FechaModificacion = NOW()
-                WHERE IdNoticia = %s
-            """, (titulo, contenido, fecha_publicacion or None, fecha_vigencia or None, estado, id_publicacion))
-            
-            db.connection.commit()
-            flash(f"Publicación '{titulo}' actualizada correctamente.", "success")
-            
-        else:
-            cur.execute("""
-                INSERT INTO noticia  
-                    (IdUsuario, Titulo, Contenido, FechaPublicacion, FechaVigencia, Estado, FechaCreacion)
-                VALUES 
-                    (%s, %s, %s, %s, %s, %s, NOW())
-            """, (id_usuario_autor, titulo, contenido, fecha_publicacion or None, fecha_vigencia or None, estado))
-            
-            db.connection.commit()
-            flash(f"Publicación '{titulo}' creada exitosamente. Estado: {estado}.", "success")
-
-    except Exception as e:
-        db.connection.rollback()
-        flash(f"Error al procesar la publicación: {e}", "danger")
-        
-    return redirect(url_for('canal_admin'))
-
-@app.route('/canal/eliminar', methods=['GET'])
-@login_required
-def eliminar_publicacion(): 
-
-    if current_user.IdRol != 9:
-        flash("Acceso denegado. No tienes permisos para eliminar publicaciones.", "danger")
-        return redirect(url_for('canal_admin'))
-
-    publicacion_id = request.args.get('id')
-    
-    if publicacion_id:
-        try:
-            cur = db.connection.cursor()
-            
-            cur.execute("DELETE FROM noticia WHERE IdNoticia = %s", (publicacion_id,)) 
-
-            db.connection.commit()
-            flash(f"Publicación #{publicacion_id} eliminada definitivamente.", "success")
-            
-        except Exception as e:
-            db.connection.rollback()
-            flash(f"Error al intentar eliminar la publicación: {e}", "danger")
-    else:
-        flash("ID de publicación no proporcionado.", "warning")
-        
-    return redirect(url_for('canal_admin'))
-
+# ✔ LISTAR NOTICIAS PARA ADMINISTRADOR
 @app.route('/canal/admin')
 @login_required
 def canal_admin():
     if current_user.IdRol != 9:
-        flash("Acceso denegado.", "danger")
-        return redirect(url_for('ver_noticias_vendedora'))
+        return redirect(url_for('canal_noticias_publico'))
 
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
-    
-    query = """
-        SELECT n.IdNoticia, n.Titulo, n.Contenido, n.FechaPublicacion, n.FechaVigencia, n.Estado, 
-               u.Nombres AS Autor, n.FechaCreacion, n.FechaModificacion
+    cur.execute("""
+        SELECT 
+            n.IdNoticia,
+            n.Titulo,
+            n.Contenido,
+            n.FechaPublicacion,
+            n.FechaModificacion,
+            n.Estado,
+            u.Nombres AS Autor
         FROM noticia n
         JOIN Usuario u ON n.IdUsuario = u.IdUsuario
-        ORDER BY n.FechaCreacion DESC
-    """
-    cur.execute(query)
+        ORDER BY n.FechaPublicacion DESC
+    """)
     publicaciones = cur.fetchall()
     cur.close()
 
-    activas = [p for p in publicaciones if p['Estado'] == 'Activa']
-    borradores = [p for p in publicaciones if p['Estado'] == 'Borrador']
-    archivadas = [p for p in publicaciones if p['Estado'] == 'Archivada']
+    return render_template('noticias/canal_admin.html', publicaciones=publicaciones)
 
-    return render_template('noticias/canal_admin.html',
-                           publicaciones_activas=activas,
-                           publicaciones_borradores=borradores,
-                           publicaciones_archivadas=archivadas)
 
-@app.route('/noticias') 
+@app.route("/canal/crear", methods=["GET", "POST"])
 @login_required
-def ver_noticias_vendedora():
-    ADMIN_ROLE_ID = 9 
+def crear_publicacion():
+    if current_user.IdRol != 9:
+        flash("Acceso denegado.", "danger")
+        return redirect(url_for("canal_admin"))
+
+    if request.method == "POST":
+        titulo = request.form.get("Titulo")
+        contenido = request.form.get("Contenido")
+        estado = request.form.get("Estado")
+
+        cur = db.connection.cursor()
+        cur.execute("""
+            INSERT INTO noticia (IdUsuario, Titulo, Contenido, FechaPublicacion, Estado)
+            VALUES (%s, %s, %s, NOW(), %s)
+        """, (current_user.IdUsuario, titulo, contenido, estado))
+        db.connection.commit()
+
+        flash("Publicación guardada.", "success")
+        return redirect(url_for("canal_admin"))
+
+    return render_template("noticias/crear_publicacion.html")
+
+@app.route("/canal/editar/<int:id>", methods=["GET", "POST"])
+@login_required
+def editar_publicacion(id):
+    if current_user.IdRol != 9:
+        flash("Acceso denegado.", "danger")
+        return redirect(url_for("canal_admin"))
 
     cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
-    
-    query = """
-        SELECT n.Titulo, n.Contenido, DATE_FORMAT(n.FechaPublicacion, '%%d-%m-%Y') AS FechaPublicacion
-        FROM noticia n
-        JOIN Usuario u ON n.IdUsuario = u.IdUsuario
-        WHERE n.Estado = 'Activa' 
-        AND u.IdRol = %s 
-        ORDER BY n.FechaPublicacion DESC
-    """
-    cur.execute(query, (ADMIN_ROLE_ID,))
-    noticias_activas = cur.fetchall()
-    cur.close()
 
-    return render_template('gestion_noticias_vendedora.html', noticias_activas=noticias_activas)
+    if request.method == "POST":
+        titulo = request.form.get("Titulo")
+        contenido = request.form.get("Contenido")
+        estado = request.form.get("Estado")
 
-from flask import render_template, session, redirect, url_for, flash
+        cur.execute("""
+            UPDATE noticia
+            SET Titulo=%s, Contenido=%s, Estado=%s, FechaModificacion=NOW()
+            WHERE IdNoticia=%s
+        """, (titulo, contenido, estado, id))
 
-@app.route('/canal-de-noticias-vendedora') 
-def canal():
+        db.connection.commit()
+        flash("Publicación actualizada.", "success")
+        return redirect(url_for("canal_admin"))
 
-    if 'rol' not in session or session.get('rol') != 'Vendedora':
-        flash('Acceso no autorizado.', 'warning')
-        return redirect(url_for('login'))
+    cur.execute("SELECT * FROM noticia WHERE IdNoticia=%s", (id,))
+    publicacion = cur.fetchone()
 
-    return render_template('canal_admin.html')
+    return render_template("noticias/editar_publicacion.html", publicacion=publicacion)
 
-@app.route('/cartera/registrar_pago', methods=['POST'])
+# ✔ ELIMINAR PUBLICACIÓN
+@app.route('/canal/eliminar')
 @login_required
-def registrar_pago_proceso():
-    """Procesa el formulario del modal para registrar el pago de una cuenta pendiente."""
+def eliminar_publicacion():
+    if current_user.IdRol != 9:
+        flash("Acceso denegado.", "danger")
+        return redirect(url_for('canal_admin'))
 
-    if current_user.IdRol not in [9, 12]: 
-        flash("Acceso denegado. No tienes permisos para registrar pagos.", "danger")
-        return redirigir_error_rol()
+    id_pub = request.args.get("id")
 
-    id_factura = request.form.get('id_factura')
-    monto_pagado = request.form.get('monto_pagado')
-    metodo_pago = request.form.get('metodo_pago')
-    referencia = request.form.get('referencia')
-    
-    if not id_factura or not monto_pagado or not metodo_pago:
-        flash("Faltan datos obligatorios para registrar el pago.", "danger")
-        return redirect(url_for('gestion_cobro'))
+    if not id_pub:
+        flash("ID de publicación no recibido.", "warning")
+        return redirect(url_for("canal_admin"))
+
+    cur = db.connection.cursor()
 
     try:
-        cur = db.connection.cursor()
-        
-        cur.execute("""
-            UPDATE pedido 
-            SET 
-                EstadoPago = 'Pagado',
-                FechaPago = NOW(),
-                MontoPagado = %s,
-                MetodoPago = %s,
-                ReferenciaPago = %s
-            WHERE IdPedido = %s
-        """, (monto_pagado, metodo_pago, referencia, id_factura))
-        
+        cur.execute("DELETE FROM noticia WHERE IdNoticia=%s", (id_pub,))
         db.connection.commit()
-        flash(f"Pago registrado correctamente para el Pedido/Factura #{id_factura}.", "success")
-        
+
+        if cur.rowcount > 0:
+            flash("Publicación eliminada correctamente.", "success")
+        else:
+            flash("La publicación no existe o ya fue eliminada.", "warning")
+
     except Exception as e:
         db.connection.rollback()
-        flash(f"Error al registrar el pago: {e}", "danger")
+        flash(f"Error al eliminar: {e}", "danger")
 
-    return redirect(url_for('gestion_cobro'))
+    return redirect(url_for("canal_admin"))
+
+
+# ✔ VISTA PÚBLICA (TODOS LOS ROLES MENOS ADMIN)
+@app.route('/canal/noticias')
+@login_required
+def canal_noticias_publico():
+    # El admin NO debe ver esta vista
+    if current_user.IdRol == 9:
+        return redirect(url_for('canal_admin'))
+
+    # Selección de template según rol
+    role_templates = {
+        11: 'base_vendedora.html',
+        12: 'base_contadora.html',
+        13: 'base_bodega.html',
+        14: 'base_dentista.html',
+        # agrega más si es necesario
+    }
+
+    base_template = role_templates.get(current_user.IdRol, 'base.html')
+
+    # Obtener noticias publicadas
+    cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute("""
+        SELECT Titulo, Contenido,
+        DATE_FORMAT(FechaPublicacion, '%d-%m-%Y') AS Fecha
+        FROM noticia
+        WHERE Estado='Publicada'
+        ORDER BY FechaPublicacion DESC
+""")
+    noticias = cur.fetchall()
+    cur.close()
+
+    return render_template(
+        'noticias/canal_publico.html',
+        noticias=noticias,
+        base_template=base_template
+    )
+
+@app.route('/mis-denuncias')
+@login_required
+def modulo_denuncias_user():
+
+    role_templates = {
+        11: 'base_vendedora.html',
+        12: 'base_contadora.html',
+        13: 'base_bodega.html',
+        14: 'base_dentista.html',
+    }
+
+    base_template = role_templates.get(current_user.IdRol, 'base.html')
+
+    return render_template(
+        "denuncias/modulo_denuncias_user.html",
+        base_template=base_template
+    )
+
+# ------------------------ CREAR DENUNCIA ------------------------
+@app.route('/mis-denuncias/crear', methods=['GET', 'POST'])
+@login_required
+def crear_denuncia():
+
+    role_templates = {11: 'base_vendedora.html', 12: 'base_contadora.html', 13: 'base_bodega.html', 14: 'base_dentista.html'}
+    base_template = role_templates.get(current_user.IdRol, 'base.html')
+
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        descripcion = request.form['descripcion']
+        usuario_id = current_user.IdUsuario
+        fecha = datetime.now()
+
+        # Check Anonimo (si no está marcado devuelve 0)
+        anonimo = 1 if 'anonimo' in request.form else 0
+
+        # Archivo adjunto
+        file = request.files.get('adjunto')
+        filename = None
+        if file and file.filename:
+            filename = file.filename
+            file.save(os.path.join("static/uploads/denuncias", filename))
+
+        # INSERT corregido con tu nueva estructura
+        cursor = db.connection.cursor()
+        query = """
+            INSERT INTO denuncia (Titulo, Descripcion, IdUsuario, FechaCreacion, Estado, Anonimo, Adjunto)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(query, (titulo, descripcion, usuario_id, fecha, "Recibida", anonimo, filename))
+        db.connection.commit()
+        cursor.close()
+
+        flash("Denuncia enviada exitosamente.", "success")
+        return redirect(url_for('historial_denuncias'))
+
+    return render_template("denuncias/crear_denuncia.html", base_template=base_template)
+
+
+# ------------------------ HISTORIAL / MIS DENUNCIAS ------------------------
+@app.route('/mis-denuncias/historial')
+@login_required
+def historial_denuncias():
+    usuario_id = current_user.IdUsuario
+
+    # Obtener filtros desde la URL
+    buscar = request.args.get("buscar")
+    estado = request.args.get("estado")
+    fecha = request.args.get("fecha")
+
+    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    # Consulta base
+    query = """
+        SELECT IdDenuncia, Titulo, Estado, FechaCreacion, Anonimo, Adjunto, IdUsuario
+        FROM denuncia
+        WHERE IdUsuario = %s
+    """
+    params = [usuario_id]
+
+    # Filtros dinámicos
+    if buscar:
+        query += " AND Titulo LIKE %s"
+        params.append(f"%{buscar}%")
+
+    if estado:
+        query += " AND Estado = %s"
+        params.append(estado)
+
+    if fecha:
+        query += " AND DATE(FechaCreacion) = %s"
+        params.append(fecha)
+
+    query += " ORDER BY FechaCreacion DESC"
+
+    cursor.execute(query, params)
+    denuncias = cursor.fetchall()
+    cursor.close()
+
+    # Selección de plantilla según rol
+    role_templates = {
+        11: 'base_vendedora.html',
+        12: 'base_contadora.html',
+        13: 'base_bodega.html',
+        14: 'base_dentista.html'
+    }
+    base_template = role_templates.get(current_user.IdRol, 'base.html')
+
+    return render_template(
+        "denuncias/historial_denuncias.html",
+        denuncias=denuncias,
+        base_template=base_template
+    )
+
+
+@app.route("/admin/denuncias")
+def modulo_denuncias():
+    return render_template("denuncias/modulo_denuncias.html")
+
+@app.route("/admin/denuncias/listado")
+@login_required
+def admin_lista_denuncias():
+
+    # Obtener parámetros GET
+    estado = request.args.get("estado")
+    anonimo = request.args.get("anonimo")
+
+    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    query = """
+        SELECT IdDenuncia, Titulo, Estado, FechaCreacion, Anonimo
+        FROM denuncia
+        WHERE 1 = 1
+    """
+    params = []
+
+    if estado:
+        query += " AND Estado = %s"
+        params.append(estado)
+
+    if anonimo:
+        query += " AND Anonimo = %s"
+        params.append(anonimo)
+
+    query += " ORDER BY FechaCreacion DESC"
+
+    cursor.execute(query, params)
+    denuncias = cursor.fetchall()
+    cursor.close()
+
+    return render_template("denuncias/listado_denuncias.html", denuncias=denuncias)
+
+@app.route("/admin/denuncias/pdf")
+def admin_descargar_pdf():
+    return render_template("denuncias/denuncias_pdf.html")
+
+@app.route("/admin/denuncias/responder/<int:id>")
+@login_required
+def admin_responder_denuncia(id):
+    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM denuncia WHERE IdDenuncia = %s", (id,))
+    denuncia = cursor.fetchone()
+    cursor.close()
+
+    return render_template("denuncias/responder_denuncia.html", denuncia=denuncia)
+
+@app.route("/admin/denuncias/responder/<int:id>", methods=["POST"])
+@login_required
+def guardar_respuesta_denuncia(id):
+    respuesta = request.form.get("respuesta")
+    estado = request.form.get("estado")
+
+    cursor = db.connection.cursor()
+    cursor.execute("""
+        UPDATE denuncia SET Respuesta = %s, Estado = %s WHERE IdDenuncia = %s
+    """, (respuesta, estado, id))
+    db.connection.commit()
+    cursor.close()
+
+    flash("Respuesta enviada correctamente", "success")
+    return redirect(url_for("admin_lista_denuncias"))
 
 
 @app.route('/manual')
