@@ -1,0 +1,66 @@
+{% extends base_template %}
+
+{% block title %}Comunicaciones Oficiales{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- TÍTULO PRINCIPAL -->
+    <div class="mb-4">
+        <h2 class="fw-bold display-6 d-flex align-items-center">
+            <i class="fa-solid fa-bullhorn text-primary me-3"></i>
+            Comunicaciones Oficiales
+        </h2>
+        <p class="text-muted">
+            Noticias publicadas por el Administrador
+        </p>
+    </div>
+
+    {% if noticias %}
+
+    {% for n in noticias %}
+    <!-- TARJETA DE NOTICIA -->
+    <div class="card border-0 shadow-sm mb-4 rounded-4">
+
+        <!-- CABECERA DECORATIVA -->
+        <div class="card-header bg-primary bg-gradient text-white rounded-top-4 py-2">
+            <h5 class="mb-0 fw-semibold">
+                <i class="fa-solid fa-newspaper me-2"></i>{{ n.Titulo }}
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <!-- CONTENIDO -->
+            <p class="fs-5 text-secondary">
+                {{ n.Contenido }}
+            </p>
+
+            <!-- FECHA -->
+            <div class="d-flex justify-content-end">
+                <span class="badge bg-light text-dark border">
+                    <i class="fa-regular fa-calendar-days me-1"></i>
+                    Publicado el {{ n.Fecha }}
+                </span>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+
+    {% else %}
+
+    <!-- MENSAJE SI NO HAY NOTICIAS -->
+    <div class="d-flex justify-content-center my-4">
+        <div class="alert alert-info text-center shadow-sm px-5 py-3" style="max-width: 600px; border-radius: 12px;">
+            <i class="fa-solid fa-circle-info me-2"></i>
+            No hay noticias disponibles en este momento.
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
